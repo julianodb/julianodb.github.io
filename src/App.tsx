@@ -1,7 +1,38 @@
-import { ArrowLeft, BookOpen, CircuitBoard, ExternalLink, Globe2, Mail } from 'lucide-react';
+import { ArrowLeft, CircuitBoard, ExternalLink, Globe2, Mail } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link, Navigate, Route, Routes, useParams } from 'react-router-dom';
 import { projects } from './content/projects';
+
+type ProjectDetail = {
+  overview: string;
+  architectureTitle: string;
+  architecture: string[];
+  phasesTitle: string;
+  phases: { title: string; goal: string; details: string[] }[];
+  technicalTitle: string;
+  technicalHighlights: string[];
+  organizationTitle: string;
+  organization: string[];
+  componentsTitle?: string;
+  componentsIntro?: string;
+};
+
+type PhaseMedia = {
+  src: string;
+  altKey: string;
+};
+
+const diagramBase = 'https://julianodb.github.io/electronic_circuits_diagrams';
+const ppg2023PhaseMedia: PhaseMedia[] = [
+  { src: `${diagramBase}/resistance_led.png`, altKey: 'projectCatalog.ppg2023.phaseImages.t1' },
+  { src: `${diagramBase}/cny70_circuit.png`, altKey: 'projectCatalog.ppg2023.phaseImages.t2' },
+  { src: `${diagramBase}/common_emitter_no_re.png`, altKey: 'projectCatalog.ppg2023.phaseImages.t3' },
+  { src: `${diagramBase}/amplifier_non_inverting.png`, altKey: 'projectCatalog.ppg2023.phaseImages.t4' },
+  { src: `${diagramBase}/T4a.png`, altKey: 'projectCatalog.ppg2023.phaseImages.t5' },
+  { src: `${diagramBase}/opamp_bandpass.png`, altKey: 'projectCatalog.ppg2023.phaseImages.t6' },
+  { src: `${diagramBase}/monostable_multivibrator_b.png`, altKey: 'projectCatalog.ppg2023.phaseImages.t7' },
+  { src: `${diagramBase}/half_voltage_divider.png`, altKey: 'projectCatalog.ppg2023.phaseImages.t8' },
+];
 
 const languages = [
   { code: 'en', label: 'English' },
@@ -46,47 +77,82 @@ function HomePage() {
             <h1>{t('hero.title')}</h1>
             <p className="lede">{t('hero.summary')}</p>
             <div className="hero-actions">
-              <a href="mailto:julianodawid@gmail.com"><Mail aria-hidden="true" size={18} />{t('actions.contact')}</a>
-              <a href="#projects"><CircuitBoard aria-hidden="true" size={18} />{t('actions.projects')}</a>
+              <a href="mailto:julianodawid@gmail.com">
+                <Mail aria-hidden="true" size={18} />
+                {t('actions.contact')}
+              </a>
+              <a href="#projects">
+                <CircuitBoard aria-hidden="true" size={18} />
+                {t('actions.projects')}
+              </a>
             </div>
           </div>
 
           <div className="signal-panel" aria-label={t('hero.visualLabel')}>
-            <div className="panel-header"><span>{t('visual.course')}</span><span>{t('visual.signal')}</span></div>
+            <div className="panel-header">
+              <span>{t('visual.course')}</span>
+              <span>{t('visual.signal')}</span>
+            </div>
             <div className="waveform">
               {Array.from({ length: 42 }).map((_, index) => (
                 <span key={index} style={{ '--i': index } as React.CSSProperties} />
               ))}
             </div>
             <div className="board-grid">
-              <span /><span /><span /><span /><span /><span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
             </div>
           </div>
         </div>
       </section>
 
       <section className="section profile-section" aria-labelledby="profile-heading">
-        <div><p className="eyebrow">{t('profile.eyebrow')}</p><h2 id="profile-heading">{t('profile.title')}</h2></div>
-        <div className="profile-copy"><p>{t('profile.paragraphOne')}</p><p>{t('profile.paragraphTwo')}</p></div>
+        <div>
+          <p className="eyebrow">{t('profile.eyebrow')}</p>
+          <h2 id="profile-heading">{t('profile.title')}</h2>
+        </div>
+        <div className="profile-copy">
+          <p>{t('profile.paragraphOne')}</p>
+          <p>{t('profile.paragraphTwo')}</p>
+        </div>
       </section>
 
       <section className="section cv-grid" aria-labelledby="cv-heading">
-        <div><p className="eyebrow">{t('cv.eyebrow')}</p><h2 id="cv-heading">{t('cv.title')}</h2></div>
+        <div>
+          <p className="eyebrow">{t('cv.eyebrow')}</p>
+          <h2 id="cv-heading">{t('cv.title')}</h2>
+        </div>
         <div className="timeline">
-          {(t('cv.items', { returnObjects: true }) as string[]).map((item) => <p key={item}>{item}</p>)}
+          {(t('cv.items', { returnObjects: true }) as string[]).map((item) => (
+            <p key={item}>{item}</p>
+          ))}
         </div>
       </section>
 
       <section className="section projects-section" id="projects" aria-labelledby="projects-heading">
         <div className="section-heading">
-          <div><p className="eyebrow">{t('projects.eyebrow')}</p><h2 id="projects-heading">{t('projects.title')}</h2></div>
+          <div>
+            <p className="eyebrow">{t('projects.eyebrow')}</p>
+            <h2 id="projects-heading">{t('projects.title')}</h2>
+          </div>
           <p>{t('projects.intro')}</p>
         </div>
         <div className="project-grid">
           {projects.map((project) => (
             <Link className="project-card" key={project.slug} to={`/projects/${project.slug}`}>
-              <div><span className="term">{project.term}</span><h3>{t(project.titleKey)}</h3><p>{t(project.summaryKey)}</p></div>
-              <span className="card-footer">{t('projects.open')}<ExternalLink aria-hidden="true" size={16} /></span>
+              <div>
+                <span className="term">{project.term}</span>
+                <h3>{t(project.titleKey)}</h3>
+                <p>{t(project.summaryKey)}</p>
+              </div>
+              <span className="card-footer">
+                {t('projects.open')}
+                <ExternalLink aria-hidden="true" size={16} />
+              </span>
             </Link>
           ))}
         </div>
@@ -102,26 +168,123 @@ function ProjectPage() {
 
   if (!project) return <Navigate to="/" replace />;
 
+  const detail = project.detailKey
+    ? (t(project.detailKey, { returnObjects: true }) as ProjectDetail)
+    : undefined;
+  const phaseMedia = project.slug === '2023-01-photoplethysmograph' ? ppg2023PhaseMedia : [];
+
   return (
     <main>
       <nav className="topbar compact" aria-label={t('navigation.primary')}>
-        <Link className="back-link" to="/"><ArrowLeft aria-hidden="true" size={18} />{t('navigation.home')}</Link>
+        <Link className="back-link" to="/">
+          <ArrowLeft aria-hidden="true" size={18} />
+          {t('navigation.home')}
+        </Link>
         <LanguageSwitcher />
       </nav>
       <article className="project-page">
         <p className="eyebrow">{project.term}</p>
         <h1>{t(project.titleKey)}</h1>
         <p className="lede">{t(project.summaryKey)}</p>
-        <div className="detail-grid">
-          <section><h2>{t('projectDetail.learningArc')}</h2><p>{t(project.learningKey)}</p></section>
-          <section><h2>{t('projectDetail.futureContent')}</h2><ul>{(t('projectDetail.futureItems', { returnObjects: true }) as string[]).map((item) => <li key={item}>{item}</li>)}</ul></section>
-        </div>
-        <aside className="artifact-note"><BookOpen aria-hidden="true" size={20} /><p>{t('projectDetail.artifactNote', { folder: project.sourceFolder })}</p></aside>
+
+        {detail ? (
+          <div className="case-study">
+            <section className="case-overview">
+              <p>{detail.overview}</p>
+            </section>
+
+            {detail.componentsTitle && detail.componentsIntro ? (
+              <section className="component-showcase">
+                <img
+                  src="/projects/2023-01-photoplethysmograph/ppg-stripboard-components.png"
+                  alt={t('projectCatalog.ppg2023.componentImageAlt')}
+                />
+                <div>
+                  <p className="eyebrow">{t('projectCatalog.ppg2023.componentEyebrow')}</p>
+                  <h2>{detail.componentsTitle}</h2>
+                  <p>{detail.componentsIntro}</p>
+                </div>
+              </section>
+            ) : null}
+
+            <section className="detail-panel">
+              <h2>{detail.architectureTitle}</h2>
+              <ul>
+                {detail.architecture.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+
+            <section className="phase-section">
+              <h2>{detail.phasesTitle}</h2>
+              <div className="phase-list">
+                {detail.phases.map((phase, index) => {
+                  const media = phaseMedia[index];
+                  return (
+                    <section className="phase-card" key={phase.title}>
+                      <span>{String(index + 1).padStart(2, '0')}</span>
+                      {media ? <img src={media.src} alt={t(media.altKey)} loading="lazy" /> : null}
+                      <div>
+                        <h3>{phase.title}</h3>
+                        <p>{phase.goal}</p>
+                        <ul>
+                          {phase.details.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </section>
+                  );
+                })}
+              </div>
+            </section>
+
+            <div className="detail-grid">
+              <section>
+                <h2>{detail.technicalTitle}</h2>
+                <ul>
+                  {detail.technicalHighlights.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+              <section>
+                <h2>{detail.organizationTitle}</h2>
+                <ul>
+                  {detail.organization.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            </div>
+          </div>
+        ) : (
+          <div className="detail-grid">
+            <section>
+              <h2>{t('projectDetail.learningArc')}</h2>
+              <p>{t(project.learningKey)}</p>
+            </section>
+            <section>
+              <h2>{t('projectDetail.futureContent')}</h2>
+              <ul>
+                {(t('projectDetail.futureItems', { returnObjects: true }) as string[]).map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          </div>
+        )}
       </article>
     </main>
   );
 }
 
 export default function App() {
-  return <Routes><Route path="/" element={<HomePage />} /><Route path="/projects/:slug" element={<ProjectPage />} /></Routes>;
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/projects/:slug" element={<ProjectPage />} />
+    </Routes>
+  );
 }
