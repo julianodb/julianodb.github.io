@@ -1,0 +1,42 @@
+export const pt = {
+  language: { label: 'Idioma' },
+  navigation: { primary: 'Navegação principal', home: 'Início' },
+  actions: { contact: 'Contatar Juliano', projects: 'Ver projetos' },
+  hero: {
+    eyebrow: 'Eletrônica biomédica, arquitetura cloud e tecnologia em saúde',
+    title: 'Juliano Dawid Barboza',
+    summary: 'Engenheiro de software e sistemas em Santiago, Chile, professor de eletrônica biomédica e em transição para medtech, biologia computacional, longevidade biotech e medicina bioeletrônica.',
+    visualLabel: 'Visualização de sinal biomédico e placa eletrônica',
+  },
+  visual: { course: 'Eletrônica Analógica para Engenharia Biomédica', signal: 'PPG / EMG / fluxo / áudio' },
+  profile: {
+    eyebrow: 'Perfil',
+    title: 'Engenharia entre software, dispositivos e sistemas de saúde',
+    paragraphOne: 'Juliano é um engenheiro multidisciplinar com mais de oito anos na Siemens Digital Industries Software, contribuindo para plataformas de engenharia em grande escala, sistemas distribuídos JVM, arquitetura cloud-native, modernização em AWS, adoção de microsserviços e arquitetura de software sustentável.',
+    paragraphTwo: 'Ele também leciona eletrônica no curso de Engenharia Biomédica da Universidad de Santiago, orientando equipes de estudantes em protótipos funcionais de dispositivos médicos. Este portfólio apoia sua próxima etapa: tecnologia de saúde internacional, biologia computacional, longevidade biotech, IA médica e medicina bioeletrônica.',
+  },
+  cv: {
+    eyebrow: 'CV breve',
+    title: 'Experiência selecionada',
+    items: [
+      'Senior Software Engineer / Cloud Architecture Lead na Siemens Digital Industries Software, 2018-presente.',
+      'Professor de eletrônica para Engenharia Biomédica na Universidad de Santiago, 2023-presente.',
+      'Engenheiro de sistemas de saúde no Hospital El Carmen, apoiando operações tecnológicas clínicas, 2017-2018.',
+      'Engenheiro de IA / Indústria 4.0 na Vesat, contribuindo para monitoramento industrial com reconhecimento de imagens, 2017.',
+      'Engenheiro de projetos de neurotecnologia na Neurotech, trabalhando em sistemas de estimulação elétrica funcional, 2016-2017.',
+      'Líder de projeto de um oxímetro de pulso de baixo custo no Chile Medical Devices Project, 2013-2014.',
+      'Mestrado em Engenharia Elétrica, Universidad de Concepción; Engenharia Mecatrônica, Universidade de São Paulo.',
+      'AWS Certified Solutions Architect - Professional, setembro de 2024.',
+    ],
+  },
+  projects: { eyebrow: 'Portfólio docente', title: 'Protótipos de dispositivos biomédicos', intro: 'A cada semestre, equipes passam dos fundamentos de eletrônica analógica a um protótipo funcional de saúde, conectando circuitos, sensores, aquisição de sinais, projeto PCB e restrições reais de engenharia.', open: 'Abrir projeto' },
+  projectDetail: { learningArc: 'Arco de aprendizagem', futureContent: 'Conteúdo planejado', futureItems: ['Guias PDF para estudantes', 'Esquemáticos e arquivos PCB', 'Fotos do protótipo e notas de validação', 'Contexto clínico ou fisiológico', 'Lições reutilizáveis de projeto'], artifactNote: 'Marcador para material fonte: {{folder}}. Documentos futuros podem ser publicados em uma pasta pública de recursos e vinculados a partir desta página.' },
+  projectCatalog: {
+    ppg2023: { title: 'Protótipo de fotopletismógrafo', summary: 'Projeto de sensoriamento fisiológico óptico focado em front-end analógico, fotopletismografia, filtragem e aquisição da onda de pulso.', learning: 'Os estudantes conectam interação luz-tecido, condicionamento de sensores, rejeição de ruído e interpretação fisiológica em um primeiro dispositivo completo de aquisição biomédica.' },
+    emg2023: { title: 'Protótipo de eletromiografia', summary: 'Projeto de EMG de superfície para adquirir sinais musculares de baixa amplitude com amplificação, filtragem, segurança e prática de medição.', learning: 'O projeto enfatiza aquisição de biopotenciais, restrições de instrumentação, integridade de sinal e tradução de atividade muscular bruta em dados biomédicos analisáveis.' },
+    spirometer2024: { title: 'Protótipo de espirômetro', summary: 'Projeto de medição respiratória para detectar fluxo de ar e estimar função pulmonar com eletrônica, calibração e processamento de sinais.', learning: 'Os estudantes combinam física de sensores, condicionamento analógico, curvas de calibração e interpretação biomédica em torno da fisiologia respiratória e triagem pulmonar acessível.' },
+    thermometer2024: { title: 'Protótipo de termômetro eletrônico', summary: 'Projeto de medição de temperatura cobrindo seleção de sensores, condicionamento, calibração, incerteza e desenho de medição clinicamente significativo.', learning: 'O projeto usa um dispositivo médico familiar para ensinar precisão, disciplina de calibração, desenho pronto para PCB e relação entre comportamento do circuito e confiabilidade para pacientes.' },
+    ppg2025: { title: 'Fotopletismógrafo com PCB fabricada', summary: 'Projeto PPG expandido que avança do protótipo em protoboard para placas fabricadas e um fluxo de trabalho mais próximo de produção.', learning: 'Os estudantes retomam o sensoriamento óptico de pulso incorporando restrições de fabricação, layout de placa, documentação, planejamento de montagem e decisões mais próximas do desenvolvimento medtech.' },
+    stethoscope2025: { title: 'Protótipo de estetoscópio digital', summary: 'Projeto de ausculta focado em sensoriamento acústico, condicionamento de áudio analógico, filtragem e caminho dos sons corporais para análise digital.', learning: 'O projeto conecta o exame clínico clássico à aquisição moderna de sinais, criando uma ponte para IA médica, monitoramento remoto e tecnologias bioacústicas.' },
+  },
+};
