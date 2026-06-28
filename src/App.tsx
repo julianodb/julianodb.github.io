@@ -17,13 +17,19 @@ type ProjectDetail = {
   componentsIntro?: string;
 };
 
-type PhaseMedia = {
+type ProjectImage = {
   src: string;
   altKey: string;
 };
 
+type ProjectMedia = {
+  phaseMedia: ProjectImage[];
+  showcase?: ProjectImage & { eyebrowKey: string };
+  summaryGallery?: ProjectImage[];
+};
+
 const diagramBase = 'https://julianodb.github.io/electronic_circuits_diagrams';
-const ppg2023PhaseMedia: PhaseMedia[] = [
+const ppg2023PhaseMedia: ProjectImage[] = [
   { src: `${diagramBase}/resistance_led.png`, altKey: 'projectCatalog.ppg2023.phaseImages.t1' },
   { src: `${diagramBase}/cny70_circuit.png`, altKey: 'projectCatalog.ppg2023.phaseImages.t2' },
   { src: `${diagramBase}/common_emitter_no_re.png`, altKey: 'projectCatalog.ppg2023.phaseImages.t3' },
@@ -33,6 +39,43 @@ const ppg2023PhaseMedia: PhaseMedia[] = [
   { src: `${diagramBase}/monostable_multivibrator_b.png`, altKey: 'projectCatalog.ppg2023.phaseImages.t7' },
   { src: `${diagramBase}/half_voltage_divider.png`, altKey: 'projectCatalog.ppg2023.phaseImages.t8' },
 ];
+
+const emg2023PhaseMedia: ProjectImage[] = [
+  { src: `${diagramBase}/eight_leds.png`, altKey: 'projectCatalog.emg2023.phaseImages.t1' },
+  { src: `${diagramBase}/envelope_detector.png`, altKey: 'projectCatalog.emg2023.phaseImages.t2' },
+  { src: `${diagramBase}/eight_leds_plus_control.png`, altKey: 'projectCatalog.emg2023.phaseImages.t3' },
+  { src: `${diagramBase}/instrumentation_amplifier.png`, altKey: 'projectCatalog.emg2023.phaseImages.t4' },
+  { src: `${diagramBase}/T5_materials.png`, altKey: 'projectCatalog.emg2023.phaseImages.t5' },
+  { src: `${diagramBase}/sallen_key_high_2_with_gain.png`, altKey: 'projectCatalog.emg2023.phaseImages.t6' },
+  { src: `${diagramBase}/sallen_key_low_2.png`, altKey: 'projectCatalog.emg2023.phaseImages.t7' },
+  { src: '/projects/2023-02-emg/G1_top_inverted.png', altKey: 'projectCatalog.emg2023.phaseImages.t7extra' },
+  { src: '/projects/2023-02-emg/placa_2_sch.jpg', altKey: 'projectCatalog.emg2023.phaseImages.t8' },
+];
+
+const projectMedia: Record<string, ProjectMedia> = {
+  '2023-01-photoplethysmograph': {
+    phaseMedia: ppg2023PhaseMedia,
+    showcase: {
+      src: '/projects/2023-01-photoplethysmograph/ppg-stripboard-components.png',
+      altKey: 'projectCatalog.ppg2023.componentImageAlt',
+      eyebrowKey: 'projectCatalog.ppg2023.componentEyebrow',
+    },
+  },
+  '2023-02-emg': {
+    phaseMedia: emg2023PhaseMedia,
+    showcase: {
+      src: '/projects/2023-02-emg/G2_joaquin_top_inverted.png',
+      altKey: 'projectCatalog.emg2023.componentImageAlt',
+      eyebrowKey: 'projectCatalog.emg2023.componentEyebrow',
+    },
+    summaryGallery: [
+      { src: '/projects/2023-02-emg/placa_2_sch.jpg', altKey: 'projectCatalog.emg2023.gallery.placa2' },
+      { src: '/projects/2023-02-emg/placa_3_sch.jpg', altKey: 'projectCatalog.emg2023.gallery.placa3' },
+      { src: '/projects/2023-02-emg/G1_top_inverted.png', altKey: 'projectCatalog.emg2023.gallery.g1' },
+      { src: '/projects/2023-02-emg/G3_top_inverted.png', altKey: 'projectCatalog.emg2023.gallery.g3' },
+    ],
+  },
+};
 
 const languages = [
   { code: 'en', label: 'English' },
@@ -171,7 +214,8 @@ function ProjectPage() {
   const detail = project.detailKey
     ? (t(project.detailKey, { returnObjects: true }) as ProjectDetail)
     : undefined;
-  const phaseMedia = project.slug === '2023-01-photoplethysmograph' ? ppg2023PhaseMedia : [];
+  const media = projectMedia[project.slug];
+  const phaseMedia = media?.phaseMedia ?? [];
 
   return (
     <main>
@@ -193,14 +237,19 @@ function ProjectPage() {
               <p>{detail.overview}</p>
             </section>
 
-            {detail.componentsTitle && detail.componentsIntro ? (
+            {media?.summaryGallery ? (
+              <section className="project-gallery" aria-label={t('projectDetail.visualSummary')}>
+                {media.summaryGallery.map((image) => (
+                  <img key={image.src} src={image.src} alt={t(image.altKey)} loading="lazy" />
+                ))}
+              </section>
+            ) : null}
+
+            {detail.componentsTitle && detail.componentsIntro && media?.showcase ? (
               <section className="component-showcase">
-                <img
-                  src="/projects/2023-01-photoplethysmograph/ppg-stripboard-components.png"
-                  alt={t('projectCatalog.ppg2023.componentImageAlt')}
-                />
+                <img src={media.showcase.src} alt={t(media.showcase.altKey)} />
                 <div>
-                  <p className="eyebrow">{t('projectCatalog.ppg2023.componentEyebrow')}</p>
+                  <p className="eyebrow">{t(media.showcase.eyebrowKey)}</p>
                   <h2>{detail.componentsTitle}</h2>
                   <p>{detail.componentsIntro}</p>
                 </div>

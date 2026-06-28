@@ -236,6 +236,22 @@ h3 { font-size: 1.35rem; line-height: 1.15; margin-bottom: 12px; }
   .phase-card ul { grid-column: 1; }
 }
 
+
+.project-gallery {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 20px;
+}
+.project-gallery img {
+  aspect-ratio: 4 / 3;
+  background: #ffffff;
+  border: 1px solid #d8ded2;
+  object-fit: contain;
+  padding: 10px;
+  width: 100%;
+}
+
 .component-showcase {
   align-items: stretch;
   background: #ffffff;
@@ -280,7 +296,8 @@ h3 { font-size: 1.35rem; line-height: 1.15; margin-bottom: 12px; }
 
 @media (max-width: 860px) {
   .component-showcase,
-  .phase-card { grid-template-columns: 1fr; }
+  .phase-card,
+  .project-gallery { grid-template-columns: 1fr; }
   .component-showcase div { padding: 0 22px 24px; }
   .phase-card > span,
   .phase-card > img,
