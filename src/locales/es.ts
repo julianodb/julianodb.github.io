@@ -233,7 +233,172 @@ export const es = {
             "t8": "Instructor schematic for an EMG subsystem board used in the final hardware partition."
       }
 },
-    spirometer2024: { title: 'Prototipo de espirómetro', summary: 'Proyecto de medición respiratoria para sensar flujo de aire y estimar función pulmonar con electrónica, calibración y procesamiento de señales.', learning: 'Los estudiantes combinan física de sensores, acondicionamiento analógico, curvas de calibración e interpretación biomédica en torno a fisiología respiratoria y tamizaje pulmonar accesible.' },
+    spirometer2024: {
+      "title": "Spirometer prototype",
+      "summary": "Electronic spirometer project that measures peak expiratory flow and one-second forced expiratory volume using thermal flow sensing, analog memory, timing logic, PCB design, and surface-mount assembly.",
+      "learning": "Students combined respiratory physiology, thermal sensing, analog computation, capacitor-based memory, reset/timing circuits, dual-rail power, EAGLE PCB completion, and reflow assembly into a clinically motivated medtech prototype.",
+      "detail": {
+            "overview": "This project guided student teams through the design and fabrication of an electronic spirometer: a device that converts exhaled airflow into voltages representing peak expiratory flow (PEF) and forced expiratory volume in one second (FEV1). The design combined thermal flow sensing, analog subtraction and filtering, peak detection, integration, sample-and-hold timing, reset logic, dual-rail power, and surface-mount PCB assembly.",
+            "architectureTitle": "System architecture",
+            "architecture": [
+                  "Measurement block: a self-heated NTC thermistor flow sensor inside a tube converts airflow into a resistance and voltage change.",
+                  "Sensor amplifier block: a duplicated/inverted thermistor bridge increases sensitivity, then a difference amplifier maps v1 - v2 into a single flow-proportional voltage.",
+                  "PEF block: a Schottky peak detector captures the maximum expiratory-flow voltage and holds it for display.",
+                  "Baseline and subtraction block: an RC average detector estimates the zero-flow baseline; a buffered subtractor computes promedio - vi so no-flow becomes approximately zero before integration.",
+                  "FEV1 block: an op-amp integrator accumulates the flow-proportional signal for one second; an LF398MX sample-and-hold freezes the measured value for display.",
+                  "Timing and reset block: a pulse generator, Schmitt inverter, monostable timer, transistor trigger, peak-detector reset, and integrator reset coordinate a repeatable measurement cycle.",
+                  "Power block: a 3.7 V 18650 lithium cell and TPS65133 regulator generate +5 V and -5 V rails for the analog and mixed-signal circuitry.",
+                  "Display and indication block: voltage displays show PEF and FEV1, while LEDs indicate power and the one-second measurement interval."
+            ],
+            "phasesTitle": "Phase-by-phase organization",
+            "phases": [
+                  {
+                        "title": "T1 - Clinical metrics, indicators, and displays",
+                        "goal": "Define the user-visible spirometer behavior around PEF and FEV1.",
+                        "details": [
+                              "The project was introduced as a medical instrument for lung volumes and capacities, with PEF reported as a maximum expiratory-flow value and FEV1 as the volume expired during the first second.",
+                              "Students decomposed the full system into measurement, PEF, FEV1, energy, reset, and one-second timer blocks.",
+                              "They designed power and measurement indicator LEDs from +5 V and -5 V rails, choosing LED colors, datasheets, forward currents, resistor values, and 1/4 W power margins.",
+                              "Voltage-display modules were characterized from measured currents around 15.9 mA to 18.35 mA, asking students to estimate per-segment LED current and worst-case display consumption."
+                        ]
+                  },
+                  {
+                        "title": "T2 - PEF peak detector and baseline average",
+                        "goal": "Capture the maximum flow signal and estimate the zero-flow baseline.",
+                        "details": [
+                              "The peak detector used a Schottky diode and storage capacitor: when vi exceeds vo, the diode charges the capacitor; otherwise the capacitor holds the previous maximum.",
+                              "With VF assumed near 0.4 V, students analyzed the steady output for a 10 V Thevenin step source.",
+                              "The peak capacitor had to charge to 95% of its final value in under 20 ms with Rth = 500 ohm, while losing less than 0.1 V over at least 1 second under 1 microamp leakage.",
+                              "The average detector used a passive RC low-pass filter to estimate the no-flow sensor output; its output should move less than 10% during a 1 second measurement but settle to 95% in under 30 seconds after power-on."
+                        ]
+                  },
+                  {
+                        "title": "T3 - Peak-detector reset and pulse generation",
+                        "goal": "Clear the previous PEF measurement quickly and repeatably when the user starts a new trial.",
+                        "details": [
+                              "A BC846BW transistor discharges the peak-detector capacitor when RESET is active, clearing the previous maximum before a new exhalation.",
+                              "The discharge target was fast but controlled: complete enough within 10 ms to 100 ms for the measurement cycle.",
+                              "Students calculated minimum discharge current from their T2 capacitor value, base-current ranges from transistor beta and maximum collector current, and allowable R5 values for RESET between 0 V and 5 V.",
+                              "A capacitive pulse generator made RESET transient even if the user held the button, and R4, R6, and R7 handled capacitor recovery and leakage when the transistor was off."
+                        ]
+                  },
+                  {
+                        "title": "T4 - Thermal airflow sensor and differential amplification",
+                        "goal": "Convert exhaled airflow into a voltage suitable for later analog computation.",
+                        "details": [
+                              "The flow sensor used an NCP15XQ471E03RC NTC thermistor inside an airflow tube; airflow increases thermal dissipation, cools the self-heated thermistor, and raises its resistance.",
+                              "Students related Joule heating RI^2 to dissipation coefficient in mW/degC and ambient temperature, then estimated current and Vbias for a target 330 ohm operating point.",
+                              "They compared the no-blow condition with dissipation coefficient 1 mW/degC against a blowing condition modeled as 2 mW/degC.",
+                              "To increase sensitivity, the sensor was duplicated and inverted so the same airflow produced +Delta V in one branch and -Delta V in the other, doubling the differential change.",
+                              "A BJT differential amplifier was designed with VCC = +5 V, VEE = -5 V, IEE = 2 mA, beta around 290, VBE around 660 mV, DC output near 0 V, and AC differential gain between 10 and 15."
+                        ]
+                  },
+                  {
+                        "title": "T5 - Buffer and subtractor",
+                        "goal": "Prepare the flow signal so FEV1 integration starts from a zero-flow baseline.",
+                        "details": [
+                              "The integrator input needed to be promedio - vi, making no-flow approximately zero and flow a negative voltage before the inverting integration stage.",
+                              "Students built a subtractor using only the provided op-amp/resistor elements and selected R1 through R4 from available values while keeping maximum resistor current below 10 mA.",
+                              "A buffer was added after the average detector so the subtractor would not load the baseline RC circuit.",
+                              "The finite op-amp gain exercise used A = 100,000 to estimate the maximum error between the buffer input and output."
+                        ]
+                  },
+                  {
+                        "title": "T6 - Integrator and sample-and-hold for FEV1",
+                        "goal": "Transform flow into a one-second volume estimate and hold it on a display.",
+                        "details": [
+                              "The FEV1 path integrated the baseline-corrected flow signal for one second, producing a voltage proportional to expired volume.",
+                              "For a constant input vi, students derived vo after one second as a function of vi, R, and C, with vo initialized at 0 V.",
+                              "The design target used a maximum measurable flow corresponding to vi = 3.3 V and selected available R and C values so the integrator output reached approximately 5 V after one second.",
+                              "An LF398MX sample-and-hold froze the integrator output after the measurement window, with students analyzing LOGIC/LOGIC REFERENCE control, hold-capacitor charge time, and voltage droop from leakage."
+                        ]
+                  },
+                  {
+                        "title": "T7 - Low-pass filter and PCB preparation",
+                        "goal": "Reduce high-frequency noise while moving the circuit toward fabrication.",
+                        "details": [
+                              "The exhalation waveform was approximated as a one-second square pulse in a two-second period, so its Fourier series energy is concentrated at low frequencies.",
+                              "Students chose a cutoff frequency where harmonics contributed less than 0.1% of the fundamental energy, with the cutoff constrained to be no greater than 50 Hz.",
+                              "A Sallen-Key low-pass filter with equal R and equal C values was designed using available component inventories and a cutoff tolerance of plus/minus 2 Hz.",
+                              "The fabrication preparation required students to open the preliminary spirometer schematic in Autodesk EAGLE, identify every previously designed block, and fill in all resistor and capacitor values from corrected assignments.",
+                              "Each group also selected a black-and-white bitmap at least 2000 x 2000 px to personalize the manufactured board."
+                        ]
+                  },
+                  {
+                        "title": "T8 - One-second timer, robust reset, and sensor redesign",
+                        "goal": "Coordinate the measurement cycle and improve the sensor front end before fabrication.",
+                        "details": [
+                              "A monostable multivibrator generated the SAMPLE signal, staying in its semi-stable state for 0.8 s to 1.2 s after RESET was pressed.",
+                              "The trigger circuit used an NPN transistor driven by RESET to activate a PNP transistor and briefly raise V+ in the monostable without loading it during normal operation.",
+                              "As more circuits consumed RESET, the pulse generator was strengthened with an output amplifier and a TC4S584F Schmitt inverter, whose positive and negative thresholds were derived from the datasheet at 25 degC.",
+                              "The original BJT differential amplifier was replaced by an op-amp difference amplifier with gain between 10 and 15 and resistor currents between 0.1 mA and 1 mA.",
+                              "Two Vbias strategies were supported on the PCB: a fixed resistor to +5 V and a feedback/control-temperature strategy where the output drives Vbias to keep the thermistor bridge balanced."
+                        ]
+                  },
+                  {
+                        "title": "T9 - Integrator reset and dual-rail power",
+                        "goal": "Finish the analog measurement cycle and replace ideal supplies with battery-powered rails.",
+                        "details": [
+                              "Unlike the peak-detector capacitor, the integrator capacitor is not tied to -5 V, so its reset requires a bidirectional switch rather than a single NPN discharge path.",
+                              "The assignment introduced the TC4S66F analog switch, asking students to identify CONTROL pin thresholds, on-resistance at 25 degC, and discharge time from 5 V to below 0.1 V with Rreset = 0.",
+                              "The same phase replaced assumed +5 V and -5 V ideal rails with a 3.7 V 18650 lithium cell and TPS65133 regulator.",
+                              "Students described TPS65133 inputs/outputs, regulator topology for +5 V and -5 V, typical application components, efficiency near a 100 mA load, quiescent op-amp/display current, and battery life for a 6000 mAh cell."
+                        ]
+                  },
+                  {
+                        "title": "T10 - Surface-mount assembly and student-owned boards",
+                        "goal": "Fabricate working boards using the same assembly workflow students would use on their copies.",
+                        "details": [
+                              "The final work was practical fabrication: each team soldered the components onto the manufactured PCB with the values their group had designed.",
+                              "The process photos guided students through stencil fabrication, aligning the stencil on the board, applying solder paste, placing surface-mount components, and heating the assembled board in a conventional oven.",
+                              "Students demonstrated the assembled board working to the professor before the end of the semester.",
+                              "Each student fabricated and kept their own copy of the board, turning the semester design into a physical artifact they could take home."
+                        ]
+                  }
+            ],
+            "technicalTitle": "Technical constraints and component set",
+            "technicalHighlights": [
+                  "Clinical outputs: PEF is represented by the held maximum flow voltage; FEV1 is represented by integrating the flow-proportional voltage for one second and holding the result.",
+                  "Sensor physics: self-heated NTC thermistors couple electronics to airflow through thermal dissipation; no-flow and blowing cases were modeled with dissipation coefficients of 1 mW/degC and 2 mW/degC.",
+                  "Signal range: several stages assume +5 V and -5 V rails, with displays reading the resulting voltages for PEF and FEV1.",
+                  "Analog memory: peak detection, average detection, integration, and sample-and-hold all rely on capacitor charge, leakage, settling time, and reset behavior.",
+                  "Timing: the FEV1 measurement window is explicitly one second, generated by a monostable multivibrator with a 0.8 s to 1.2 s acceptable range.",
+                  "Noise control: the airflow signal was modeled through Fourier analysis to justify a low-pass filter cutoff below 50 Hz.",
+                  "Mixed implementation: the final circuit uses thermistors, Schottky diodes, BJTs, op-amps, LF398MX sample-and-hold, TC4S584F Schmitt inverter, TC4S66F analog switch, TPS65133 regulator, voltage displays, LEDs, and surface-mount passives.",
+                  "Manufacturing path: students moved from hand calculations to EAGLE schematic completion, manufactured PCB, stencil-based solder-paste application, manual component placement, oven reflow, demonstration, and ownership of the fabricated board."
+            ],
+            "componentsTitle": "From full schematic to reflowed student hardware",
+            "componentsIntro": "The spirometer was designed as a real board, not a paper-only circuit. The final schematic, top and bottom PCB views, and process photos show the route from group-specific component values to stencil, solder paste, surface-mount placement, oven reflow, demonstration, and student-owned boards.",
+            "organizationTitle": "Teaching and delivery model",
+            "organization": [
+                  "The project was decomposed into small assignments, each responsible for a clinically meaningful or implementation-critical subsystem.",
+                  "Earlier choices were reused later: capacitor values affected reset and sample-and-hold behavior, baseline averaging affected subtraction, filter design affected the final schematic, and timing logic coordinated displays and memory circuits.",
+                  "The course deliberately combined physiological interpretation, analog circuit theory, datasheet work, PCB CAD, manufacturing constraints, and hands-on assembly.",
+                  "Fabrication was required. Students used stencil-applied solder paste and oven reflow to assemble boards containing the values selected by their own group.",
+                  "The end-of-semester artifact was a working spirometer PCB demonstrated to the professor and kept by each student."
+            ]
+      },
+      "componentEyebrow": "Surface-mount fabrication",
+      "componentImageAlt": "Spirometer PCB during solder-paste and surface-mount assembly preparation.",
+      "gallery": {
+            "fullSchematic": "Full electronic spirometer schematic with the complete analog measurement, timing, reset, display, and power circuits.",
+            "top": "Top view of the designed spirometer printed circuit board.",
+            "bottom": "Bottom view of the designed spirometer printed circuit board.",
+            "stencil": "Stencil-based solder-paste preparation photo for assembling the spirometer PCB."
+      },
+      "phaseImages": {
+            "t1": "Power indicator LED circuit using the plus and minus five volt rails.",
+            "t2": "Schottky diode peak detector used to hold the maximum expiratory-flow voltage.",
+            "t3": "Complete peak-detector reset and pulse-generator circuit.",
+            "t4": "Duplicated and inverted thermistor flow-sensor bridge for differential sensitivity.",
+            "t5": "Buffered active low-pass average detector used for the baseline signal.",
+            "t6": "Op-amp integrator used to convert flow into a volume-proportional voltage.",
+            "t7": "Second-order Sallen-Key low-pass filter used to attenuate high-frequency flow-signal noise.",
+            "t8": "Strengthened RESET generator and circuits consuming the reset signal.",
+            "t9": "Integrator with bidirectional reset switch.",
+            "t10": "Surface-mount spirometer board during oven/reflow-based assembly."
+      }
+},
     thermometer2024: { title: 'Prototipo de termómetro electrónico', summary: 'Proyecto de medición de temperatura que cubre selección de sensores, acondicionamiento, calibración, incertidumbre y diseño de medición clínicamente significativo.', learning: 'El proyecto usa un dispositivo médico familiar para enseñar precisión, disciplina de calibración, diseño listo para PCB y relación entre comportamiento del circuito y confiabilidad para pacientes.' },
     ppg2025: { title: 'Fotopletismógrafo con PCB fabricada', summary: 'Proyecto PPG expandido que avanza del prototipado en protoboard hacia placas fabricadas y un flujo de trabajo más cercano a producción.', learning: 'Los estudiantes retoman el sensado óptico de pulso incorporando restricciones de fabricación, layout de placa, documentación, planificación de ensamblaje y decisiones más cercanas al desarrollo medtech.' },
     stethoscope2025: { title: 'Prototipo de estetoscopio digital', summary: 'Proyecto de auscultación centrado en sensado acústico, acondicionamiento de audio analógico, filtrado y transición desde sonidos corporales hacia análisis digital.', learning: 'El proyecto conecta el examen clínico clásico con adquisición moderna de señales, abriendo un puente hacia IA médica, monitoreo remoto y tecnologías bioacústicas.' },

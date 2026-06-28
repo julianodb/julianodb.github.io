@@ -52,6 +52,19 @@ const emg2023PhaseMedia: ProjectImage[] = [
   { src: '/projects/2023-02-emg/placa_2_sch.jpg', altKey: 'projectCatalog.emg2023.phaseImages.t8' },
 ];
 
+const spirometer2024PhaseMedia: ProjectImage[] = [
+  { src: `${diagramBase}/resistance_1_led_plus_minus_5_volts.png`, altKey: 'projectCatalog.spirometer2024.phaseImages.t1' },
+  { src: `${diagramBase}/peak_detector.png`, altKey: 'projectCatalog.spirometer2024.phaseImages.t2' },
+  { src: `${diagramBase}/T3b.png`, altKey: 'projectCatalog.spirometer2024.phaseImages.t3' },
+  { src: `${diagramBase}/flux_sensor_2.png`, altKey: 'projectCatalog.spirometer2024.phaseImages.t4' },
+  { src: `${diagramBase}/active_low_pass.png`, altKey: 'projectCatalog.spirometer2024.phaseImages.t5' },
+  { src: `${diagramBase}/integrator.png`, altKey: 'projectCatalog.spirometer2024.phaseImages.t6' },
+  { src: `${diagramBase}/sallen_key_low_2_samevalues.png`, altKey: 'projectCatalog.spirometer2024.phaseImages.t7' },
+  { src: `${diagramBase}/T8a.png`, altKey: 'projectCatalog.spirometer2024.phaseImages.t8' },
+  { src: `${diagramBase}/integrator_with_reset.png`, altKey: 'projectCatalog.spirometer2024.phaseImages.t9' },
+  { src: '/projects/2024-01-spirometer/20240701_171914.jpg', altKey: 'projectCatalog.spirometer2024.phaseImages.t10' },
+];
+
 const projectMedia: Record<string, ProjectMedia> = {
   '2023-01-photoplethysmograph': {
     phaseMedia: ppg2023PhaseMedia,
@@ -73,6 +86,20 @@ const projectMedia: Record<string, ProjectMedia> = {
       { src: '/projects/2023-02-emg/placa_3_sch.jpg', altKey: 'projectCatalog.emg2023.gallery.placa3' },
       { src: '/projects/2023-02-emg/G1_top_inverted.png', altKey: 'projectCatalog.emg2023.gallery.g1' },
       { src: '/projects/2023-02-emg/G3_top_inverted.png', altKey: 'projectCatalog.emg2023.gallery.g3' },
+    ],
+  },
+  '2024-01-spirometer': {
+    phaseMedia: spirometer2024PhaseMedia,
+    showcase: {
+      src: '/projects/2024-01-spirometer/20240701_170712.jpg',
+      altKey: 'projectCatalog.spirometer2024.componentImageAlt',
+      eyebrowKey: 'projectCatalog.spirometer2024.componentEyebrow',
+    },
+    summaryGallery: [
+      { src: '/projects/2024-01-spirometer/full_spirometer_sch.png', altKey: 'projectCatalog.spirometer2024.gallery.fullSchematic' },
+      { src: '/projects/2024-01-spirometer/spirometer_top.png', altKey: 'projectCatalog.spirometer2024.gallery.top' },
+      { src: '/projects/2024-01-spirometer/spirometer_bot.png', altKey: 'projectCatalog.spirometer2024.gallery.bottom' },
+      { src: '/projects/2024-01-spirometer/20240701_162627.jpg', altKey: 'projectCatalog.spirometer2024.gallery.stencil' },
     ],
   },
 };
