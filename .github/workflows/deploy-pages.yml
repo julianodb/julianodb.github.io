@@ -25,9 +25,10 @@ jobs:
         with:
           node-version: 20.19.5
           cache: npm
-          registry-url: https://registry.npmjs.org/
-      - run: npm install -g npm@10.8.2
-      - run: npm ci --include=dev
+      - run: npm --version
+      - run: npm config get registry
+      - run: npm install --include=dev --no-audit --no-fund
+      - run: test -x node_modules/.bin/eslint
       - run: npm run lint
       - run: npm test
       - run: npm run build
