@@ -399,7 +399,182 @@ export const pt = {
             "t10": "Surface-mount spirometer board during oven/reflow-based assembly."
       }
 },
-    thermometer2024: { title: 'Protótipo de termômetro eletrônico', summary: 'Projeto de medição de temperatura cobrindo seleção de sensores, condicionamento, calibração, incerteza e desenho de medição clinicamente significativo.', learning: 'O projeto usa um dispositivo médico familiar para ensinar precisão, disciplina de calibração, desenho pronto para PCB e relação entre comportamento do circuito e confiabilidade para pacientes.' },
+    thermometer2024: {
+      "title": "Electronic thermometer prototype",
+      "summary": "Low-power clinical thermometer project powered by a CR2032 cell, with analog temperature scaling, configurable thresholds, stability detection, buzzer notification, auto-off, and a shared PCB supporting five group variants.",
+      "learning": "Students connected vital-sign measurement, low-power design, analog sensor linearization, comparator logic, virtual-ground circuits, filtering, timing, boost regulation, configurable PCB assembly, and hands-on validation.",
+      "detail": {
+            "overview": "This semester project asked five student teams to design and fabricate low-power clinical thermometer prototypes powered from a CR2032 coin cell. The device measures temperature in degrees Celsius, displays it numerically with one decimal place, detects when the reading has stabilized, sounds a short buzzer alert, indicates whether the temperature is inside or outside configurable thresholds, supports a single on/off button, and turns itself off after an adjustable delay.",
+            "architectureTitle": "System architecture",
+            "architecture": [
+                  "Temperature sensing block: each color group used a different linear analog temperature sensor, selected from MCP9700, MCP9701, LMT87, LMT86, and LMT85 variants.",
+                  "Scaling block: an op-amp difference/amplifier stage converts each sensor output into Vtemperatura = 0.1 Tc, so 100 mV represents 1 degree Celsius and 37 degC is displayed as about 3.70 V.",
+                  "Display block: a voltage display module shows the scaled temperature value, while a selector on the final board lets students inspect internal signals beyond only the temperature output.",
+                  "Threshold block: potentiometers set high-temperature and low-temperature thresholds; LM393LVDR rail-to-rail open-drain comparators generate VA and VB logic signals.",
+                  "Indicator block: group-specific transistor logic drives a 3 mm LED either inside the normal range or outside it, depending on the group color specification.",
+                  "Stability block: low-pass filtering removes high-frequency noise, a differentiator/high-pass path estimates signal change, a full-wave rectifier takes the absolute derivative, and a comparator decides when the reading is stable.",
+                  "Buzzer block: a short trigger pulse and monostable multivibrator drive a CPI-1375IC-80T indicator buzzer for roughly 0.5 s when the measurement is ready.",
+                  "Power and control block: a one-button latch, auto-off integrator, TPS613222A boost regulator, and CR2032 cell form a low-power portable system with adjustable automatic shutdown."
+            ],
+            "phasesTitle": "Phase-by-phase organization",
+            "phases": [
+                  {
+                        "title": "T1 - Requirements, low-power indicators, adjustments, and display",
+                        "goal": "Define a clinical thermometer around temperature display, thresholds, stability, and battery life.",
+                        "details": [
+                              "The prototype requirements included measuring temperature in degC with one decimal digit, detecting stability, sounding a ready beep, lighting a high/low/normal indicator, and supporting one-button on/off plus auto-off.",
+                              "Because the power source was a CR2032 coin cell, students were asked to minimize current throughout the design.",
+                              "The LED indicator used a 3 mm LED in the group color and a resistor sized for only 10% of the LED datasheet test current to reduce consumption.",
+                              "Three adjustable settings were introduced: high-temperature threshold, low-temperature threshold, stability criterion, and auto-off time, all implemented with potentiometer/resistor networks constrained to microamp-level currents.",
+                              "The voltage-display module was characterized from measured currents around 15.9 mA to 18.35 mA, and the display convention was established as 100 mV per degree Celsius over a 0 degC to 50 degC range."
+                        ]
+                  },
+                  {
+                        "title": "T2 - LED logic, buzzer driver, and latch foundation",
+                        "goal": "Turn clinical state signals into human feedback while beginning the one-button power circuit.",
+                        "details": [
+                              "Each group had a truth table mapping VA, VB, temperature state, and LED behavior; green/white LEDs indicated normal temperature, while red/yellow/blue indicated outside-normal conditions.",
+                              "Students selected one of seven transistor LED-driver topologies and sized MMBT3904 base resistors for saturation using forced beta near 10.",
+                              "The buzzer was specified as a CPI-1375IC-80T indicator type, requiring only DC drive rather than an external AC oscillator.",
+                              "A transistor driver for the buzzer was designed so VU = 5 V saturates Q3 and enables the audible alert.",
+                              "The first on/off circuit used a cross-coupled transistor RS latch, introducing memory so a momentary pushbutton could eventually control persistent on/off state."
+                        ]
+                  },
+                  {
+                        "title": "T3 - Temperature sensors, stability trigger, and one-button toggle",
+                        "goal": "Select the analog temperature sensor and complete the single-button control concept.",
+                        "details": [
+                              "Groups used different sensors: MCP9700-E/TO, MCP9701-E/TO, LMT87LPGM, LMT86LPGM, or LMT85LPGM, all based on temperature-dependent diode voltage principles.",
+                              "Students derived or linearized Vout = aTc + b over the clinically important 30 degC to 45 degC range, then computed coefficients c and d for Vtemperatura = cVout + d.",
+                              "The stability trigger began with an RC high-pass response to the comparator output, producing a short pulse when the stable-temperature signal rises.",
+                              "R15 and C5 were selected so the pulse stayed above 2 V for at least 10 ms and at most 100 ms, and Q6 was sized for saturated switching during that interval.",
+                              "The two-button latch was converted into a one-button toggle using a resistor and capacitor that preserve enough state asymmetry when the pushbutton is pressed."
+                        ]
+                  },
+                  {
+                        "title": "T4 - Comparators, thresholds, and auto-off reference",
+                        "goal": "Use comparator outputs as logic interfaces for temperature range, stability, and shutdown.",
+                        "details": [
+                              "The LM393LVDR comparator was introduced for rail-to-rail input operation and open-drain output behavior.",
+                              "Students connected threshold potentiometers and V_TEMP to comparators so VA and VB implement the group-specific LED truth table.",
+                              "For the buzzer trigger, another comparator switches when the magnitude of temperature derivative falls below the stability threshold set by Rpot2.",
+                              "A pull-up resistor was chosen for the trigger comparator so the positive transition charges the trigger path while respecting the LM393LVDR output current limit.",
+                              "A fourth comparator detects auto-off by comparing Vauto-apagado against VREF and pulling the latch/on signal low when the timeout is reached.",
+                              "Students also designed a resistor-only VREF generator below 100 microamp total current and chose a bitmap image to personalize the manufactured board."
+                        ]
+                  },
+                  {
+                        "title": "T5 - Temperature scaling amplifier and virtual ground",
+                        "goal": "Convert sensor voltage into display voltage while supporting single-supply analog stages.",
+                        "details": [
+                              "The main scaling task was to implement Vtemperatura = cVout + d with op-amp and resistor networks, allowing less than 10 mV error from 30 degC to 45 degC.",
+                              "Because exact coefficients were not always achievable with available values, students could use series/parallel combinations for R1 through R4, all at least 1 kohm.",
+                              "Some later stages needed negative-going signals even though the thermometer had only a +5 V supply, so the project introduced a 2.5 V virtual ground.",
+                              "A weak divider generated Vbias_weak with less than 5 microamp divider current, and Cbias was selected to settle to 99% in under 5 seconds.",
+                              "The MCP6009T-E/SL op-amp buffered the virtual ground, requiring students to analyze input impedance, output impedance, and loading error."
+                        ]
+                  },
+                  {
+                        "title": "T6 - Auto-off integrator and full-wave rectifier",
+                        "goal": "Build the analog timing and absolute-derivative circuits behind shutdown and stability detection.",
+                        "details": [
+                              "The auto-off circuit uses an integrator whose output starts at 0 V and rises linearly until it reaches VREF, with timeout Delta t = 10 VREF / (2.5 - Vo).",
+                              "Students chose R31 and C7 so the adjustable Vo network from T1 controls the shutdown delay, with a minimum around one minute.",
+                              "To detect stability regardless of whether temperature is rising or falling, the derivative signal must be rectified before comparison.",
+                              "The full-wave rectifier was decomposed into an inverting half-wave rectifier and an inverting summing amplifier implementing vo = -(vi + 2vx), which yields vo = |vi|.",
+                              "All rectifier resistors had to be available values and at least 10 kohm, keeping the design compatible with low-current operation."
+                        ]
+                  },
+                  {
+                        "title": "T7 - Low-pass filtering and practical derivative estimation",
+                        "goal": "Suppress measurement noise and create a bounded stability signal.",
+                        "details": [
+                              "Temperature is expected to change slowly as the probe reaches thermal equilibrium with the patient, so high-frequency variation is likely noise.",
+                              "Students designed a second-order Sallen-Key low-pass filter near 10 Hz, then calculated attenuation of 50 Hz mains-related interference.",
+                              "A differentiator was analyzed using V_TEMP = Vfinal(1 - exp(-t/tau)), connecting the derivative output to how far the reading is from final value.",
+                              "The assignment showed why a pure differentiator is dangerous: gain grows as R6 C3 omega, amplifying high-frequency noise.",
+                              "Adding R5 converted the differentiator into an active high-pass filter with bounded high-frequency gain between 10 and 50, preserving stability detection without unlimited noise amplification."
+                        ]
+                  },
+                  {
+                        "title": "T8 - Ready-beep monostable and final amplifier corrections",
+                        "goal": "Convert the stability event into a controlled audible notification.",
+                        "details": [
+                              "A monostable multivibrator was designed to turn the buzzer on for approximately 500 ms, with 100 ms tolerance, after the temperature stabilizes.",
+                              "The monostable operated around the virtual ground, using +2.5 V and -2.5 V rails rather than a true dual supply.",
+                              "Students selected R19, R20, R21, and C6 while limiting current through R20 below 1 mA and through R18 below 500 microamp.",
+                              "The trigger output from previous work needed a PNP stage, Q7 = MMBT3906, and R17 selected for forced beta near 10 when the active-low trigger goes near -2.5 V.",
+                              "The phase also corrected the temperature-scaling amplifier by assigning version A to blue/white groups and version B to green/yellow/red groups."
+                        ]
+                  },
+                  {
+                        "title": "T9 - CR2032 power, boost regulator, and configurable PCB values",
+                        "goal": "Replace ideal power assumptions and finalize group-specific assembly data for the manufactured board.",
+                        "details": [
+                              "The final power source was a 3 V CR2032 coin cell with nominal 225 mAh capacity, making current budgeting central to the design.",
+                              "Students researched the TPS613222A boost regulator, described its inputs/outputs, identified it as the +5 V generation stage, and drew the recommended application circuit with external components.",
+                              "The auto-off signal V_OFF was tied into the regulator enable/disable strategy through transistor circuitry adapted from the earlier latch design.",
+                              "R33 was sized so Q8 could switch enough base/gate-control current for the regulator shutdown path, using transistor saturation assumptions for Q8 and Q4.",
+                              "Students estimated regulator efficiency at roughly 1 mA load, total thermometer current including IC quiescent currents, and expected battery life from a 3 V 225 mAh cell.",
+                              "The three final schematic pages included optional series/parallel resistor positions and 0 ohm/open-link choices so each group could implement its corrected values and circuit variant on the same PCB."
+                        ]
+                  },
+                  {
+                        "title": "T10 - Fabrication, selector, demonstration, and measurement extras",
+                        "goal": "Turn the completed design into a working student-built board.",
+                        "details": [
+                              "Each team soldered the components onto its manufactured PCB under supervision, using the final files and images distributed through the course platform.",
+                              "The board included a selector so the display could show internal circuit signals, not only the final temperature value, making debugging and characterization more transparent.",
+                              "Students demonstrated the working board to the professor before the end of the semester; the fabrication assignment also counted as the corresponding laboratory grade.",
+                              "Extra characterization encouraged students to measure off-current at 3 V, on-current at 3 V, minimum and maximum auto-off delay, buzzer duration, and how Rpot2 affects the time required to declare stable temperature.",
+                              "As in the previous fabrication projects, the completed boards became student-built physical artifacts rather than disposable class exercises."
+                        ]
+                  }
+            ],
+            "technicalTitle": "Technical constraints and component set",
+            "technicalHighlights": [
+                  "Clinical scale: Vtemperatura = 0.1 Tc, so the display reads temperature directly as voltage with 100 mV per degree Celsius and one decimal digit.",
+                  "Sensor set: MCP9700, MCP9701, LMT87, LMT86, and LMT85 group variants, each linearized over 30 degC to 45 degC for clinically relevant accuracy.",
+                  "Power source: 3 V CR2032 coin cell, TPS613222A boost conversion to +5 V, regulator shutdown controlled by the auto-off/latch logic, and explicit current/battery-life budgeting.",
+                  "Low-power discipline: LED current was reduced to 10% of datasheet test current, potentiometer networks targeted microamp currents, and divider/reference circuits were constrained below 100 microamp where applicable.",
+                  "State logic: a single pushbutton controls on/off through a transistor latch/toggle network, while auto-off can force the ON node low after an adjustable timeout.",
+                  "Stability detection: low-pass filtering near 10 Hz, derivative/high-pass estimation, full-wave rectification, threshold comparison, short trigger pulse, and 0.5 s monostable buzzer notification.",
+                  "Analog reference strategy: a buffered 2.5 V virtual ground allows circuits to process positive and negative excursions while powered from a single +5 V rail.",
+                  "PCB flexibility: the final board exposes alternative resistor footprints, 0 ohm jumpers, open links, and amplifier topology choices so all group-specific corrected designs can share one manufactured layout."
+            ],
+            "componentsTitle": "A configurable clinical thermometer PCB",
+            "componentsIntro": "The final board was designed to accommodate five group variants: different sensors, LED colors, threshold logic, amplifier versions, corrected resistor networks, and optional 0 ohm/open links. The three schematic sheets and top/bottom board renders show a teaching-oriented PCB that is both a working device and a map of the design decisions students made through the semester.",
+            "organizationTitle": "Teaching and delivery model",
+            "organization": [
+                  "The course split the thermometer into ten assignments: visible outputs, state logic, sensor modeling, comparator logic, scaling, virtual ground, analog timing, filtering, power, PCB configuration, and final fabrication.",
+                  "Each group had a color identity and a slightly different sensor/indicator configuration, forcing students to adapt the same architecture rather than copy a single answer.",
+                  "Assignments repeatedly tied calculations to real datasheet limits: current consumption, open-drain outputs, saturation, op-amp impedance, comparator thresholds, regulator efficiency, and battery capacity.",
+                  "The final PCB intentionally included configurable footprints so each team could translate its own corrected values into the same manufactured hardware platform.",
+                  "Students assembled, demonstrated, characterized, and kept the fabricated thermometer boards at the end of the semester."
+            ]
+      },
+      "componentEyebrow": "Configurable PCB",
+      "componentImageAlt": "Top view of the designed electronic thermometer printed circuit board.",
+      "gallery": {
+            "schematic1": "First sheet of the full electronic thermometer schematic.",
+            "schematic2": "Second sheet of the full electronic thermometer schematic.",
+            "schematic3": "Third sheet of the full electronic thermometer schematic.",
+            "top": "Top view of the designed thermometer printed circuit board.",
+            "bottom": "Bottom view of the designed thermometer printed circuit board."
+      },
+      "phaseImages": {
+            "t1": "Low-current LED indicator circuit for high/low temperature indication.",
+            "t2": "Transistor driver circuit for the thermometer ready buzzer.",
+            "t3": "Single-pushbutton transistor toggle circuit for on/off control.",
+            "t4": "Comparator-based stability trigger circuit.",
+            "t5": "Buffered virtual-ground circuit used by single-supply analog stages.",
+            "t6": "Auto-off integrator circuit that generates the shutdown timing ramp.",
+            "t7": "Active high-pass filter used to bound derivative gain for stability detection.",
+            "t8": "Monostable multivibrator circuit that controls buzzer duration.",
+            "t9": "TPS613222A regulator on/off control circuit tied to auto-off logic.",
+            "t10": "Top view of the final thermometer PCB used for fabrication."
+      }
+},
     ppg2025: { title: 'Fotopletismógrafo com PCB fabricada', summary: 'Projeto PPG expandido que avança do protótipo em protoboard para placas fabricadas e um fluxo de trabalho mais próximo de produção.', learning: 'Os estudantes retomam o sensoriamento óptico de pulso incorporando restrições de fabricação, layout de placa, documentação, planejamento de montagem e decisões mais próximas do desenvolvimento medtech.' },
     stethoscope2025: { title: 'Protótipo de estetoscópio digital', summary: 'Projeto de ausculta focado em sensoriamento acústico, condicionamento de áudio analógico, filtragem e caminho dos sons corporais para análise digital.', learning: 'O projeto conecta o exame clínico clássico à aquisição moderna de sinais, criando uma ponte para IA médica, monitoramento remoto e tecnologias bioacústicas.' },
   },

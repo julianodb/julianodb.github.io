@@ -65,6 +65,19 @@ const spirometer2024PhaseMedia: ProjectImage[] = [
   { src: '/projects/2024-01-spirometer/20240701_171914.jpg', altKey: 'projectCatalog.spirometer2024.phaseImages.t10' },
 ];
 
+const thermometer2024PhaseMedia: ProjectImage[] = [
+  { src: `${diagramBase}/resistance_led_5.png`, altKey: 'projectCatalog.thermometer2024.phaseImages.t1' },
+  { src: `${diagramBase}/T2_buzzer.png`, altKey: 'projectCatalog.thermometer2024.phaseImages.t2' },
+  { src: `${diagramBase}/T3_t_flip_flop.png`, altKey: 'projectCatalog.thermometer2024.phaseImages.t3' },
+  { src: `${diagramBase}/T4_trigger.png`, altKey: 'projectCatalog.thermometer2024.phaseImages.t4' },
+  { src: `${diagramBase}/buffer_vbias.png`, altKey: 'projectCatalog.thermometer2024.phaseImages.t5' },
+  { src: `${diagramBase}/T6_integrator.png`, altKey: 'projectCatalog.thermometer2024.phaseImages.t6' },
+  { src: `${diagramBase}/active_high_pass2.png`, altKey: 'projectCatalog.thermometer2024.phaseImages.t7' },
+  { src: `${diagramBase}/T8_multivibrator.png`, altKey: 'projectCatalog.thermometer2024.phaseImages.t8' },
+  { src: `${diagramBase}/T9_Q8.png`, altKey: 'projectCatalog.thermometer2024.phaseImages.t9' },
+  { src: '/projects/2024-02-thermometer/top.jpg', altKey: 'projectCatalog.thermometer2024.phaseImages.t10' },
+];
+
 const projectMedia: Record<string, ProjectMedia> = {
   '2023-01-photoplethysmograph': {
     phaseMedia: ppg2023PhaseMedia,
@@ -100,6 +113,21 @@ const projectMedia: Record<string, ProjectMedia> = {
       { src: '/projects/2024-01-spirometer/spirometer_top.png', altKey: 'projectCatalog.spirometer2024.gallery.top' },
       { src: '/projects/2024-01-spirometer/spirometer_bot.png', altKey: 'projectCatalog.spirometer2024.gallery.bottom' },
       { src: '/projects/2024-01-spirometer/20240701_162627.jpg', altKey: 'projectCatalog.spirometer2024.gallery.stencil' },
+    ],
+  },
+  '2024-02-thermometer': {
+    phaseMedia: thermometer2024PhaseMedia,
+    showcase: {
+      src: '/projects/2024-02-thermometer/top.jpg',
+      altKey: 'projectCatalog.thermometer2024.componentImageAlt',
+      eyebrowKey: 'projectCatalog.thermometer2024.componentEyebrow',
+    },
+    summaryGallery: [
+      { src: '/projects/2024-02-thermometer/full_circuit_1_sch.jpg', altKey: 'projectCatalog.thermometer2024.gallery.schematic1' },
+      { src: '/projects/2024-02-thermometer/full_circuit_2_sch.jpg', altKey: 'projectCatalog.thermometer2024.gallery.schematic2' },
+      { src: '/projects/2024-02-thermometer/full_circuit_3_sch.jpg', altKey: 'projectCatalog.thermometer2024.gallery.schematic3' },
+      { src: '/projects/2024-02-thermometer/top.jpg', altKey: 'projectCatalog.thermometer2024.gallery.top' },
+      { src: '/projects/2024-02-thermometer/bot.jpg', altKey: 'projectCatalog.thermometer2024.gallery.bottom' },
     ],
   },
 };
