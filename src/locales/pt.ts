@@ -30,7 +30,7 @@ export const pt = {
     ],
   },
   projects: { eyebrow: 'Portfólio docente', title: 'Protótipos de dispositivos biomédicos', intro: 'A cada semestre, equipes passam dos fundamentos de eletrônica analógica a um protótipo funcional de saúde, conectando circuitos, sensores, aquisição de sinais, projeto PCB e restrições reais de engenharia.', open: 'Abrir projeto' },
-  projectDetail: { visualSummary: 'Project image summary', learningArc: 'Arco de aprendizagem', futureContent: 'Conteúdo planejado', futureItems: ['Guias PDF para estudantes', 'Esquemáticos e arquivos PCB', 'Fotos do protótipo e notas de validação', 'Contexto clínico ou fisiológico', 'Lições reutilizáveis de projeto'], artifactNote: 'Marcador para material fonte: {{folder}}. Documentos futuros podem ser publicados em uma pasta pública de recursos e vinculados a partir desta página.' },
+  projectDetail: { processLink: 'Design process', visualSummary: 'Project image summary', learningArc: 'Arco de aprendizagem', futureContent: 'Conteúdo planejado', futureItems: ['Guias PDF para estudantes', 'Esquemáticos e arquivos PCB', 'Fotos do protótipo e notas de validação', 'Contexto clínico ou fisiológico', 'Lições reutilizáveis de projeto'], artifactNote: 'Marcador para material fonte: {{folder}}. Documentos futuros podem ser publicados em uma pasta pública de recursos e vinculados a partir desta página.' },
   projectCatalog: {
     ppg2023: {
       title: 'Protótipo de fotopletismógrafo',
@@ -575,7 +575,190 @@ export const pt = {
             "t10": "Top view of the final thermometer PCB used for fabrication."
       }
 },
-    ppg2025: { title: 'Fotopletismógrafo com PCB fabricada', summary: 'Projeto PPG expandido que avança do protótipo em protoboard para placas fabricadas e um fluxo de trabalho mais próximo de produção.', learning: 'Os estudantes retomam o sensoriamento óptico de pulso incorporando restrições de fabricação, layout de placa, documentação, planejamento de montagem e decisões mais próximas do desenvolvimento medtech.' },
+    ppg2025: {
+      "title": "Photoplethysmograph with fabricated PCB",
+      "summary": "Advanced PPG project that measures heart rate and pulse transit time using SFH7070 optical sensing, IR inter-device signaling, analog timing, precision peak detection, HR averaging, a Fusion 360 PCB, and mixed reflow/hand assembly.",
+      "learning": "Students connected optical biosensing, analog front-end design, discrete timing logic, pulse-width-to-voltage conversion, PCB manufacturing, BOM discipline, regulator power budgeting, and physiological validation.",
+      "detail": {
+            "overview": "This project revisited photoplethysmography as a more production-aware PCB prototype. Unlike the 2023 stripboard PPG, this device measures heart rate and can pair with a second unit to estimate pulse transit time (PTT), using optical pulse detection, infrared inter-device signaling, analog timing, display scaling, board fabrication, and student assembly on manufactured PCBs.",
+            "architectureTitle": "System architecture",
+            "architecture": [
+                  "Optical sensing block: an ams-OSRAM SFH 7070 integrates two green LEDs and a photodiode for reflective PPG sensing.",
+                  "Pulse indication and communication block: a visible group-color LED blinks on detected beats, while three Vishay VSMB10940 infrared LEDs transmit a pulse event toward a second unit.",
+                  "PTT logic block: an SR latch creates a pulse whose width equals the time between local/remote pulse events, with a role-selection switch determining whether the unit behaves as device 1 or device 2.",
+                  "PTT analog conversion block: a current-mirror integrator converts PTT pulse width to a triangular voltage at 1 V per 100 ms, and a precision peak detector holds the peak for display.",
+                  "PPG front end: a compensated transimpedance amplifier converts photodiode current to voltage while stabilizing the photodiode/op-amp dynamics.",
+                  "DC-removal and filtering block: closed-loop Deboo integrator feedback removes baseline DC, then buffered band-pass filtering and gain isolate the AC PPG waveform.",
+                  "Heart-rate block: a comparator detects beats, a monostable normalizes pulse width, and a low-pass filter extracts pulse-train average so 1 V corresponds to 100 beats per minute.",
+                  "Power and fabrication block: two AA cells feed a TPS613222A 5 V boost regulator; the complete design was captured in Fusion 360, fabricated as a PCB, then assembled by students using reflow for SMD parts and hand soldering for through-hole parts."
+            ],
+            "phasesTitle": "Phase-by-phase organization",
+            "phases": [
+                  {
+                        "title": "T1 - Optical emitters, pulse indicators, IR signaling, and display",
+                        "goal": "Define the optical and user-visible interfaces for HR and PTT measurement.",
+                        "details": [
+                              "The prototype was specified to measure heart rate, emit an IR pulse when a heartbeat is detected, detect IR pulses from another unit, compute pulse transit time, and display HR or PTT.",
+                              "Students used the SFH 7070 PPG component, identifying green LED forward voltage, test current, maximum continuous current, reverse voltage, and forward-voltage limits.",
+                              "Each green LED current was targeted at 10 mA through a calculated and inventory-rounded resistor.",
+                              "A visible 3 mm group-color LED was designed to blink on heartbeat detection, with resistor sizing, current checking, and 1/4 W power dissipation verification.",
+                              "Three VSMB10940 infrared LEDs were arranged to transmit a pulse in different directions, improving communication robustness independent of device orientation.",
+                              "The voltage display convention was established: 10 mV per beat per minute for HR and 10 mV per millisecond for PTT, so 5.00 V spans 500 bpm or 500 ms."
+                        ]
+                  },
+                  {
+                        "title": "T2 - LED drivers, IR drivers, and SR latch for PTT",
+                        "goal": "Build switching stages and the state memory needed for two-device pulse transit timing.",
+                        "details": [
+                              "NPN transistor drivers were added to the visible pulse LED and the three-LED IR emitter so logic signals could switch optical outputs without sourcing their full current directly.",
+                              "Base resistors were chosen so the transistors saturate when driven by 5 V, using forced beta around 10 and the selected LED currents from T1.",
+                              "For PTT, the circuit must go high on one event and low on the other, so students designed an SR latch using paired NPN inverters and set/reset transistors.",
+                              "The same hardware can act as device 1 or device 2: one role sets on local heartbeat and resets on received IR, while the other role reverses that logic.",
+                              "The resulting V_PTT pulse width is the measured time delay between pulse detections."
+                        ]
+                  },
+                  {
+                        "title": "T3 - Pulse normalization, latch input triggers, and first PTT peak detector",
+                        "goal": "Make event pulses predictable and begin converting PTT duration into an analog value.",
+                        "details": [
+                              "A passive RC high-pass response to a 5 V step was analyzed as the foundation for short trigger pulses.",
+                              "The heartbeat pulse generator was designed so the trigger remains above 2 V for 1 ms to 10 ms, then saturates Q7 briefly and returns to zero even if the source pulse is longer.",
+                              "The SR latch inputs were also given trigger networks so SET and RESET become short SET' and RESET' pulses rather than duration-sensitive input states.",
+                              "Students introduced a triangular PTT measurement strategy: while V_PTT is high, an analog voltage ramps up; when V_PTT ends, the ramp resets.",
+                              "A peak detector captured the maximum ramp voltage, initially using a real diode with about 0.7 V forward drop and a capacitor selected to reach 95% of final value in about 1 ms from Rth = 200 ohm."
+                        ]
+                  },
+                  {
+                        "title": "T4 - PTT integrator and current mirror ramp generator",
+                        "goal": "Generate the ramp where 1 V corresponds to 100 ms of pulse transit time.",
+                        "details": [
+                              "The integrator turns V_PTT pulse width into a triangular voltage whose peak is proportional to delay.",
+                              "With C4 = 1 microfarad, students selected current I9 so the output rises 1 V every 100 ms, giving an intuitive PTT scale and a 500 ms full-scale limit at 5 V.",
+                              "A reset transistor discharges C4 to zero in roughly 100 microseconds when V_PTT goes low, making reset fast compared with physiological PTT values.",
+                              "Logic inversion was added so Q11 discharges the capacitor when PTT = 0 V and stays off while PTT = 5 V.",
+                              "A PNP current mirror using Q8/Q9 produced the ramp current, while Q10 disabled the current source during reset to reduce energy consumption.",
+                              "Students also selected bitmap artwork to personalize the PCB that would later be fabricated."
+                        ]
+                  },
+                  {
+                        "title": "T5 - Beat comparator, IR receiver, and virtual ground",
+                        "goal": "Detect local heartbeats, receive remote IR pulses, and support single-supply analog stages.",
+                        "details": [
+                              "An LM393LVDR rail-to-rail open-drain comparator was introduced to produce a digital heartbeat event when the PPG signal crosses a potentiometer-adjustable threshold.",
+                              "R50 was selected as the pull-up/interface resistor so the comparator output approximates a short for the pulse generator input while respecting the comparator short-circuit current limit.",
+                              "Remote IR reception used three PT12-21C/TR8 phototransistors arranged circularly so at least one could detect light from another prototype.",
+                              "Students estimated received radiant intensity at 15 cm from a VSMB10940 emitter, mapped it to phototransistor collector current, and chose R29 so the comparator input crosses below 2.5 V on detection.",
+                              "A 2.5 V virtual ground was generated from equal resistors with less than 5 microamp divider current, stabilized by C7, and buffered by an MCP6009T-E/SL op-amp.",
+                              "The latch SR output also used a buffer to reduce loading."
+                        ]
+                  },
+                  {
+                        "title": "T6 - Transimpedance amplifier, DC-removal loop, and precision peak detector",
+                        "goal": "Extract a usable PPG signal and remove diode error from PTT peak capture.",
+                        "details": [
+                              "Students first compared a simple photodiode resistor converter with a transimpedance amplifier, noting that the resistor version has high output impedance and changes photodiode voltage as signal changes.",
+                              "The MCP6009-based compensated TIA used R23 for approximately vo = 1000 ip and C5 to place the compensation pole around -100 rad/s.",
+                              "Because PPG contains a large DC baseline and a much smaller AC pulse component, the project introduced a closed-loop DC-removal filter using a Deboo integrator.",
+                              "The Deboo integrator generates an error related to DC output and feeds back a current through R28 to subtract baseline current from the photodiode signal path.",
+                              "Students designed R24-R28 and C6 so the loop removes skin/contact-dependent DC while preserving the AC PPG waveform.",
+                              "The PTT peak detector was upgraded to a precision rectifier/superdiode so the held peak approximates max(vi) without losing 0.7 V across a diode; Q14 and resistors discharge C13 at measurement start."
+                        ]
+                  },
+                  {
+                        "title": "T7 - PPG band-pass gain and heart-rate averaging",
+                        "goal": "Shape the PPG waveform and convert normalized beat pulses into an HR voltage.",
+                        "details": [
+                              "The output of the TIA/DC-removal block still has only a few millivolts of PPG amplitude, so students added another filtering and amplification stage.",
+                              "A high-pass section near 0.3 Hz removes residual drift, and a low-pass section near 20 Hz attenuates high-frequency noise.",
+                              "The assignment explicitly showed that directly cascading passive high-pass and low-pass filters changes their behavior, motivating a buffer between stages.",
+                              "The buffered band-pass was then configured for about 100x maximum gain using R33 and R34.",
+                              "For heart rate, each detected beat produces a fixed-width 5 V pulse. The average of the pulse train is W H f, so a low-pass filter extracts a DC voltage proportional to HR.",
+                              "A Sallen-Key low-pass filter was designed to attenuate 1 Hz components about 100x while preserving DC, balancing ripple rejection against settling time."
+                        ]
+                  },
+                  {
+                        "title": "T8 - Monostable HR scale and BOM for fabrication",
+                        "goal": "Set the HR conversion scale and prepare the manufactured board for assembly.",
+                        "details": [
+                              "Students derived pulse width W such that the pulse-train average gives 1 V per 100 beats per minute, with H = 5 V and f in Hz.",
+                              "A monostable multivibrator generated that fixed W on each detected beat, using +2.5 V and -2.5 V around the virtual ground.",
+                              "A PNP trigger stage with Q13 and R39 injects current into the monostable trigger node when the heartbeat trigger output drops.",
+                              "Students reviewed corrections from previous assignments and updated any component values that changed.",
+                              "The course staff had digitalized the complete circuit and designed the PCB; students completed a BOM covering capacitors, diodes, MCP6009 op-amps, LM393 comparators, BC846A/BC857C transistors, SFH7070, VSMB10940 IR LEDs, PT12-21C/TR8 phototransistors, TPS61322A regulator, and many resistors."
+                        ]
+                  },
+                  {
+                        "title": "T9 - AA battery power, 5 V boost regulator, and validation preparation",
+                        "goal": "Close the design as a battery-powered medical-device prototype and prepare comparison measurements.",
+                        "details": [
+                              "The final prototype used two 1.5 V AA cells in series as its energy source.",
+                              "Students estimated alkaline AA energy capacity and total current consumption, including IC quiescent currents and optical/display loads.",
+                              "The TPS613222A boost regulator generated the required 5 V rail; unlike the thermometer, this PPG regulator was specified to remain always on.",
+                              "Students selected CR1, CR2, CR3, and L1 for the regulator application circuit, with L1 fixed at 4.7 microhenry and capacitors chosen from the available inventory.",
+                              "Regulator efficiency was included in the battery-life estimate.",
+                              "For prototype testing, students prepared reference heart-rate measurements for each group member seated at rest and standing, three measurements per condition."
+                        ]
+                  },
+                  {
+                        "title": "T10 - PCB assembly, demonstration, and physiological measurements",
+                        "goal": "Fabricate, test, and keep working PPG boards.",
+                        "details": [
+                              "Students soldered the manufactured PCBs under supervision, using their own selected component values from the semester.",
+                              "Assembly combined reflow for surface-mount components with manual soldering using a soldering iron for through-hole parts.",
+                              "Juliano designed the fabricated board in Autodesk Fusion 360, and the timelapse linked above documents the layout process that produced the manufacturing output.",
+                              "Teams demonstrated the working board to the professor before the end of the semester.",
+                              "Optional characterization asked students to measure heart rate and PTT at rest and standing, recording sensor distance so pulse-wave propagation velocity could be calculated.",
+                              "As in the other fabrication semesters, the finished boards were student-owned artifacts that students took with them."
+                        ]
+                  }
+            ],
+            "technicalTitle": "Technical constraints and component set",
+            "technicalHighlights": [
+                  "Physiological outputs: HR is represented by the average of a normalized beat pulse train; PTT is represented by the peak of a ramp generated while the V_PTT latch output is high.",
+                  "Display scaling: 10 mV corresponds to 1 bpm for HR or 1 ms for PTT, giving a 0 to 5 V display range of 0 to 500 bpm or 0 to 500 ms.",
+                  "Optical front end: SFH7070 green LEDs and photodiode, VSMB10940 IR transmit LEDs, PT12-21C/TR8 phototransistors for remote IR detection.",
+                  "Analog front end: MCP6009T-E/SL op-amps implement the TIA, Deboo integrator, buffers, precision rectifier, active filters, monostables, and virtual-ground support.",
+                  "Logic and detection: LM393LVDR comparators provide pulse detection and IR detection, while discrete BC846A/BC857C transistor networks implement LED drivers, latch logic, triggers, current mirrors, and resets.",
+                  "Filtering: closed-loop DC removal addresses skin/contact baseline variation; band-pass filtering isolates PPG roughly above 0.3 Hz and below 20 Hz; HR averaging uses a low-pass filter with strong attenuation near 1 Hz ripple.",
+                  "Power: two AA cells feed a TPS613222A 5 V boost regulator with 4.7 microhenry inductor and selected capacitors, with efficiency included in battery-life estimates.",
+                  "Manufacturing: the PCB was designed in Fusion 360 from the complete schematic, fabricated externally, then assembled by students using both SMD reflow and through-hole hand soldering."
+            ],
+            "componentsTitle": "From Fusion 360 layout to student-built PPG boards",
+            "componentsIntro": "This semester pushed the PPG design closer to a medtech hardware workflow: complete schematic capture, a manufactured PCB, documented board-layout timelapse, group-specific component values, SMD reflow, through-hole hand soldering, functional demonstration, and student-owned finished boards.",
+            "organizationTitle": "Teaching and delivery model",
+            "organization": [
+                  "The project was divided into ten assignments that progressively built optical emission, PTT logic, analog timing, signal conditioning, HR extraction, power, BOM preparation, and assembly.",
+                  "Each group selected component values from constrained inventories, corrected them through feedback, and used those final values when soldering its board.",
+                  "The same physical PCB supported multiple group colors and selected values, while Fusion 360 layout connected the analog design exercise to actual fabrication output.",
+                  "The fabrication workflow combined reflow for surface-mount devices and manual soldering for through-hole components, giving students hands-on exposure to mixed assembly methods.",
+                  "Final validation encouraged comparison against reference HR measurements and paired-device PTT tests that could be used to estimate pulse-wave propagation velocity."
+            ]
+      },
+      "componentEyebrow": "Fusion-to-fabrication workflow",
+      "componentImageAlt": "Top view of the fabricated photoplethysmograph PCB design.",
+      "timelapseLabel": "Watch Fusion 360 PCB timelapse",
+      "timelapseDescription": "Juliano recorded the Autodesk Fusion 360 board-layout process that produced the files sent for fabrication.",
+      "gallery": {
+            "schematic1": "First sheet of the complete photoplethysmograph schematic.",
+            "schematic2": "Second sheet of the complete photoplethysmograph schematic.",
+            "schematic3": "Third sheet of the complete photoplethysmograph schematic.",
+            "schematic4": "Fourth sheet of the complete photoplethysmograph schematic.",
+            "top": "Top view of the designed photoplethysmograph PCB.",
+            "bottom": "Bottom view of the designed photoplethysmograph PCB."
+      },
+      "phaseImages": {
+            "t1": "Green LED current-limiting circuit used for the SFH7070 light source.",
+            "t2": "SR latch circuit used to generate a PTT pulse between local and remote pulse events.",
+            "t3": "Peak detector used to hold the maximum value of the PTT ramp.",
+            "t4": "Current-mirror integrator with reset used to convert PTT duration into voltage.",
+            "t5": "Infrared detection circuit using phototransistors and a comparator.",
+            "t6": "Optical detector plus closed-loop DC-removal filter for the PPG signal.",
+            "t7": "Buffered band-pass amplifier used to filter and amplify the PPG waveform.",
+            "t8": "Monostable multivibrator used to normalize beat-pulse width for HR conversion.",
+            "t9": "Top view of the final PPG PCB prepared for fabrication.",
+            "t10": "Bottom view of the final PPG PCB prepared for fabrication."
+      }
+},
     stethoscope2025: { title: 'Protótipo de estetoscópio digital', summary: 'Projeto de ausculta focado em sensoriamento acústico, condicionamento de áudio analógico, filtragem e caminho dos sons corporais para análise digital.', learning: 'O projeto conecta o exame clínico clássico à aquisição moderna de sinais, criando uma ponte para IA médica, monitoramento remoto e tecnologias bioacústicas.' },
   },
 };

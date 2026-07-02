@@ -26,6 +26,7 @@ type ProjectMedia = {
   phaseMedia: ProjectImage[];
   showcase?: ProjectImage & { eyebrowKey: string };
   summaryGallery?: ProjectImage[];
+  externalLink?: { href: string; labelKey: string; descriptionKey: string };
 };
 
 const diagramBase = 'https://julianodb.github.io/electronic_circuits_diagrams';
@@ -76,6 +77,19 @@ const thermometer2024PhaseMedia: ProjectImage[] = [
   { src: `${diagramBase}/T8_multivibrator.png`, altKey: 'projectCatalog.thermometer2024.phaseImages.t8' },
   { src: `${diagramBase}/T9_Q8.png`, altKey: 'projectCatalog.thermometer2024.phaseImages.t9' },
   { src: '/projects/2024-02-thermometer/top.jpg', altKey: 'projectCatalog.thermometer2024.phaseImages.t10' },
+];
+
+const ppg2025PhaseMedia: ProjectImage[] = [
+  { src: `${diagramBase}/resistance_led.png`, altKey: 'projectCatalog.ppg2025.phaseImages.t1' },
+  { src: `${diagramBase}/T2_latch_SR.png`, altKey: 'projectCatalog.ppg2025.phaseImages.t2' },
+  { src: `${diagramBase}/peak_detector.png`, altKey: 'projectCatalog.ppg2025.phaseImages.t3' },
+  { src: `${diagramBase}/cap_current_mirror_reset_inverted_enable.png`, altKey: 'projectCatalog.ppg2025.phaseImages.t4' },
+  { src: `${diagramBase}/T5_ir_detect.png`, altKey: 'projectCatalog.ppg2025.phaseImages.t5' },
+  { src: `${diagramBase}/T6_tia_plus_filter_1.png`, altKey: 'projectCatalog.ppg2025.phaseImages.t6' },
+  { src: `${diagramBase}/T7_amplifier_bandpass.png`, altKey: 'projectCatalog.ppg2025.phaseImages.t7' },
+  { src: `${diagramBase}/T8_multivibrator_b.png`, altKey: 'projectCatalog.ppg2025.phaseImages.t8' },
+  { src: '/projects/2025-01-photoplethysmograph-pcb/top.jpg', altKey: 'projectCatalog.ppg2025.phaseImages.t9' },
+  { src: '/projects/2025-01-photoplethysmograph-pcb/bottom.jpg', altKey: 'projectCatalog.ppg2025.phaseImages.t10' },
 ];
 
 const projectMedia: Record<string, ProjectMedia> = {
@@ -129,6 +143,27 @@ const projectMedia: Record<string, ProjectMedia> = {
       { src: '/projects/2024-02-thermometer/top.jpg', altKey: 'projectCatalog.thermometer2024.gallery.top' },
       { src: '/projects/2024-02-thermometer/bot.jpg', altKey: 'projectCatalog.thermometer2024.gallery.bottom' },
     ],
+  },
+  '2025-01-photoplethysmograph-pcb': {
+    phaseMedia: ppg2025PhaseMedia,
+    showcase: {
+      src: '/projects/2025-01-photoplethysmograph-pcb/top.jpg',
+      altKey: 'projectCatalog.ppg2025.componentImageAlt',
+      eyebrowKey: 'projectCatalog.ppg2025.componentEyebrow',
+    },
+    summaryGallery: [
+      { src: '/projects/2025-01-photoplethysmograph-pcb/diagrama_completo_1_sch.jpg', altKey: 'projectCatalog.ppg2025.gallery.schematic1' },
+      { src: '/projects/2025-01-photoplethysmograph-pcb/diagrama_completo_2_sch.jpg', altKey: 'projectCatalog.ppg2025.gallery.schematic2' },
+      { src: '/projects/2025-01-photoplethysmograph-pcb/diagrama_completo_3_sch.jpg', altKey: 'projectCatalog.ppg2025.gallery.schematic3' },
+      { src: '/projects/2025-01-photoplethysmograph-pcb/diagrama_completo_4_sch.jpg', altKey: 'projectCatalog.ppg2025.gallery.schematic4' },
+      { src: '/projects/2025-01-photoplethysmograph-pcb/top.jpg', altKey: 'projectCatalog.ppg2025.gallery.top' },
+      { src: '/projects/2025-01-photoplethysmograph-pcb/bottom.jpg', altKey: 'projectCatalog.ppg2025.gallery.bottom' },
+    ],
+    externalLink: {
+      href: 'https://www.youtube.com/watch?v=FjmBORnZv3s&feature=youtu.be',
+      labelKey: 'projectCatalog.ppg2025.timelapseLabel',
+      descriptionKey: 'projectCatalog.ppg2025.timelapseDescription',
+    },
   },
 };
 
@@ -308,6 +343,19 @@ function ProjectPage() {
                   <h2>{detail.componentsTitle}</h2>
                   <p>{detail.componentsIntro}</p>
                 </div>
+              </section>
+            ) : null}
+
+            {media?.externalLink ? (
+              <section className="external-process-link">
+                <div>
+                  <p className="eyebrow">{t('projectDetail.processLink')}</p>
+                  <p>{t(media.externalLink.descriptionKey)}</p>
+                </div>
+                <a href={media.externalLink.href} rel="noreferrer" target="_blank">
+                  {t(media.externalLink.labelKey)}
+                  <ExternalLink aria-hidden="true" size={16} />
+                </a>
               </section>
             ) : null}
 

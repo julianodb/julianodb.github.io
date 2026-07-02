@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test": "vitest run"
+    "test": "vitest run --pool threads --maxWorkers=1"
   },
   "dependencies": {
     "i18next": "latest",

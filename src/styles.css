@@ -252,6 +252,34 @@ h3 { font-size: 1.35rem; line-height: 1.15; margin-bottom: 12px; }
   width: 100%;
 }
 
+
+.external-process-link {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #d8ded2;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 22px;
+}
+.external-process-link p:last-child {
+  color: #33424f;
+  line-height: 1.65;
+  margin-bottom: 0;
+}
+.external-process-link a {
+  align-items: center;
+  background: #17212b;
+  color: #ffffff;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-weight: 800;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 14px;
+}
+
 .component-showcase {
   align-items: stretch;
   background: #ffffff;
@@ -298,6 +326,8 @@ h3 { font-size: 1.35rem; line-height: 1.15; margin-bottom: 12px; }
   .component-showcase,
   .phase-card,
   .project-gallery { grid-template-columns: 1fr; }
+  .external-process-link { align-items: stretch; flex-direction: column; }
+  .external-process-link a { justify-content: center; }
   .component-showcase div { padding: 0 22px 24px; }
   .phase-card > span,
   .phase-card > img,
