@@ -30,7 +30,7 @@ export const pt = {
     ],
   },
   projects: { eyebrow: 'Portfólio docente', title: 'Protótipos de dispositivos biomédicos', intro: 'A cada semestre, equipes passam dos fundamentos de eletrônica analógica a um protótipo funcional de saúde, conectando circuitos, sensores, aquisição de sinais, projeto PCB e restrições reais de engenharia.', open: 'Abrir projeto' },
-  projectDetail: { processLink: 'Design process', visualSummary: 'Project image summary', learningArc: 'Arco de aprendizagem', futureContent: 'Conteúdo planejado', futureItems: ['Guias PDF para estudantes', 'Esquemáticos e arquivos PCB', 'Fotos do protótipo e notas de validação', 'Contexto clínico ou fisiológico', 'Lições reutilizáveis de projeto'], artifactNote: 'Marcador para material fonte: {{folder}}. Documentos futuros podem ser publicados em uma pasta pública de recursos e vinculados a partir desta página.' },
+  projectDetail: { processLink: 'Processo de projeto', visualSummary: 'Resumo visual do projeto', learningArc: 'Arco de aprendizagem', futureContent: 'Conteúdo planejado', futureItems: ['Guias PDF para estudantes', 'Esquemáticos e arquivos PCB', 'Fotos do protótipo e notas de validação', 'Contexto clínico ou fisiológico', 'Lições reutilizáveis de projeto'], artifactNote: 'Marcador para material fonte: {{folder}}. Documentos futuros podem ser publicados em uma pasta pública de recursos e vinculados a partir desta página.' },
   projectCatalog: {
     ppg2023: {
       title: 'Protótipo de fotopletismógrafo',
@@ -55,7 +55,7 @@ export const pt = {
           { title: 'T2 - Sensor CNY70 e driver com transistor', goal: 'Introduzir o sensor óptico e isolar os LEDs do circuito de sinal.', details: ['O CNY70 foi modelado como emissor infravermelho mais fototransistor, usando curvas do datasheet para estimar corrente e tensão do LED e corrente de coletor.', 'O cartão reflexivo do datasheet foi adaptado ao caso real assumindo que o dedo produz um quarto da refletividade de referência.', 'Foi avaliado o modo de operação do fototransistor e a tensão de saída com R1 = 150 ohm e R2 = 10 kohm.', 'Para o driver foi usado um 2N2222, verificando que sua corrente máxima de coletor superava a corrente total dos LEDs.', 'A resistência de base foi calculada para comutação saturada com beta forçado de 10 e entrada de 5 V; depois foi arredondada ao valor disponível mais próximo e recalculada.'] },
           { title: 'T3 - Primeira etapa de amplificação', goal: 'Projetar a primeira etapa de ganho para uma PPG de poucos milivolts.', details: ['A guia apresentou a saída do CNY70 como sinal com DC grande, potencialmente entre 1 V e 4 V, e componente AC geralmente menor que 15 mV.', 'O objetivo era iniciar a amplificação da componente AC até uma amplitude de 5 V para acionar depois o driver dos LEDs.', 'Os estudantes projetaram um amplificador em emissor comum, determinando RC, tensão de coletor em repouso, R3, R4 e ganho de tensão.', 'Foi exigido que a resistência equivalente de R3 em paralelo com R4 fosse aproximadamente 50 kohm.', 'A análise assumiu beta muito alto, VCE(sat) próximo de 0.7 V e VBE próximo de 1 V.'] },
           { title: 'T4 - Segunda etapa de amplificação', goal: 'Adicionar uma etapa com op-amp e analisar carga entre etapas.', details: ['Foi projetado um amplificador operacional não inversor como segunda etapa.', 'A rede de realimentação devia usar R5 o maior possível mantendo mais de 6 microamp por R5 quando a saída fosse 5 V.', 'R5 e R6 precisavam ser escolhidos do mesmo conjunto de resistores disponíveis.', 'Calculou-se o ganho da etapa e depois o ganho total considerando impedância de saída do amplificador 1 e impedância de entrada de 47 kohm no amplificador 2.', 'A fase obrigou a analisar carga entre blocos em vez de assumir etapas ideais.'] },
-          { title: 'T5 - Redesenho por estabilidade e sensibilidade', goal: 'Corrigir uma polarização sensível demais a variações de resistores.', details: ['A guia mostrou que arredondar R3 e R4 podia tirar o transistor da região ativa e levá-lo à saturação, eliminando a amplificação.', 'Um exemplo indicava que -12% em R3 e +10% em R4 podia mover ICQ de cerca de 1 mA para mais de 30 mA, aproximadamente 3000% de variação.', 'Os estudantes derivaram sensibilidades de ICQ em relação a R3 e R4 e as usaram para prever o deslocamento observado.', 'O redesenho aumentou ICQ para 5 mA e elevou o alvo de resistência de Thevenin para 250 kohm, preservando o requisito de ganho.', 'Foi permitido usar até dois resistores em série para aproximar melhor RC, R3 e R4.'] },
+          { title: 'T5 - Redesenho por estabilidadee e sensibilidadee', goal: 'Corrigir uma polarização sensível demais a variações de resistores.', details: ['A guia mostrou que arredondar R3 e R4 podia tirar o transistor da região ativa e levá-lo à saturação, eliminando a amplificação.', 'Um exemplo indicava que -12% em R3 e +10% em R4 podia mover ICQ de cerca de 1 mA para mais de 30 mA, aproximadamente 3000% de variação.', 'Os estudantes derivaram sensibilidadees de ICQ em relação a R3 e R4 e as usaram para prever o deslocamento observado.', 'O redesenho aumentou ICQ para 5 mA e elevou o alvo de resistência de Thevenin para 250 kohm, preservando o requisito de ganho.', 'Foi permitido usar até dois resistores em série para aproximar melhor RC, R3 e R4.'] },
           { title: 'T6 - Remoção de DC e filtragem de ruído', goal: 'Moldar a resposta em frequência em torno da fisiologia do pulso.', details: ['O sinal cardíaco útil foi identificado tipicamente na ordem de 1 a 2 Hz.', 'Filtros passa-alta foram especificados em torno de 0.7 Hz para remover DC sem tornar excessivo o tempo de estabilização; a guia menciona cerca de 3 segundos.', 'Filtros passa-baixa foram especificados em torno de 35 Hz para reduzir ruído, incluindo interferência de 50 Hz, sem eliminar a forma de onda do pulso.', 'O filtro 1 usou o capacitor C1 de acoplamento de entrada e a impedância de entrada do amplificador 1.', 'O filtro 2 usou a impedância de saída do amplificador 1 e o capacitor CR.', 'O filtro 3 combinou o amplificador não inversor, C2, Rbias = 570 kohm, CG e CF para estabelecer comportamento passa-alta e passa-baixa.'] },
           { title: 'T7 - Monoestável normalizador de pulsos', goal: 'Converter detecções variáveis em pulsos visuais consistentes.', details: ['Depois de T1 a T6, a guia indicava que o projeto já permitia fabricar um fotopletismógrafo funcional conectando o amplificador 2 ao driver.', 'O monoestável foi adicionado porque a largura do pulso podia variar, por exemplo 300 ms, 500 ms ou 700 ms segundo a forma do sinal.', 'O comportamento desejado era acender LEDs por cerca de 200 ms após cada batimento, facilitando a contagem manual.', 'Foram projetados R7, R8, R9, R10, C3 e C4 com componentes disponíveis e capacitores cerâmicos.', 'As restrições incluíram R8/R9 = 10, corrente máxima por R10 não maior que 1 mA, referência de 2.5 V e diodos Schottky com Vf próximo de 0.3 V.'] },
           { title: 'T8 - Fonte, referência, BOM e integração final', goal: 'Fechar o desenho como dispositivo completo alimentado por bateria.', details: ['A fase final substituiu a fonte ideal de 5 V por bateria de 9 V e regulação real.', 'Foi usado o circuito recomendado do LM7805 e capacitores escolhidos da lista disponível.', 'Estimou-se a eficiência do regulador com bateria de 9 V.', 'Como extra estimou-se consumo com LEDs apagados e acesos, incluindo CNY70, corrente de polarização de Q2, corrente quiescente dos op-amps e ciclo de trabalho de 20% baseado em 200 ms por 1000 ms.', 'Foi desenhada Vbias = 2.5 V com divisor e capacitor, exigindo corte menor que 0.5 Hz, estabilização a 90% em menos de 11 segundos, Cbias entre 1 microfarad e 100 microfarad e valores disponíveis.', 'A entrega final incluiu circuito completo, correção de valores pendentes dos filtros e BOM com passivos e partes: LM385, 1N5819, MPSA13 para Q2 e 2N2222 para Q3.'] },
@@ -74,867 +74,199 @@ export const pt = {
         t2: 'Diagrama do circuito sensor reflexivo com CNY70',
         t3: 'Diagrama do amplificador em emissor comum',
         t4: 'Diagrama do amplificador operacional não inversor',
-        t5: 'Diagrama integrado do fotopletismógrafo usado no redesenho de sensibilidade',
+        t5: 'Diagrama integrado do fotopletismógrafo usado no redesenho de sensibilidadee',
         t6: 'Filtro passa-banda em torno do amplificador não inversor',
         t7: 'Diagrama do multivibrador monoestável',
         t8: 'Diagrama do divisor para referência de meia alimentação'
 },
     },
     emg2023: {
-      "title": "Electromyography prototype",
-      "summary": "Portable surface-EMG project that guided students from biopotential acquisition to filtering, envelope detection, LED visualization, PCB layout, and dual-rail battery power.",
-      "learning": "Students connected instrumentation-amplifier design, electrode constraints, active-filter stability, envelope extraction, board fabrication, current budgeting, and medtech-style subsystem integration.",
-      "detail": {
-            "overview": "This semester project turned surface electromyography into a complete portable analog device: electrodes and high-input-impedance instrumentation, band-limited amplification from the 50 Hz to 500 Hz EMG band, envelope extraction, gain and offset adaptation, an eight-LED activation display, a dual-rail battery power supply, and a fabrication plan split across four physical boards.",
-            "architectureTitle": "System architecture",
-            "architecture": [
-                  "Electrode and preamplifier board: surface electrodes feed an LM324-based instrumentation amplifier with high input impedance, powered from +5 V and -5 V rails.",
-                  "Filter 1: a second-order Sallen-Key high-pass section initially designed with gain, then corrected to unity gain after the stability analysis showed oscillation risk.",
-                  "Filter 2 and envelope board: low-pass filtering around the upper EMG band, a negative-envelope detector, and a second amplifier that maps muscle activation into the LED-controller input range.",
-                  "LED controller board: eight 3 mm LEDs, transistor stages, and diode-generated thresholds create a progressive bar display of EMG amplitude.",
-                  "Power board: a 3.7 V 18650 lithium cell and TPS65133 regulator provide the assumed +5 V and -5 V rails for the analog chain.",
-                  "Fabrication architecture: the complete circuit was divided into four boards: supply, electrode plus instrumentation/filter 1, filter 2 plus envelope/amplifier 2, and LED controller plus display."
-            ],
-            "phasesTitle": "Phase-by-phase organization",
-            "phases": [
-                  {
-                        "title": "T1 - Eight-LED activation display",
-                        "goal": "Define the user-facing indicator before designing the biopotential front end.",
-                        "details": [
-                              "The prototype target was a progressive eight-LED bar: more LEDs turn on as the detected EMG amplitude increases.",
-                              "Students selected 3 mm LEDs in five colors and paired each LED with a 1/4 W current-limiting resistor from the available inventory.",
-                              "The phase forced early attention to forward voltage, forward current, power dissipation, resistor rounding, and a physically realizable display block."
-                        ]
-                  },
-                  {
-                        "title": "T2 - Envelope detector",
-                        "goal": "Convert raw EMG oscillations into a slowly varying muscle-activation amplitude.",
-                        "details": [
-                              "The guide framed EMG amplitude as approximately proportional to muscle activation, so the LED display should respond to signal envelope rather than instantaneous polarity.",
-                              "The detector had to work across the EMG band, specified as approximately 20 Hz to 500 Hz; the slowest component has a 50 ms period.",
-                              "Students designed the RC discharge so the envelope retained at least 50% of VMAX after 50 ms while still falling to 0.1 VMAX in 500 ms or less after contraction stops.",
-                              "The detector diode was later specified as SD103AWS for the final bill of materials, reducing forward-voltage loss compared with a general silicon diode."
-                        ]
-                  },
-                  {
-                        "title": "T3 - LED control thresholds",
-                        "goal": "Translate envelope voltage into an ordered LED bar graph.",
-                        "details": [
-                              "The LED controller used transistor stages and offset diodes so each LED has a different turn-on threshold.",
-                              "Students analyzed cutoff, active, and saturation behavior for the switching transistors and calculated base resistors for the first and eighth LED stages.",
-                              "The expected input range was -5 V to +5 V; the first LED should be fully on near -3.3 V, computed from -5 V + VBE + 1 V.",
-                              "The controller was checked at envelope-controller input values of -5, -3, -1, 1, 3, and 5 V to verify progressive activation."
-                        ]
-                  },
-                  {
-                        "title": "T4 - Instrumentation amplifier",
-                        "goal": "Acquire a differential biopotential without loading the electrode interface.",
-                        "details": [
-                              "Because electrode output impedance is high, the first active stage was an instrumentation amplifier with high input impedance.",
-                              "The design used LM324 op-amps supplied by +5 V and -5 V rails, matching the rest of the portable analog system.",
-                              "Students fixed R1 = R2 = R3 = R4 = 10 kohm and R5 = R6 = 10 kohm, then selected RG from available values so the differential gain was approximately 200.",
-                              "They also calculated the maximum allowed V1, V2, and V2 - V1 before LM324 output saturation, using the 3.5 V positive swing limit implied by VCC - 1.5 V.",
-                              "A resistor-mismatch exercise changed one of R1 through R4 to 11 kohm, demonstrating why matching matters in instrumentation amplifiers and common-mode rejection."
-                        ]
-                  },
-                  {
-                        "title": "T5 - Amplifier 2: gain and offset adaptation",
-                        "goal": "Make the envelope detector compatible with the -5 V to +5 V LED controller input.",
-                        "details": [
-                              "The initial envelope output was in the 0 V to 5 V range, which would incorrectly turn on several LEDs even with no EMG activity.",
-                              "The detector polarity was inverted so vi follows the negative envelope, simplifying the downstream op-amp circuit.",
-                              "The required relation was vo = -(R1/R2)vi - (R1/R3)5, allowing one stage to invert, amplify, and subtract an adjustable offset.",
-                              "R2 and R3 were implemented as a fixed resistor in series with a 0 to 10 kohm potentiometer, giving adjustable gain and adjustable subtraction.",
-                              "Component values had to keep gain roughly between 1 and 100, and voltage subtraction roughly between 2.5 V and 7.5 V, within the assignment tolerance and available resistor set."
-                        ]
-                  },
-                  {
-                        "title": "T6 - Two-filter band definition",
-                        "goal": "Reject non-EMG noise while preserving the useful muscle-activity spectrum.",
-                        "details": [
-                              "The design target was a useful EMG band from 50 Hz to 500 Hz, narrower than the detector-analysis band and better suited for a robust classroom prototype.",
-                              "Filter 1 was specified as a Sallen-Key high-pass section with f0 = 50 Hz, R1 = R2, C1 approximately 2C2, and maximum gain AVMAX = 3.",
-                              "Filter 2 was specified as a Sallen-Key low-pass section with f0 = 500 Hz under the same component-ratio and available-part constraints.",
-                              "Students evaluated gain at 0 Hz, 50 Hz, 160 Hz, 500 Hz, and infinity, identified the filter types, and simulated a step response to inspect dynamic behavior."
-                        ]
-                  },
-                  {
-                        "title": "T7 - Stability correction for the filters",
-                        "goal": "Turn an oscillating active-filter design into a reliable signal-conditioning block.",
-                        "details": [
-                              "The step-response simulation of the previous filters revealed instability: the circuit could behave like an oscillator instead of a filter.",
-                              "Students modeled the op-amp plus Ra/Rb as amplifier A and the R1, R2, C1, C2 network as feedback beta, then derived beta for the low-pass filter.",
-                              "Using their own T6 values, they calculated the ranges of A that produce stable and unstable behavior and verified that their original gain choice was unstable.",
-                              "The corrected filters reduced maximum gain to 1, using unity-gain Sallen-Key high-pass and low-pass circuits that are stable for positive R and C values."
-                        ]
-                  },
-                  {
-                        "title": "T7 extra - Board partition and PCB fabrication workflow",
-                        "goal": "Move from circuit theory to manufacturable physical boards.",
-                        "details": [
-                              "The final EMG was split into four boards: power, electrodes plus instrumentation amplifier plus filter 1, filter 2 plus envelope detector plus amplifier 2, and LED controller plus LEDs.",
-                              "Board 1 was planned for fabrication by a specialized company; boards 2 and 3 used copper boards with surface-mount components and an artisanal fabrication process; board 4 used perfboard.",
-                              "The layout task focused on board 3 and required Autodesk EAGLE schematic capture plus a single-sided board layout for filter 2, envelope detector, and amplifier 2.",
-                              "The board area was constrained to 1968 x 1968, design-rule checks used 10 mil minimum width and 10 mil minimum clearance, and the autorouter had to be configured with the bottom layer disabled.",
-                              "Groups produced their own copper layouts, visible here as different G1, G2, and G3 board solutions for the same functional block."
-                        ]
-                  },
-                  {
-                        "title": "T8 - Dual-rail power supply and final BOM",
-                        "goal": "Close the portable EMG with power regulation, energy estimates, and a complete parts list.",
-                        "details": [
-                              "The ideal +5 V and -5 V supplies assumed throughout the semester were replaced by a real power board based on a 3.7 V 18650 lithium cell.",
-                              "Students researched the TPS65133 datasheet, identified its inputs and outputs, and drew the typical application circuit showing battery terminals, ground, +5 V, and -5 V distribution.",
-                              "They listed external capacitors, resistors, and inductors required by the regulator and estimated efficiency around a 100 mA EMG load.",
-                              "The current budget compared all-LEDs-off and all-LEDs-on states, included op-amp quiescent current, assumed LEDs on 50% of the measurement time, and estimated runtime for a 3.7 V, 6000 mAh cell.",
-                              "The final BOM specified two LM324 packages, 1N4007 diodes for LED thresholds, SD103AWS for the envelope detector, PN2222 transistors, and all passive component values."
-                        ]
-                  }
-            ],
-            "technicalTitle": "Technical constraints and component set",
-            "technicalHighlights": [
-                  "Physiological target: surface EMG acquisition for muscle activation, with the conditioning chain organized around a 50 Hz to 500 Hz useful band after the filter redesign.",
-                  "Input stage: LM324 instrumentation amplifier powered from +5 V and -5 V, nominal differential gain around 200, and explicit analysis of output-swing limits and resistor-matching error.",
-                  "Envelope timing: at least 50% amplitude retention after 50 ms, but decay to 10% of peak within 500 ms after muscle activity stops.",
-                  "Display mapping: eight LED thresholds distributed across a -5 V to +5 V control range, using diode offsets and PN2222 transistor stages.",
-                  "Gain/offset stage: op-amp relation vo = -(R1/R2)vi - (R1/R3)5, with potentiometer-adjustable gain and zero-activity offset calibration.",
-                  "Filter design: Sallen-Key high-pass at 50 Hz and low-pass at 500 Hz, originally with AVMAX = 3 and then corrected to unity gain after stability analysis.",
-                  "Power architecture: TPS65133 converts a single 3.7 V 18650 cell into regulated +5 V and -5 V rails, with battery-life estimation based on LED duty cycle and analog current draw.",
-                  "Fabrication constraints: board 3 layout limited to 1968 x 1968 with 10 mil minimum trace width and clearance, implemented as a single-sided copper layout."
-            ],
-            "componentsTitle": "Four boards, one portable EMG prototype",
-            "componentsIntro": "The EMG moved beyond schematic exercises into a concrete build strategy. Each team saw how the system decomposed into a power module, a wearable electrode/preamplifier module, an analog processing board, and an LED display board; the board images show both instructor schematics and student-generated copper layouts.",
-            "organizationTitle": "Teaching and delivery model",
-            "organization": [
-                  "The semester was organized as a sequence of technical essays, each one adding or correcting a subsystem that later became part of the complete EMG.",
-                  "Students repeatedly had to move between physiology, datasheets, hand calculations, simulations, available lab components, and physical implementation limits.",
-                  "The project intentionally included an engineering correction cycle: the active filters first met frequency-response goals but then failed stability checks, requiring redesign.",
-                  "Fabrication was not optional. The final circuit was split into boards so teams could manufacture and assemble real hardware using the fabrication method appropriate to each block.",
-                  "The deliverables culminated in a complete circuit, corrected values, board-level implementation planning, current budget, battery-life estimate, and bill of materials."
-            ]
+      title: 'Protótipo de eletromiografia',
+      summary: 'Projeto portátil de EMG superficial com eletrodos, amplificación instrumental, filtrado analógico, extracción de envoltória, adaptación de ganho e offset, visualización com oito LEDs e fabricación distribuida en placas funcionales.',
+      learning: 'Os estudantes conectaram bioseñales de baja amplitud, rechazo de modo común, filtragem de 50 a 500 Hz, rectificación/envoltória, visualización analógica, alimentación bipolar e planificación de fabricación.',
+      detail: {
+        overview: 'Este projeto convirtió la electromiografía superficial en un dispositivo analógico portátil completo. El diseño cubrió desde a interface de eletrodos e la amplificación de alta impedáncia até a filtragem da faixa EMG, la extracción de envoltória, la visualización de activación muscular com LEDs, la alimentación dual desde batería e la separación do sistema en placas físicas fabricáveis.',
+        architectureTitle: 'Arquitetura do sistema',
+        architecture: [
+          'Entrada biopotencial: eletrodos superficiales capturan una señal EMG pequeña, susceptible a ruído e interferencia de modo común.',
+          'Amplificación instrumental: una etapa de alta impedáncia amplifica la diferencia entre eletrodos e reduce la sensibilidade a señales comunes.',
+          'Filtrado analógico: filtros activos limitan la señal a la banda átil de EMG, aproximadamente 50 Hz a 500 Hz.',
+          'Extracción de envoltória: rectificación, detector de envoltória e filtrado convierten la actividad muscular en un nivel lento proporcional a contracción.',
+          'Adaptación de escala: etapas de ganho e offset ajustan la envoltória para el rango do indicador visual.',
+          'Visualización: una barra de oito LEDs representa la intensidade de activación muscular.',
+          'Alimentación: batería e regulación geran rieles adequados para amplificadores operacionales e etapas analógicas.',
+          'Fabricación: el circuito se dividió en placas para facilitar depuración, montagem e demostración por bloques.'
+        ],
+        phasesTitle: 'Organização por fases',
+        phases: [
+          { title: 'T1 - Indicador visual de oito LEDs', goal: 'Definir la saída visível do dispositivo.', details: ['Se diseñó una escala de oito LEDs para representar activación muscular.', 'Os estudantes calcularam resistores limitadoras, correntes e disipación.', 'La saída visual permitió conectar niveles analógicos com una interfaz compreensível.'] },
+          { title: 'T2 - Detector de envoltória', goal: 'Converter una señal variable rápida en una medida de amplitude muscular.', details: ['Foi introduzida rectificación e rastreamento de picos.', 'La constante de descarga se eligió para seguir contrações sin copiar cada ciclo de alta frequéncia.', 'La envoltória se volvió la señal base para el indicador.'] },
+          { title: 'T3 - Control de escala e umbrales', goal: 'Ajustar la envoltória al rango do display.', details: ['Foram adicionadas etapas de control para adaptar ganho e offset.', 'Os equipos razonaron sobre saturación, rango átil e sensibilidade.', 'La barra de LEDs quedó calibrada para diferentes níveis de contracción.'] },
+          { title: 'T4 - Amplificador instrumental', goal: 'Diseñar una entrada adequada para EMG superficial.', details: ['La etapa de entrada priorizó alta impedáncia e rechazo de modo común.', 'Foram analisados señales diferenciales pequeñas e ruído compartilhado por os eletrodos.', 'El bloque preparó la señal para filtrado activo posterior.'] },
+          { title: 'T5 - Materiales, placas e preparación de fabricación', goal: 'Transformar el circuito en un protótipo construível.', details: ['El sistema se separó en placas com funções claras.', 'Os estudantes prepararam listas de materiais e revisaron valores disponíveis.', 'La división por placas reduziu el risco de depuración de un sistema grande.'] },
+          { title: 'T6 - Filtro pasa-alta', goal: 'Eliminar deriva e componentes de baixa frequéncia.', details: ['Se diseñó filtrado activo para rechazar movimiento lento e offset.', 'La frecuencia de corte se eligió para preservar la faixa EMG.', 'El filtro mejoró la estabilidade da medición.'] },
+          { title: 'T7 - Filtro pasa-baja', goal: 'Atenuar ruído de alta frequéncia fuera da banda muscular.', details: ['El filtro limitó la respuesta superior alrededor da banda átil de EMG.', 'Se eligieron resistores e capacitores de inventário real.', 'La combinación de filtros definió el ancho de banda do instrumento.'] },
+          { title: 'T8 - Integración, placas e demostración', goal: 'Fechar el sistema portátil completo.', details: ['Os bloques se integraram com alimentación, eletrodos e display.', 'Las placas fabricadas permitieron probar partes do sistema de forma modular.', 'O resultado fue un protótipo funcional orientado a análisis muscular e bioinstrumentación.'] }
+        ],
+        technicalTitle: 'Restrições técnicas e componentes',
+        technicalHighlights: [
+          'La señal EMG superficial se trató como una bioseñal diferencial pequeña que exige alta impedáncia de entrada e buen rechazo de modo común.',
+          'La banda de diseño se centró aproximadamente entre 50 Hz e 500 Hz para conservar actividad muscular átil e reducir deriva/ruído.',
+          'La envoltória permitió visualizar contrações sem mostrar la portadora rápida da señal EMG.',
+          'La barra de oito LEDs convirtió niveles analógicos en una salida física inmediata.',
+          'La alimentación dual e la separación en placas hicieron que el protótipo fuera más realista e depurável.',
+          'El projeto introdujo decisões de BOM, valores disponíveis e fabricación por módulos.'
+        ],
+        componentsTitle: 'Bioinstrumentación modular fabricada por estudiantes',
+        componentsIntro: 'El projeto de EMG acercó a os estudiantes a una cadeia completa de adquisición de bioseñales: eletrodos, amplificación, filtrado, extracción de características, visualización e fabricación física por bloques.',
+        organizationTitle: 'Modelo de ensino e entrega',
+        organization: [
+          'As entregas avanzaron desde el indicador visual para la entrada biomédica e el acondicionamiento completo.',
+          'Cada placa cumplía una función verificable, lo que facilitó depurar el sistema de forma incremental.',
+          'Os valores de componentes se eligieron desde inventários restritos, como em un flujo real de prototipagem.',
+          'La demostración final integró electrónica analógica, fisiología muscular e manufactura básica.'
+        ]
       },
-      "componentEyebrow": "Board-level prototype",
-      "componentImageAlt": "Student copper layout for one of the electromyography signal-processing boards.",
-      "gallery": {
-            "placa2": "Schematic of EMG board 2 with electrodes, instrumentation amplifier, and first filter.",
-            "placa3": "Schematic of EMG board 3 with second filter, envelope detector, and gain/offset amplifier.",
-            "g1": "Copper layout designed by group 1 for the EMG signal-processing board.",
-            "g3": "Copper layout designed by group 3 for the EMG signal-processing board."
-      },
-      "phaseImages": {
-            "t1": "Eight-LED bar display circuit diagram.",
-            "t2": "Envelope detector circuit diagram.",
-            "t3": "Eight-LED controller with transistor and diode threshold stages.",
-            "t4": "Instrumentation amplifier circuit diagram.",
-            "t5": "Available op-amp and variable-resistor materials for amplifier 2.",
-            "t6": "Sallen-Key high-pass filter with gain used in the initial EMG filter design.",
-            "t7": "Corrected unity-gain Sallen-Key low-pass filter.",
-            "t7extra": "Student copper layout for board 3 of the EMG prototype.",
-            "t8": "Instructor schematic for an EMG subsystem board used in the final hardware partition."
-      }
+      componentEyebrow: 'Placas e sinais EMG',
+      componentImageAlt: 'Vista de uma placa projetada para el protótipo de electromiografía.',
+      gallery: { placa2: 'Esquemático de uma das placas do sistema EMG.', placa3: 'Esquemático de outra placa funcional do sistema EMG.', g1: 'Diseño de cobre de una placa EMG desenvolvida por um grupo.', g3: 'Diseño de cobre alternativo para uma placa EMG.' },
+      phaseImages: { t1: 'Indicador de oito LEDs para visualizar activación muscular.', t2: 'Detector de envoltória para extrair amplitude de EMG.', t3: 'Indicador de LEDs com controle de escala.', t4: 'Amplificador instrumental para señales diferenciales pequeñas.', t5: 'Materiales e organización física do prototipo.', t6: 'Filtro ativo pasa-alta para eliminar deriva.', t7: 'Filtro ativo pasa-baja para limitar ruído de alta frequéncia.', t7extra: 'Vista de cobre de una placa fabricable.', t8: 'Esquemático de placa utilizado para integración final.' }
 },
     spirometer2024: {
-      "title": "Spirometer prototype",
-      "summary": "Electronic spirometer project that measures peak expiratory flow and one-second forced expiratory volume using thermal flow sensing, analog memory, timing logic, PCB design, and surface-mount assembly.",
-      "learning": "Students combined respiratory physiology, thermal sensing, analog computation, capacitor-based memory, reset/timing circuits, dual-rail power, EAGLE PCB completion, and reflow assembly into a clinically motivated medtech prototype.",
-      "detail": {
-            "overview": "This project guided student teams through the design and fabrication of an electronic spirometer: a device that converts exhaled airflow into voltages representing peak expiratory flow (PEF) and forced expiratory volume in one second (FEV1). The design combined thermal flow sensing, analog subtraction and filtering, peak detection, integration, sample-and-hold timing, reset logic, dual-rail power, and surface-mount PCB assembly.",
-            "architectureTitle": "System architecture",
-            "architecture": [
-                  "Measurement block: a self-heated NTC thermistor flow sensor inside a tube converts airflow into a resistance and voltage change.",
-                  "Sensor amplifier block: a duplicated/inverted thermistor bridge increases sensitivity, then a difference amplifier maps v1 - v2 into a single flow-proportional voltage.",
-                  "PEF block: a Schottky peak detector captures the maximum expiratory-flow voltage and holds it for display.",
-                  "Baseline and subtraction block: an RC average detector estimates the zero-flow baseline; a buffered subtractor computes promedio - vi so no-flow becomes approximately zero before integration.",
-                  "FEV1 block: an op-amp integrator accumulates the flow-proportional signal for one second; an LF398MX sample-and-hold freezes the measured value for display.",
-                  "Timing and reset block: a pulse generator, Schmitt inverter, monostable timer, transistor trigger, peak-detector reset, and integrator reset coordinate a repeatable measurement cycle.",
-                  "Power block: a 3.7 V 18650 lithium cell and TPS65133 regulator generate +5 V and -5 V rails for the analog and mixed-signal circuitry.",
-                  "Display and indication block: voltage displays show PEF and FEV1, while LEDs indicate power and the one-second measurement interval."
-            ],
-            "phasesTitle": "Phase-by-phase organization",
-            "phases": [
-                  {
-                        "title": "T1 - Clinical metrics, indicators, and displays",
-                        "goal": "Define the user-visible spirometer behavior around PEF and FEV1.",
-                        "details": [
-                              "The project was introduced as a medical instrument for lung volumes and capacities, with PEF reported as a maximum expiratory-flow value and FEV1 as the volume expired during the first second.",
-                              "Students decomposed the full system into measurement, PEF, FEV1, energy, reset, and one-second timer blocks.",
-                              "They designed power and measurement indicator LEDs from +5 V and -5 V rails, choosing LED colors, datasheets, forward currents, resistor values, and 1/4 W power margins.",
-                              "Voltage-display modules were characterized from measured currents around 15.9 mA to 18.35 mA, asking students to estimate per-segment LED current and worst-case display consumption."
-                        ]
-                  },
-                  {
-                        "title": "T2 - PEF peak detector and baseline average",
-                        "goal": "Capture the maximum flow signal and estimate the zero-flow baseline.",
-                        "details": [
-                              "The peak detector used a Schottky diode and storage capacitor: when vi exceeds vo, the diode charges the capacitor; otherwise the capacitor holds the previous maximum.",
-                              "With VF assumed near 0.4 V, students analyzed the steady output for a 10 V Thevenin step source.",
-                              "The peak capacitor had to charge to 95% of its final value in under 20 ms with Rth = 500 ohm, while losing less than 0.1 V over at least 1 second under 1 microamp leakage.",
-                              "The average detector used a passive RC low-pass filter to estimate the no-flow sensor output; its output should move less than 10% during a 1 second measurement but settle to 95% in under 30 seconds after power-on."
-                        ]
-                  },
-                  {
-                        "title": "T3 - Peak-detector reset and pulse generation",
-                        "goal": "Clear the previous PEF measurement quickly and repeatably when the user starts a new trial.",
-                        "details": [
-                              "A BC846BW transistor discharges the peak-detector capacitor when RESET is active, clearing the previous maximum before a new exhalation.",
-                              "The discharge target was fast but controlled: complete enough within 10 ms to 100 ms for the measurement cycle.",
-                              "Students calculated minimum discharge current from their T2 capacitor value, base-current ranges from transistor beta and maximum collector current, and allowable R5 values for RESET between 0 V and 5 V.",
-                              "A capacitive pulse generator made RESET transient even if the user held the button, and R4, R6, and R7 handled capacitor recovery and leakage when the transistor was off."
-                        ]
-                  },
-                  {
-                        "title": "T4 - Thermal airflow sensor and differential amplification",
-                        "goal": "Convert exhaled airflow into a voltage suitable for later analog computation.",
-                        "details": [
-                              "The flow sensor used an NCP15XQ471E03RC NTC thermistor inside an airflow tube; airflow increases thermal dissipation, cools the self-heated thermistor, and raises its resistance.",
-                              "Students related Joule heating RI^2 to dissipation coefficient in mW/degC and ambient temperature, then estimated current and Vbias for a target 330 ohm operating point.",
-                              "They compared the no-blow condition with dissipation coefficient 1 mW/degC against a blowing condition modeled as 2 mW/degC.",
-                              "To increase sensitivity, the sensor was duplicated and inverted so the same airflow produced +Delta V in one branch and -Delta V in the other, doubling the differential change.",
-                              "A BJT differential amplifier was designed with VCC = +5 V, VEE = -5 V, IEE = 2 mA, beta around 290, VBE around 660 mV, DC output near 0 V, and AC differential gain between 10 and 15."
-                        ]
-                  },
-                  {
-                        "title": "T5 - Buffer and subtractor",
-                        "goal": "Prepare the flow signal so FEV1 integration starts from a zero-flow baseline.",
-                        "details": [
-                              "The integrator input needed to be promedio - vi, making no-flow approximately zero and flow a negative voltage before the inverting integration stage.",
-                              "Students built a subtractor using only the provided op-amp/resistor elements and selected R1 through R4 from available values while keeping maximum resistor current below 10 mA.",
-                              "A buffer was added after the average detector so the subtractor would not load the baseline RC circuit.",
-                              "The finite op-amp gain exercise used A = 100,000 to estimate the maximum error between the buffer input and output."
-                        ]
-                  },
-                  {
-                        "title": "T6 - Integrator and sample-and-hold for FEV1",
-                        "goal": "Transform flow into a one-second volume estimate and hold it on a display.",
-                        "details": [
-                              "The FEV1 path integrated the baseline-corrected flow signal for one second, producing a voltage proportional to expired volume.",
-                              "For a constant input vi, students derived vo after one second as a function of vi, R, and C, with vo initialized at 0 V.",
-                              "The design target used a maximum measurable flow corresponding to vi = 3.3 V and selected available R and C values so the integrator output reached approximately 5 V after one second.",
-                              "An LF398MX sample-and-hold froze the integrator output after the measurement window, with students analyzing LOGIC/LOGIC REFERENCE control, hold-capacitor charge time, and voltage droop from leakage."
-                        ]
-                  },
-                  {
-                        "title": "T7 - Low-pass filter and PCB preparation",
-                        "goal": "Reduce high-frequency noise while moving the circuit toward fabrication.",
-                        "details": [
-                              "The exhalation waveform was approximated as a one-second square pulse in a two-second period, so its Fourier series energy is concentrated at low frequencies.",
-                              "Students chose a cutoff frequency where harmonics contributed less than 0.1% of the fundamental energy, with the cutoff constrained to be no greater than 50 Hz.",
-                              "A Sallen-Key low-pass filter with equal R and equal C values was designed using available component inventories and a cutoff tolerance of plus/minus 2 Hz.",
-                              "The fabrication preparation required students to open the preliminary spirometer schematic in Autodesk EAGLE, identify every previously designed block, and fill in all resistor and capacitor values from corrected assignments.",
-                              "Each group also selected a black-and-white bitmap at least 2000 x 2000 px to personalize the manufactured board."
-                        ]
-                  },
-                  {
-                        "title": "T8 - One-second timer, robust reset, and sensor redesign",
-                        "goal": "Coordinate the measurement cycle and improve the sensor front end before fabrication.",
-                        "details": [
-                              "A monostable multivibrator generated the SAMPLE signal, staying in its semi-stable state for 0.8 s to 1.2 s after RESET was pressed.",
-                              "The trigger circuit used an NPN transistor driven by RESET to activate a PNP transistor and briefly raise V+ in the monostable without loading it during normal operation.",
-                              "As more circuits consumed RESET, the pulse generator was strengthened with an output amplifier and a TC4S584F Schmitt inverter, whose positive and negative thresholds were derived from the datasheet at 25 degC.",
-                              "The original BJT differential amplifier was replaced by an op-amp difference amplifier with gain between 10 and 15 and resistor currents between 0.1 mA and 1 mA.",
-                              "Two Vbias strategies were supported on the PCB: a fixed resistor to +5 V and a feedback/control-temperature strategy where the output drives Vbias to keep the thermistor bridge balanced."
-                        ]
-                  },
-                  {
-                        "title": "T9 - Integrator reset and dual-rail power",
-                        "goal": "Finish the analog measurement cycle and replace ideal supplies with battery-powered rails.",
-                        "details": [
-                              "Unlike the peak-detector capacitor, the integrator capacitor is not tied to -5 V, so its reset requires a bidirectional switch rather than a single NPN discharge path.",
-                              "The assignment introduced the TC4S66F analog switch, asking students to identify CONTROL pin thresholds, on-resistance at 25 degC, and discharge time from 5 V to below 0.1 V with Rreset = 0.",
-                              "The same phase replaced assumed +5 V and -5 V ideal rails with a 3.7 V 18650 lithium cell and TPS65133 regulator.",
-                              "Students described TPS65133 inputs/outputs, regulator topology for +5 V and -5 V, typical application components, efficiency near a 100 mA load, quiescent op-amp/display current, and battery life for a 6000 mAh cell."
-                        ]
-                  },
-                  {
-                        "title": "T10 - Surface-mount assembly and student-owned boards",
-                        "goal": "Fabricate working boards using the same assembly workflow students would use on their copies.",
-                        "details": [
-                              "The final work was practical fabrication: each team soldered the components onto the manufactured PCB with the values their group had designed.",
-                              "The process photos guided students through stencil fabrication, aligning the stencil on the board, applying solder paste, placing surface-mount components, and heating the assembled board in a conventional oven.",
-                              "Students demonstrated the assembled board working to the professor before the end of the semester.",
-                              "Each student fabricated and kept their own copy of the board, turning the semester design into a physical artifact they could take home."
-                        ]
-                  }
-            ],
-            "technicalTitle": "Technical constraints and component set",
-            "technicalHighlights": [
-                  "Clinical outputs: PEF is represented by the held maximum flow voltage; FEV1 is represented by integrating the flow-proportional voltage for one second and holding the result.",
-                  "Sensor physics: self-heated NTC thermistors couple electronics to airflow through thermal dissipation; no-flow and blowing cases were modeled with dissipation coefficients of 1 mW/degC and 2 mW/degC.",
-                  "Signal range: several stages assume +5 V and -5 V rails, with displays reading the resulting voltages for PEF and FEV1.",
-                  "Analog memory: peak detection, average detection, integration, and sample-and-hold all rely on capacitor charge, leakage, settling time, and reset behavior.",
-                  "Timing: the FEV1 measurement window is explicitly one second, generated by a monostable multivibrator with a 0.8 s to 1.2 s acceptable range.",
-                  "Noise control: the airflow signal was modeled through Fourier analysis to justify a low-pass filter cutoff below 50 Hz.",
-                  "Mixed implementation: the final circuit uses thermistors, Schottky diodes, BJTs, op-amps, LF398MX sample-and-hold, TC4S584F Schmitt inverter, TC4S66F analog switch, TPS65133 regulator, voltage displays, LEDs, and surface-mount passives.",
-                  "Manufacturing path: students moved from hand calculations to EAGLE schematic completion, manufactured PCB, stencil-based solder-paste application, manual component placement, oven reflow, demonstration, and ownership of the fabricated board."
-            ],
-            "componentsTitle": "From full schematic to reflowed student hardware",
-            "componentsIntro": "The spirometer was designed as a real board, not a paper-only circuit. The final schematic, top and bottom PCB views, and process photos show the route from group-specific component values to stencil, solder paste, surface-mount placement, oven reflow, demonstration, and student-owned boards.",
-            "organizationTitle": "Teaching and delivery model",
-            "organization": [
-                  "The project was decomposed into small assignments, each responsible for a clinically meaningful or implementation-critical subsystem.",
-                  "Earlier choices were reused later: capacitor values affected reset and sample-and-hold behavior, baseline averaging affected subtraction, filter design affected the final schematic, and timing logic coordinated displays and memory circuits.",
-                  "The course deliberately combined physiological interpretation, analog circuit theory, datasheet work, PCB CAD, manufacturing constraints, and hands-on assembly.",
-                  "Fabrication was required. Students used stencil-applied solder paste and oven reflow to assemble boards containing the values selected by their own group.",
-                  "The end-of-semester artifact was a working spirometer PCB demonstrated to the professor and kept by each student."
-            ]
+      title: 'Espirómetro eletrónico',
+      summary: 'Protótipo de espirometria que convierte flujo espiratorio en señales analógicas para estimar flujo espiratorio máximo e volumen espiratorio forzado en un segundo.',
+      learning: 'Os estudantes integraram sensado térmico de flujo, resta analógica, filtrado, detección de pico, integración, retención temporal, reset, alimentación dual e montagem SMD com stencil.',
+      detail: {
+        overview: 'Este projeto guió a os equipos en el diseño e fabricación de un espirómetro electrónico. El dispositivo transforma el flujo de aire exhalado en voltajes asociados a PEF e FEV1, combinando sensores térmicos, acondicionamiento analógico, detectores de pico, integradores, temporización, retención de muestras e una placa PCB montada com componentes de superficie.',
+        architectureTitle: 'Arquitetura do sistema',
+        architecture: ['Sensor de flujo: el flujo exhalado modifica el comportamiento térmico do elemento sensor e gera una señal eléctrica medible.', 'Acondicionamiento diferencial: etapas de resta e ganho aíslan la contribución asociada al flujo.', 'Filtrado: filtros analógicos reducen ruído e preparan la señal para cálculo de parámetros respiratorios.', 'PEF: un detector de pico captura el máximo flujo espiratorio.', 'FEV1: un integrador acumula flujo durante la ventana temporal de un segundo.', 'Temporización: circuitos de disparo, retención e reset coordinan inicio, medición e reinicio.', 'Alimentación: el protótipo usa rieles adequados para operación analógica estable.', 'Fabricación: la placa fue ensamblada com stencil, pasta de soldadura, colocación de SMD e reflow en horno convencional.'],
+        phasesTitle: 'Organização por fases',
+        phases: [
+          { title: 'T1 - Indicadores e bloques de salida', goal: 'Definir interfaces básicas do dispositivo.', details: ['Se revisaron LEDs, displays e convenciones de salida.', 'Os estudantes calcularam correntes e límites de componentes.', 'La fase conectó parámetros respiratorios com señales visibles.'] },
+          { title: 'T2 - Detección de pico', goal: 'Capturar el valor máximo do flujo exhalado.', details: ['Se estudió un detector de pico para conservar el máximo da señal.', 'La descarga e retención do capacitor se analizaron como parte da medición.', 'El bloque se asoció directamente al PEF.'] },
+          { title: 'T3 - Temporización e control', goal: 'Crear señales de control para medición e reset.', details: ['Se diseñaron disparos para iniciar ventanas de medición.', 'La lógica analógica coordinó captura, retención e reinicio.', 'El circuito preparó la medición de FEV1.'] },
+          { title: 'T4 - Sensor de flujo', goal: 'Converter respiración en señal eléctrica.', details: ['Se estudió el sensor térmico e su respuesta al flujo.', 'El diseño consideró polarización, sensibilidade e rango átil.', 'La señal resultante alimentó la cadena de acondicionamiento.'] },
+          { title: 'T5 - Filtrado activo', goal: 'Reducir ruído antes de extraer parámetros.', details: ['Se eligieron filtros compatibles com el rango esperado de respiración.', 'Os valores se seleccionaron desde componentes disponibles.', 'El filtrado mejoró estabilidade de PEF e FEV1.'] },
+          { title: 'T6 - Integrador', goal: 'Converter flujo en volumen acumulado.', details: ['El integrador relacionó señal de flujo com volumen exhalado.', 'Foram analisados constantes de integración e saturación.', 'El bloque permitió estimar FEV1.'] },
+          { title: 'T7 - Filtro Sallen-Key', goal: 'Pulir la señal respiratoria antes de medición.', details: ['Se implementó filtrado activo de segundo orden.', 'La topología permitió controlar ganho e respuesta en frecuencia.', 'Os estudantes verificaron efectos de valores reais.'] },
+          { title: 'T8 - Circuitos de muestra e retención', goal: 'Guardar valores clínicamente relevantes.', details: ['El diseño retuvo el valor medido para lectura posterior.', 'Foram analisados fugas, tiempos de carga e errores de retención.', 'La salida quedó compatible com visualización analógica.'] },
+          { title: 'T9 - Reset e integración final', goal: 'Fechar el ciclo de medición respiratoria.', details: ['Se agregó reinicio controlado de integradores e capacitores.', 'La secuencia permitió repetir pruebas de espiración.', 'El circuito completo quedó listo para fabricación.'] },
+          { title: 'T10 - Montaje SMD e validación', goal: 'Fabricar placas funcionales com valores definidos por cada grupo.', details: ['Se fabricó un stencil para aplicar pasta de soldadura.', 'Os estudantes colocaron componentes SMD e usaron reflow en horno.', 'Cada estudiante conservó su placa ensamblada al final do semestre.'] }
+        ],
+        technicalTitle: 'Restrições técnicas e componentes',
+        technicalHighlights: ['El diseño estima PEF mediante retención do máximo de flujo.', 'FEV1 se obtiene integrando la señal de flujo durante una ventana temporal de un segundo.', 'Os bloques de reset e temporización son críticos para repetir mediciones.', 'El montagem SMD acercó el curso a fabricación moderna de hardware médico.', 'Las fotos do proceso documentan stencil, pasta, colocación de componentes e reflow.', 'La placa final integró el circuito completo en un formato portátil.'],
+        componentsTitle: 'PCB SMD para medición respiratoria',
+        componentsIntro: 'El espirómetro combinó diseño analógico com un flujo real de fabricación SMD: placa, stencil, pasta, montagem, horno e validación de os valores elegidos por cada grupo.',
+        organizationTitle: 'Modelo de ensino e entrega',
+        organization: ['Las tareas desarrollaron progresivamente cada bloque de medición respiratoria.', 'La fabricación permitió que os cálculos terminaran en una placa concreta.', 'Os estudantes practicaron una metodología cercana a prototipagem medtech de baja escala.', 'Cada grupo validó su propia selección de valores e su proceso de montagem.']
       },
-      "componentEyebrow": "Surface-mount fabrication",
-      "componentImageAlt": "Spirometer PCB during solder-paste and surface-mount assembly preparation.",
-      "gallery": {
-            "fullSchematic": "Full electronic spirometer schematic with the complete analog measurement, timing, reset, display, and power circuits.",
-            "top": "Top view of the designed spirometer printed circuit board.",
-            "bottom": "Bottom view of the designed spirometer printed circuit board.",
-            "stencil": "Stencil-based solder-paste preparation photo for assembling the spirometer PCB."
-      },
-      "phaseImages": {
-            "t1": "Power indicator LED circuit using the plus and minus five volt rails.",
-            "t2": "Schottky diode peak detector used to hold the maximum expiratory-flow voltage.",
-            "t3": "Complete peak-detector reset and pulse-generator circuit.",
-            "t4": "Duplicated and inverted thermistor flow-sensor bridge for differential sensitivity.",
-            "t5": "Buffered active low-pass average detector used for the baseline signal.",
-            "t6": "Op-amp integrator used to convert flow into a volume-proportional voltage.",
-            "t7": "Second-order Sallen-Key low-pass filter used to attenuate high-frequency flow-signal noise.",
-            "t8": "Strengthened RESET generator and circuits consuming the reset signal.",
-            "t9": "Integrator with bidirectional reset switch.",
-            "t10": "Surface-mount spirometer board during oven/reflow-based assembly."
-      }
+      componentEyebrow: 'Montagem SMD guiada',
+      componentImageAlt: 'Proceso de soldadura por reflow da placa do espirómetro.',
+      gallery: { fullSchematic: 'Esquemático completo do espirómetro electrónico.', top: 'Vista superior da placa diseñada.', bottom: 'Vista inferior da placa diseñada.', stencil: 'Stencil usado para aplicar pasta de soldadura.' },
+      phaseImages: { t1: 'Circuito indicador usado en fases iniciales.', t2: 'Detector de pico para retener PEF.', t3: 'Circuito de temporización e control.', t4: 'Sensor de flujo do espirómetro.', t5: 'Filtro ativo para acondicionamiento de señal.', t6: 'Integrador para estimar volumen.', t7: 'Filtro Sallen-Key de segundo orden.', t8: 'Circuito de retención de muestra.', t9: 'Integrador com reset controlado.', t10: 'Proceso de ensamblaje SMD da placa.' }
 },
     thermometer2024: {
-      "title": "Electronic thermometer prototype",
-      "summary": "Low-power clinical thermometer project powered by a CR2032 cell, with analog temperature scaling, configurable thresholds, stability detection, buzzer notification, auto-off, and a shared PCB supporting five group variants.",
-      "learning": "Students connected vital-sign measurement, low-power design, analog sensor linearization, comparator logic, virtual-ground circuits, filtering, timing, boost regulation, configurable PCB assembly, and hands-on validation.",
-      "detail": {
-            "overview": "This semester project asked five student teams to design and fabricate low-power clinical thermometer prototypes powered from a CR2032 coin cell. The device measures temperature in degrees Celsius, displays it numerically with one decimal place, detects when the reading has stabilized, sounds a short buzzer alert, indicates whether the temperature is inside or outside configurable thresholds, supports a single on/off button, and turns itself off after an adjustable delay.",
-            "architectureTitle": "System architecture",
-            "architecture": [
-                  "Temperature sensing block: each color group used a different linear analog temperature sensor, selected from MCP9700, MCP9701, LMT87, LMT86, and LMT85 variants.",
-                  "Scaling block: an op-amp difference/amplifier stage converts each sensor output into Vtemperatura = 0.1 Tc, so 100 mV represents 1 degree Celsius and 37 degC is displayed as about 3.70 V.",
-                  "Display block: a voltage display module shows the scaled temperature value, while a selector on the final board lets students inspect internal signals beyond only the temperature output.",
-                  "Threshold block: potentiometers set high-temperature and low-temperature thresholds; LM393LVDR rail-to-rail open-drain comparators generate VA and VB logic signals.",
-                  "Indicator block: group-specific transistor logic drives a 3 mm LED either inside the normal range or outside it, depending on the group color specification.",
-                  "Stability block: low-pass filtering removes high-frequency noise, a differentiator/high-pass path estimates signal change, a full-wave rectifier takes the absolute derivative, and a comparator decides when the reading is stable.",
-                  "Buzzer block: a short trigger pulse and monostable multivibrator drive a CPI-1375IC-80T indicator buzzer for roughly 0.5 s when the measurement is ready.",
-                  "Power and control block: a one-button latch, auto-off integrator, TPS613222A boost regulator, and CR2032 cell form a low-power portable system with adjustable automatic shutdown."
-            ],
-            "phasesTitle": "Phase-by-phase organization",
-            "phases": [
-                  {
-                        "title": "T1 - Requirements, low-power indicators, adjustments, and display",
-                        "goal": "Define a clinical thermometer around temperature display, thresholds, stability, and battery life.",
-                        "details": [
-                              "The prototype requirements included measuring temperature in degC with one decimal digit, detecting stability, sounding a ready beep, lighting a high/low/normal indicator, and supporting one-button on/off plus auto-off.",
-                              "Because the power source was a CR2032 coin cell, students were asked to minimize current throughout the design.",
-                              "The LED indicator used a 3 mm LED in the group color and a resistor sized for only 10% of the LED datasheet test current to reduce consumption.",
-                              "Three adjustable settings were introduced: high-temperature threshold, low-temperature threshold, stability criterion, and auto-off time, all implemented with potentiometer/resistor networks constrained to microamp-level currents.",
-                              "The voltage-display module was characterized from measured currents around 15.9 mA to 18.35 mA, and the display convention was established as 100 mV per degree Celsius over a 0 degC to 50 degC range."
-                        ]
-                  },
-                  {
-                        "title": "T2 - LED logic, buzzer driver, and latch foundation",
-                        "goal": "Turn clinical state signals into human feedback while beginning the one-button power circuit.",
-                        "details": [
-                              "Each group had a truth table mapping VA, VB, temperature state, and LED behavior; green/white LEDs indicated normal temperature, while red/yellow/blue indicated outside-normal conditions.",
-                              "Students selected one of seven transistor LED-driver topologies and sized MMBT3904 base resistors for saturation using forced beta near 10.",
-                              "The buzzer was specified as a CPI-1375IC-80T indicator type, requiring only DC drive rather than an external AC oscillator.",
-                              "A transistor driver for the buzzer was designed so VU = 5 V saturates Q3 and enables the audible alert.",
-                              "The first on/off circuit used a cross-coupled transistor RS latch, introducing memory so a momentary pushbutton could eventually control persistent on/off state."
-                        ]
-                  },
-                  {
-                        "title": "T3 - Temperature sensors, stability trigger, and one-button toggle",
-                        "goal": "Select the analog temperature sensor and complete the single-button control concept.",
-                        "details": [
-                              "Groups used different sensors: MCP9700-E/TO, MCP9701-E/TO, LMT87LPGM, LMT86LPGM, or LMT85LPGM, all based on temperature-dependent diode voltage principles.",
-                              "Students derived or linearized Vout = aTc + b over the clinically important 30 degC to 45 degC range, then computed coefficients c and d for Vtemperatura = cVout + d.",
-                              "The stability trigger began with an RC high-pass response to the comparator output, producing a short pulse when the stable-temperature signal rises.",
-                              "R15 and C5 were selected so the pulse stayed above 2 V for at least 10 ms and at most 100 ms, and Q6 was sized for saturated switching during that interval.",
-                              "The two-button latch was converted into a one-button toggle using a resistor and capacitor that preserve enough state asymmetry when the pushbutton is pressed."
-                        ]
-                  },
-                  {
-                        "title": "T4 - Comparators, thresholds, and auto-off reference",
-                        "goal": "Use comparator outputs as logic interfaces for temperature range, stability, and shutdown.",
-                        "details": [
-                              "The LM393LVDR comparator was introduced for rail-to-rail input operation and open-drain output behavior.",
-                              "Students connected threshold potentiometers and V_TEMP to comparators so VA and VB implement the group-specific LED truth table.",
-                              "For the buzzer trigger, another comparator switches when the magnitude of temperature derivative falls below the stability threshold set by Rpot2.",
-                              "A pull-up resistor was chosen for the trigger comparator so the positive transition charges the trigger path while respecting the LM393LVDR output current limit.",
-                              "A fourth comparator detects auto-off by comparing Vauto-apagado against VREF and pulling the latch/on signal low when the timeout is reached.",
-                              "Students also designed a resistor-only VREF generator below 100 microamp total current and chose a bitmap image to personalize the manufactured board."
-                        ]
-                  },
-                  {
-                        "title": "T5 - Temperature scaling amplifier and virtual ground",
-                        "goal": "Convert sensor voltage into display voltage while supporting single-supply analog stages.",
-                        "details": [
-                              "The main scaling task was to implement Vtemperatura = cVout + d with op-amp and resistor networks, allowing less than 10 mV error from 30 degC to 45 degC.",
-                              "Because exact coefficients were not always achievable with available values, students could use series/parallel combinations for R1 through R4, all at least 1 kohm.",
-                              "Some later stages needed negative-going signals even though the thermometer had only a +5 V supply, so the project introduced a 2.5 V virtual ground.",
-                              "A weak divider generated Vbias_weak with less than 5 microamp divider current, and Cbias was selected to settle to 99% in under 5 seconds.",
-                              "The MCP6009T-E/SL op-amp buffered the virtual ground, requiring students to analyze input impedance, output impedance, and loading error."
-                        ]
-                  },
-                  {
-                        "title": "T6 - Auto-off integrator and full-wave rectifier",
-                        "goal": "Build the analog timing and absolute-derivative circuits behind shutdown and stability detection.",
-                        "details": [
-                              "The auto-off circuit uses an integrator whose output starts at 0 V and rises linearly until it reaches VREF, with timeout Delta t = 10 VREF / (2.5 - Vo).",
-                              "Students chose R31 and C7 so the adjustable Vo network from T1 controls the shutdown delay, with a minimum around one minute.",
-                              "To detect stability regardless of whether temperature is rising or falling, the derivative signal must be rectified before comparison.",
-                              "The full-wave rectifier was decomposed into an inverting half-wave rectifier and an inverting summing amplifier implementing vo = -(vi + 2vx), which yields vo = |vi|.",
-                              "All rectifier resistors had to be available values and at least 10 kohm, keeping the design compatible with low-current operation."
-                        ]
-                  },
-                  {
-                        "title": "T7 - Low-pass filtering and practical derivative estimation",
-                        "goal": "Suppress measurement noise and create a bounded stability signal.",
-                        "details": [
-                              "Temperature is expected to change slowly as the probe reaches thermal equilibrium with the patient, so high-frequency variation is likely noise.",
-                              "Students designed a second-order Sallen-Key low-pass filter near 10 Hz, then calculated attenuation of 50 Hz mains-related interference.",
-                              "A differentiator was analyzed using V_TEMP = Vfinal(1 - exp(-t/tau)), connecting the derivative output to how far the reading is from final value.",
-                              "The assignment showed why a pure differentiator is dangerous: gain grows as R6 C3 omega, amplifying high-frequency noise.",
-                              "Adding R5 converted the differentiator into an active high-pass filter with bounded high-frequency gain between 10 and 50, preserving stability detection without unlimited noise amplification."
-                        ]
-                  },
-                  {
-                        "title": "T8 - Ready-beep monostable and final amplifier corrections",
-                        "goal": "Convert the stability event into a controlled audible notification.",
-                        "details": [
-                              "A monostable multivibrator was designed to turn the buzzer on for approximately 500 ms, with 100 ms tolerance, after the temperature stabilizes.",
-                              "The monostable operated around the virtual ground, using +2.5 V and -2.5 V rails rather than a true dual supply.",
-                              "Students selected R19, R20, R21, and C6 while limiting current through R20 below 1 mA and through R18 below 500 microamp.",
-                              "The trigger output from previous work needed a PNP stage, Q7 = MMBT3906, and R17 selected for forced beta near 10 when the active-low trigger goes near -2.5 V.",
-                              "The phase also corrected the temperature-scaling amplifier by assigning version A to blue/white groups and version B to green/yellow/red groups."
-                        ]
-                  },
-                  {
-                        "title": "T9 - CR2032 power, boost regulator, and configurable PCB values",
-                        "goal": "Replace ideal power assumptions and finalize group-specific assembly data for the manufactured board.",
-                        "details": [
-                              "The final power source was a 3 V CR2032 coin cell with nominal 225 mAh capacity, making current budgeting central to the design.",
-                              "Students researched the TPS613222A boost regulator, described its inputs/outputs, identified it as the +5 V generation stage, and drew the recommended application circuit with external components.",
-                              "The auto-off signal V_OFF was tied into the regulator enable/disable strategy through transistor circuitry adapted from the earlier latch design.",
-                              "R33 was sized so Q8 could switch enough base/gate-control current for the regulator shutdown path, using transistor saturation assumptions for Q8 and Q4.",
-                              "Students estimated regulator efficiency at roughly 1 mA load, total thermometer current including IC quiescent currents, and expected battery life from a 3 V 225 mAh cell.",
-                              "The three final schematic pages included optional series/parallel resistor positions and 0 ohm/open-link choices so each group could implement its corrected values and circuit variant on the same PCB."
-                        ]
-                  },
-                  {
-                        "title": "T10 - Fabrication, selector, demonstration, and measurement extras",
-                        "goal": "Turn the completed design into a working student-built board.",
-                        "details": [
-                              "Each team soldered the components onto its manufactured PCB under supervision, using the final files and images distributed through the course platform.",
-                              "The board included a selector so the display could show internal circuit signals, not only the final temperature value, making debugging and characterization more transparent.",
-                              "Students demonstrated the working board to the professor before the end of the semester; the fabrication assignment also counted as the corresponding laboratory grade.",
-                              "Extra characterization encouraged students to measure off-current at 3 V, on-current at 3 V, minimum and maximum auto-off delay, buzzer duration, and how Rpot2 affects the time required to declare stable temperature.",
-                              "As in the previous fabrication projects, the completed boards became student-built physical artifacts rather than disposable class exercises."
-                        ]
-                  }
-            ],
-            "technicalTitle": "Technical constraints and component set",
-            "technicalHighlights": [
-                  "Clinical scale: Vtemperatura = 0.1 Tc, so the display reads temperature directly as voltage with 100 mV per degree Celsius and one decimal digit.",
-                  "Sensor set: MCP9700, MCP9701, LMT87, LMT86, and LMT85 group variants, each linearized over 30 degC to 45 degC for clinically relevant accuracy.",
-                  "Power source: 3 V CR2032 coin cell, TPS613222A boost conversion to +5 V, regulator shutdown controlled by the auto-off/latch logic, and explicit current/battery-life budgeting.",
-                  "Low-power discipline: LED current was reduced to 10% of datasheet test current, potentiometer networks targeted microamp currents, and divider/reference circuits were constrained below 100 microamp where applicable.",
-                  "State logic: a single pushbutton controls on/off through a transistor latch/toggle network, while auto-off can force the ON node low after an adjustable timeout.",
-                  "Stability detection: low-pass filtering near 10 Hz, derivative/high-pass estimation, full-wave rectification, threshold comparison, short trigger pulse, and 0.5 s monostable buzzer notification.",
-                  "Analog reference strategy: a buffered 2.5 V virtual ground allows circuits to process positive and negative excursions while powered from a single +5 V rail.",
-                  "PCB flexibility: the final board exposes alternative resistor footprints, 0 ohm jumpers, open links, and amplifier topology choices so all group-specific corrected designs can share one manufactured layout."
-            ],
-            "componentsTitle": "A configurable clinical thermometer PCB",
-            "componentsIntro": "The final board was designed to accommodate five group variants: different sensors, LED colors, threshold logic, amplifier versions, corrected resistor networks, and optional 0 ohm/open links. The three schematic sheets and top/bottom board renders show a teaching-oriented PCB that is both a working device and a map of the design decisions students made through the semester.",
-            "organizationTitle": "Teaching and delivery model",
-            "organization": [
-                  "The course split the thermometer into ten assignments: visible outputs, state logic, sensor modeling, comparator logic, scaling, virtual ground, analog timing, filtering, power, PCB configuration, and final fabrication.",
-                  "Each group had a color identity and a slightly different sensor/indicator configuration, forcing students to adapt the same architecture rather than copy a single answer.",
-                  "Assignments repeatedly tied calculations to real datasheet limits: current consumption, open-drain outputs, saturation, op-amp impedance, comparator thresholds, regulator efficiency, and battery capacity.",
-                  "The final PCB intentionally included configurable footprints so each team could translate its own corrected values into the same manufactured hardware platform.",
-                  "Students assembled, demonstrated, characterized, and kept the fabricated thermometer boards at the end of the semester."
-            ]
+      title: 'Termómetro clónico de baixo consumo',
+      summary: 'Protótipo de termómetro alimentado por celda CR2032, com lectura en grados Celsius, indicador de estabilidade, alarma sonora, umbrales configurables e apagado automático.',
+      learning: 'Os estudantes integraram sensado de temperatura, conversión analógica, temporización, lógica discreta, gestión de energía, alarmas, display e fabricación de PCB.',
+      detail: {
+        overview: 'Este projeto pidió a cinco equipos diseñar e fabricar un termómetro clónico de bajo consumo alimentado desde una pila tipo moneda CR2032. El dispositivo mide temperatura en grados Celsius, la muestra com un decimal, detecta estabilidade de lectura, emite un buzzer, indica si el valor está dentro de umbrales configurables, usa un ónico botón de encendido/apagado e se apaga automáticamente después de un retardo ajustable.',
+        architectureTitle: 'Arquitetura do sistema',
+        architecture: ['Sensor de temperatura: la etapa de entrada convierte cambios térmicos en una señal analógica.', 'Escalamiento: amplificadores e filtros adaptan la señal al rango do display.', 'Comparadores: umbrales configurables identifican temperatura normal o fuera de rango.', 'Estabilidad: circuitos de temporización detectan cuándo la lectura deja de cambiar significativamente.', 'Alarma: un buzzer entrega retroalimentación acústica al finalizar la medición.', 'Control de energía: lógica de botón e temporizadores administran encendido, apagado e consumo.', 'Alimentación: el diseño se restringe a la energía limitada de una CR2032.', 'PCB: el circuito final se dividió en esquemáticos e una placa fabricable com vistas superior e inferior.'],
+        phasesTitle: 'Organização por fases',
+        phases: [
+          { title: 'T1 - Indicadores luminosos', goal: 'Definir señales visuales de estado.', details: ['Se calcularam resistores de LEDs e correntes seguras.', 'Os colores indicaron condiciones de operación.', 'La fase introdujo límites de potencia de componentes reales.'] },
+          { title: 'T2 - Alarma sonora', goal: 'Agregar notificación audible al terminar la medición.', details: ['Se estudió el buzzer como carga eléctrica.', 'Se diseñó su activación com restricciones de corriente.', 'La alarma complementó el display numérico.'] },
+          { title: 'T3 - Lógica de botón', goal: 'Implementar control com una sola entrada de usuario.', details: ['Se incorporó una topología tipo flip-flop/conmutación.', 'El botón alternó estados de operación.', 'El circuito reduziu la necesidad de controles múltiples.'] },
+          { title: 'T4 - Disparo e temporización', goal: 'Crear señales internas para secuenciar la medición.', details: ['Foram analisados pulsos breves e condiciones de activación.', 'La temporización conectó lectura estable com alerta.', 'El bloque ayudó a coordinar buzzer e apagado.'] },
+          { title: 'T5 - Tierra virtual e buffers', goal: 'Dar referencia estable a etapas analógicas.', details: ['Se generó una referencia intermedia de alimentación.', 'El buffer desacopló cargas e protegió el divisor.', 'La referencia permitió procesar señales com una sola batería.'] },
+          { title: 'T6 - Integración / conversión analógica', goal: 'Relacionar la señal térmica com una salida utilizable.', details: ['Se diseñaron constantes analógicas para el rango de temperatura.', 'La etapa evitó saturación e mantuvo resolución.', 'O resultado alimentó comparadores e display.'] },
+          { title: 'T7 - Filtrado', goal: 'Reducir ruído e oscilaciones de lectura.', details: ['Se implementó filtrado activo apropiado para temperatura.', 'La respuesta lenta favoreció estabilidade clínica.', 'El filtrado protegió la lógica de falsas detecciones.'] },
+          { title: 'T8 - Monoestable e alerta', goal: 'Generar una alarma de duración controlada.', details: ['El monoestable definió cuánto tiempo suena el buzzer.', 'Os estudantes calcularam tiempos com valores disponíveis.', 'La etapa hizo la interacción más parecida a un dispositivo clónico real.'] },
+          { title: 'T9 - Gestión final de energía', goal: 'Completar apagado automático e bajo consumo.', details: ['Se revisó el presupuesto de corriente de todo el circuito.', 'La CR2032 impuso decisões de bajo consumo.', 'El apagado automático reduziu descarga innecesaria.'] },
+          { title: 'T10 - PCB e demostración', goal: 'Fabricar e validar el protótipo final.', details: ['El circuito se documentó en tres esquemáticos completos.', 'La placa final tuvo vistas superior e inferior para fabricación.', 'Os estudantes ensamblaron e conservaron sus prototipos.'] }
+        ],
+        technicalTitle: 'Restrições técnicas e componentes',
+        technicalHighlights: ['La celda CR2032 limitó corriente, potencia e tiempo de uso.', 'El sistema combinó medición analógica lenta com lógica discreta de control.', 'Os comparadores permitieron detectar umbrales clónicos configurables.', 'La señal de estabilidade evitó alertar antes de que la lectura fuera confiable.', 'El buzzer e os LEDs exigieron revisar consumo de cargas no ideales.', 'La PCB integró un circuito más cercano a un producto médico portátil.'],
+        componentsTitle: 'Termómetro portátil com PCB fabricada',
+        componentsIntro: 'El projeto de termómetro enfatizó bajo consumo, interacción de usuario simple e fabricación de una placa final com esquemáticos completos, vistas top/bottom e montagem por estudiantes.',
+        organizationTitle: 'Modelo de ensino e entrega',
+        organization: ['Las fases avanzaron desde indicadores simples hasta temporización, sensado e energía.', 'Cada grupo refinó valores antes de fabricar.', 'El protótipo final integró electrónica analógica, lógica discreta e experiencia de usuario clínica.', 'O resultado sirvió como puente entre circuito educativo e dispositivo portátil real.']
       },
-      "componentEyebrow": "Configurable PCB",
-      "componentImageAlt": "Top view of the designed electronic thermometer printed circuit board.",
-      "gallery": {
-            "schematic1": "First sheet of the full electronic thermometer schematic.",
-            "schematic2": "Second sheet of the full electronic thermometer schematic.",
-            "schematic3": "Third sheet of the full electronic thermometer schematic.",
-            "top": "Top view of the designed thermometer printed circuit board.",
-            "bottom": "Bottom view of the designed thermometer printed circuit board."
-      },
-      "phaseImages": {
-            "t1": "Low-current LED indicator circuit for high/low temperature indication.",
-            "t2": "Transistor driver circuit for the thermometer ready buzzer.",
-            "t3": "Single-pushbutton transistor toggle circuit for on/off control.",
-            "t4": "Comparator-based stability trigger circuit.",
-            "t5": "Buffered virtual-ground circuit used by single-supply analog stages.",
-            "t6": "Auto-off integrator circuit that generates the shutdown timing ramp.",
-            "t7": "Active high-pass filter used to bound derivative gain for stability detection.",
-            "t8": "Monostable multivibrator circuit that controls buzzer duration.",
-            "t9": "TPS613222A regulator on/off control circuit tied to auto-off logic.",
-            "t10": "Top view of the final thermometer PCB used for fabrication."
-      }
+      componentEyebrow: 'PCB de termómetro clónico',
+      componentImageAlt: 'Vista superior da placa do termómetro clónico.',
+      gallery: { schematic1: 'Primera hoja do esquemático completo do termómetro.', schematic2: 'Segunda hoja do esquemático completo do termómetro.', schematic3: 'Tercera hoja do esquemático completo do termómetro.', top: 'Vista superior da PCB do termómetro.', bottom: 'Vista inferior da PCB do termómetro.' },
+      phaseImages: { t1: 'Indicador LED de bajo consumo.', t2: 'Circuito de buzzer para alarma sonora.', t3: 'Circuito de conmutación tipo flip-flop.', t4: 'Circuito de disparo para temporización.', t5: 'Buffer de referencia virtual.', t6: 'Etapa integradora/conversora analógica.', t7: 'Filtro ativo para estabilizar la lectura.', t8: 'Monoestable para señal de alerta.', t9: 'Bloque de gestión de energía.', t10: 'Vista superior da PCB final.' }
 },
     ppg2025: {
-      "title": "Photoplethysmograph with fabricated PCB",
-      "summary": "Advanced PPG project that measures heart rate and pulse transit time using SFH7070 optical sensing, IR inter-device signaling, analog timing, precision peak detection, HR averaging, a Fusion 360 PCB, and mixed reflow/hand assembly.",
-      "learning": "Students connected optical biosensing, analog front-end design, discrete timing logic, pulse-width-to-voltage conversion, PCB manufacturing, BOM discipline, regulator power budgeting, and physiological validation.",
-      "detail": {
-            "overview": "This project revisited photoplethysmography as a more production-aware PCB prototype. Unlike the 2023 stripboard PPG, this device measures heart rate and can pair with a second unit to estimate pulse transit time (PTT), using optical pulse detection, infrared inter-device signaling, analog timing, display scaling, board fabrication, and student assembly on manufactured PCBs.",
-            "architectureTitle": "System architecture",
-            "architecture": [
-                  "Optical sensing block: an ams-OSRAM SFH 7070 integrates two green LEDs and a photodiode for reflective PPG sensing.",
-                  "Pulse indication and communication block: a visible group-color LED blinks on detected beats, while three Vishay VSMB10940 infrared LEDs transmit a pulse event toward a second unit.",
-                  "PTT logic block: an SR latch creates a pulse whose width equals the time between local/remote pulse events, with a role-selection switch determining whether the unit behaves as device 1 or device 2.",
-                  "PTT analog conversion block: a current-mirror integrator converts PTT pulse width to a triangular voltage at 1 V per 100 ms, and a precision peak detector holds the peak for display.",
-                  "PPG front end: a compensated transimpedance amplifier converts photodiode current to voltage while stabilizing the photodiode/op-amp dynamics.",
-                  "DC-removal and filtering block: closed-loop Deboo integrator feedback removes baseline DC, then buffered band-pass filtering and gain isolate the AC PPG waveform.",
-                  "Heart-rate block: a comparator detects beats, a monostable normalizes pulse width, and a low-pass filter extracts pulse-train average so 1 V corresponds to 100 beats per minute.",
-                  "Power and fabrication block: two AA cells feed a TPS613222A 5 V boost regulator; the complete design was captured in Fusion 360, fabricated as a PCB, then assembled by students using reflow for SMD parts and hand soldering for through-hole parts."
-            ],
-            "phasesTitle": "Phase-by-phase organization",
-            "phases": [
-                  {
-                        "title": "T1 - Optical emitters, pulse indicators, IR signaling, and display",
-                        "goal": "Define the optical and user-visible interfaces for HR and PTT measurement.",
-                        "details": [
-                              "The prototype was specified to measure heart rate, emit an IR pulse when a heartbeat is detected, detect IR pulses from another unit, compute pulse transit time, and display HR or PTT.",
-                              "Students used the SFH 7070 PPG component, identifying green LED forward voltage, test current, maximum continuous current, reverse voltage, and forward-voltage limits.",
-                              "Each green LED current was targeted at 10 mA through a calculated and inventory-rounded resistor.",
-                              "A visible 3 mm group-color LED was designed to blink on heartbeat detection, with resistor sizing, current checking, and 1/4 W power dissipation verification.",
-                              "Three VSMB10940 infrared LEDs were arranged to transmit a pulse in different directions, improving communication robustness independent of device orientation.",
-                              "The voltage display convention was established: 10 mV per beat per minute for HR and 10 mV per millisecond for PTT, so 5.00 V spans 500 bpm or 500 ms."
-                        ]
-                  },
-                  {
-                        "title": "T2 - LED drivers, IR drivers, and SR latch for PTT",
-                        "goal": "Build switching stages and the state memory needed for two-device pulse transit timing.",
-                        "details": [
-                              "NPN transistor drivers were added to the visible pulse LED and the three-LED IR emitter so logic signals could switch optical outputs without sourcing their full current directly.",
-                              "Base resistors were chosen so the transistors saturate when driven by 5 V, using forced beta around 10 and the selected LED currents from T1.",
-                              "For PTT, the circuit must go high on one event and low on the other, so students designed an SR latch using paired NPN inverters and set/reset transistors.",
-                              "The same hardware can act as device 1 or device 2: one role sets on local heartbeat and resets on received IR, while the other role reverses that logic.",
-                              "The resulting V_PTT pulse width is the measured time delay between pulse detections."
-                        ]
-                  },
-                  {
-                        "title": "T3 - Pulse normalization, latch input triggers, and first PTT peak detector",
-                        "goal": "Make event pulses predictable and begin converting PTT duration into an analog value.",
-                        "details": [
-                              "A passive RC high-pass response to a 5 V step was analyzed as the foundation for short trigger pulses.",
-                              "The heartbeat pulse generator was designed so the trigger remains above 2 V for 1 ms to 10 ms, then saturates Q7 briefly and returns to zero even if the source pulse is longer.",
-                              "The SR latch inputs were also given trigger networks so SET and RESET become short SET' and RESET' pulses rather than duration-sensitive input states.",
-                              "Students introduced a triangular PTT measurement strategy: while V_PTT is high, an analog voltage ramps up; when V_PTT ends, the ramp resets.",
-                              "A peak detector captured the maximum ramp voltage, initially using a real diode with about 0.7 V forward drop and a capacitor selected to reach 95% of final value in about 1 ms from Rth = 200 ohm."
-                        ]
-                  },
-                  {
-                        "title": "T4 - PTT integrator and current mirror ramp generator",
-                        "goal": "Generate the ramp where 1 V corresponds to 100 ms of pulse transit time.",
-                        "details": [
-                              "The integrator turns V_PTT pulse width into a triangular voltage whose peak is proportional to delay.",
-                              "With C4 = 1 microfarad, students selected current I9 so the output rises 1 V every 100 ms, giving an intuitive PTT scale and a 500 ms full-scale limit at 5 V.",
-                              "A reset transistor discharges C4 to zero in roughly 100 microseconds when V_PTT goes low, making reset fast compared with physiological PTT values.",
-                              "Logic inversion was added so Q11 discharges the capacitor when PTT = 0 V and stays off while PTT = 5 V.",
-                              "A PNP current mirror using Q8/Q9 produced the ramp current, while Q10 disabled the current source during reset to reduce energy consumption.",
-                              "Students also selected bitmap artwork to personalize the PCB that would later be fabricated."
-                        ]
-                  },
-                  {
-                        "title": "T5 - Beat comparator, IR receiver, and virtual ground",
-                        "goal": "Detect local heartbeats, receive remote IR pulses, and support single-supply analog stages.",
-                        "details": [
-                              "An LM393LVDR rail-to-rail open-drain comparator was introduced to produce a digital heartbeat event when the PPG signal crosses a potentiometer-adjustable threshold.",
-                              "R50 was selected as the pull-up/interface resistor so the comparator output approximates a short for the pulse generator input while respecting the comparator short-circuit current limit.",
-                              "Remote IR reception used three PT12-21C/TR8 phototransistors arranged circularly so at least one could detect light from another prototype.",
-                              "Students estimated received radiant intensity at 15 cm from a VSMB10940 emitter, mapped it to phototransistor collector current, and chose R29 so the comparator input crosses below 2.5 V on detection.",
-                              "A 2.5 V virtual ground was generated from equal resistors with less than 5 microamp divider current, stabilized by C7, and buffered by an MCP6009T-E/SL op-amp.",
-                              "The latch SR output also used a buffer to reduce loading."
-                        ]
-                  },
-                  {
-                        "title": "T6 - Transimpedance amplifier, DC-removal loop, and precision peak detector",
-                        "goal": "Extract a usable PPG signal and remove diode error from PTT peak capture.",
-                        "details": [
-                              "Students first compared a simple photodiode resistor converter with a transimpedance amplifier, noting that the resistor version has high output impedance and changes photodiode voltage as signal changes.",
-                              "The MCP6009-based compensated TIA used R23 for approximately vo = 1000 ip and C5 to place the compensation pole around -100 rad/s.",
-                              "Because PPG contains a large DC baseline and a much smaller AC pulse component, the project introduced a closed-loop DC-removal filter using a Deboo integrator.",
-                              "The Deboo integrator generates an error related to DC output and feeds back a current through R28 to subtract baseline current from the photodiode signal path.",
-                              "Students designed R24-R28 and C6 so the loop removes skin/contact-dependent DC while preserving the AC PPG waveform.",
-                              "The PTT peak detector was upgraded to a precision rectifier/superdiode so the held peak approximates max(vi) without losing 0.7 V across a diode; Q14 and resistors discharge C13 at measurement start."
-                        ]
-                  },
-                  {
-                        "title": "T7 - PPG band-pass gain and heart-rate averaging",
-                        "goal": "Shape the PPG waveform and convert normalized beat pulses into an HR voltage.",
-                        "details": [
-                              "The output of the TIA/DC-removal block still has only a few millivolts of PPG amplitude, so students added another filtering and amplification stage.",
-                              "A high-pass section near 0.3 Hz removes residual drift, and a low-pass section near 20 Hz attenuates high-frequency noise.",
-                              "The assignment explicitly showed that directly cascading passive high-pass and low-pass filters changes their behavior, motivating a buffer between stages.",
-                              "The buffered band-pass was then configured for about 100x maximum gain using R33 and R34.",
-                              "For heart rate, each detected beat produces a fixed-width 5 V pulse. The average of the pulse train is W H f, so a low-pass filter extracts a DC voltage proportional to HR.",
-                              "A Sallen-Key low-pass filter was designed to attenuate 1 Hz components about 100x while preserving DC, balancing ripple rejection against settling time."
-                        ]
-                  },
-                  {
-                        "title": "T8 - Monostable HR scale and BOM for fabrication",
-                        "goal": "Set the HR conversion scale and prepare the manufactured board for assembly.",
-                        "details": [
-                              "Students derived pulse width W such that the pulse-train average gives 1 V per 100 beats per minute, with H = 5 V and f in Hz.",
-                              "A monostable multivibrator generated that fixed W on each detected beat, using +2.5 V and -2.5 V around the virtual ground.",
-                              "A PNP trigger stage with Q13 and R39 injects current into the monostable trigger node when the heartbeat trigger output drops.",
-                              "Students reviewed corrections from previous assignments and updated any component values that changed.",
-                              "The course staff had digitalized the complete circuit and designed the PCB; students completed a BOM covering capacitors, diodes, MCP6009 op-amps, LM393 comparators, BC846A/BC857C transistors, SFH7070, VSMB10940 IR LEDs, PT12-21C/TR8 phototransistors, TPS61322A regulator, and many resistors."
-                        ]
-                  },
-                  {
-                        "title": "T9 - AA battery power, 5 V boost regulator, and validation preparation",
-                        "goal": "Close the design as a battery-powered medical-device prototype and prepare comparison measurements.",
-                        "details": [
-                              "The final prototype used two 1.5 V AA cells in series as its energy source.",
-                              "Students estimated alkaline AA energy capacity and total current consumption, including IC quiescent currents and optical/display loads.",
-                              "The TPS613222A boost regulator generated the required 5 V rail; unlike the thermometer, this PPG regulator was specified to remain always on.",
-                              "Students selected CR1, CR2, CR3, and L1 for the regulator application circuit, with L1 fixed at 4.7 microhenry and capacitors chosen from the available inventory.",
-                              "Regulator efficiency was included in the battery-life estimate.",
-                              "For prototype testing, students prepared reference heart-rate measurements for each group member seated at rest and standing, three measurements per condition."
-                        ]
-                  },
-                  {
-                        "title": "T10 - PCB assembly, demonstration, and physiological measurements",
-                        "goal": "Fabricate, test, and keep working PPG boards.",
-                        "details": [
-                              "Students soldered the manufactured PCBs under supervision, using their own selected component values from the semester.",
-                              "Assembly combined reflow for surface-mount components with manual soldering using a soldering iron for through-hole parts.",
-                              "Juliano designed the fabricated board in Autodesk Fusion 360, and the timelapse linked above documents the layout process that produced the manufacturing output.",
-                              "Teams demonstrated the working board to the professor before the end of the semester.",
-                              "Optional characterization asked students to measure heart rate and PTT at rest and standing, recording sensor distance so pulse-wave propagation velocity could be calculated.",
-                              "As in the other fabrication semesters, the finished boards were student-owned artifacts that students took with them."
-                        ]
-                  }
-            ],
-            "technicalTitle": "Technical constraints and component set",
-            "technicalHighlights": [
-                  "Physiological outputs: HR is represented by the average of a normalized beat pulse train; PTT is represented by the peak of a ramp generated while the V_PTT latch output is high.",
-                  "Display scaling: 10 mV corresponds to 1 bpm for HR or 1 ms for PTT, giving a 0 to 5 V display range of 0 to 500 bpm or 0 to 500 ms.",
-                  "Optical front end: SFH7070 green LEDs and photodiode, VSMB10940 IR transmit LEDs, PT12-21C/TR8 phototransistors for remote IR detection.",
-                  "Analog front end: MCP6009T-E/SL op-amps implement the TIA, Deboo integrator, buffers, precision rectifier, active filters, monostables, and virtual-ground support.",
-                  "Logic and detection: LM393LVDR comparators provide pulse detection and IR detection, while discrete BC846A/BC857C transistor networks implement LED drivers, latch logic, triggers, current mirrors, and resets.",
-                  "Filtering: closed-loop DC removal addresses skin/contact baseline variation; band-pass filtering isolates PPG roughly above 0.3 Hz and below 20 Hz; HR averaging uses a low-pass filter with strong attenuation near 1 Hz ripple.",
-                  "Power: two AA cells feed a TPS613222A 5 V boost regulator with 4.7 microhenry inductor and selected capacitors, with efficiency included in battery-life estimates.",
-                  "Manufacturing: the PCB was designed in Fusion 360 from the complete schematic, fabricated externally, then assembled by students using both SMD reflow and through-hole hand soldering."
-            ],
-            "componentsTitle": "From Fusion 360 layout to student-built PPG boards",
-            "componentsIntro": "This semester pushed the PPG design closer to a medtech hardware workflow: complete schematic capture, a manufactured PCB, documented board-layout timelapse, group-specific component values, SMD reflow, through-hole hand soldering, functional demonstration, and student-owned finished boards.",
-            "organizationTitle": "Teaching and delivery model",
-            "organization": [
-                  "The project was divided into ten assignments that progressively built optical emission, PTT logic, analog timing, signal conditioning, HR extraction, power, BOM preparation, and assembly.",
-                  "Each group selected component values from constrained inventories, corrected them through feedback, and used those final values when soldering its board.",
-                  "The same physical PCB supported multiple group colors and selected values, while Fusion 360 layout connected the analog design exercise to actual fabrication output.",
-                  "The fabrication workflow combined reflow for surface-mount devices and manual soldering for through-hole components, giving students hands-on exposure to mixed assembly methods.",
-                  "Final validation encouraged comparison against reference HR measurements and paired-device PTT tests that could be used to estimate pulse-wave propagation velocity."
-            ]
+      title: 'Fotopletismógrafo com PCB fabricada',
+      summary: 'Projeto avançado de PPG que mide frecuencia cardíaca e tiempo de tránsito de pulso usando SFH7070, comunicación IR entre dispositivos, temporización analógica, detección de pico, promedio de HR, PCB en Fusion 360 e montagem mixto.',
+      learning: 'Os estudantes conectaram sensado óptico, front-end analógico, lógica temporal discreta, conversión de ancho de pulso a voltaje, fabricación PCB, BOM, presupuesto de energía e validación fisiológica.',
+      detail: {
+        overview: 'Este projeto retomó la fotopletismografía como un protótipo de PCB más cercano a fabricación real. A diferencia do PPG de 2023 en stripboard, este dispositivo mide frecuencia cardíaca e puede trabajar emparejado com una segunda unidad para estimar el tiempo de tránsito de pulso (PTT), combinando detección óptica, comunicación infrarroja, temporización analógica, escalamiento para display, fabricación de placa e montagem estudiantil.',
+        architectureTitle: 'Arquitetura do sistema',
+        architecture: ['Bloque óptico: el SFH7070 integra LEDs verdes e fotodiodo para PPG reflectiva.', 'Comunicación e indicación: un LED visible marca latidos e tres LEDs IR VSMB10940 transmiten eventos para otra unidad.', 'Lógica PTT: un latch SR crea un pulso cuyo ancho representa el retraso entre eventos local e remoto.', 'Conversión PTT: un integrador com espejo de corriente gera una rampa de 1 V por 100 ms e un detector de pico retiene el valor.', 'Front-end PPG: un TIA compensado convierte corriente de fotodiodo en voltaje.', 'Remoción de DC: un integrador Deboo en lazo cerrado elimina basal de piel/contacto.', 'HR: comparador, monoestable e filtro pasa-baja convierten latidos en un voltaje promedio.', 'Energía e fabricación: dos pilas AA alimentan un elevador TPS613222A; la PCB fue diseñada en Fusion 360 e ensamblada com reflow e soldadura manual.'],
+        phasesTitle: 'Organização por fases',
+        phases: [
+          { title: 'T1 - Emisores ópticos, IR e display', goal: 'Definir as interfaces ópticas e visuales.', details: ['Se seleccionó el SFH7070 para sensado PPG.', 'Os LEDs verdes se diseñaron alrededor de 10 mA.', 'Se estableció la escala de 10 mV por bpm o milisegundo.'] },
+          { title: 'T2 - Drivers e latch SR', goal: 'Conmutar LEDs e memorizar el intervalo PTT.', details: ['Transistores NPN manejan LEDs visibles e IR.', 'El latch SR cambia según el rol do dispositivo.', 'El ancho de V_PTT representa el retardo entre pulsos.'] },
+          { title: 'T3 - Pulsos cortos e detector de pico', goal: 'Normalizar eventos e empezar la conversión analógica.', details: ['Redes RC geran gatillos de 1 a 10 ms.', 'SET e RESET se vuelven pulsos breves.', 'Un detector de pico conserva el máximo da rampa PTT.'] },
+          { title: 'T4 - Integrador PTT', goal: 'Generar una rampa calibrada de tiempo a voltaje.', details: ['Con C4 de 1 uF se ajustó la corriente para 1 V cada 100 ms.', 'Un transistor descarga el capacitor en unos 100 us.', 'El espejo PNP e su habilitación reducen consumo.'] },
+          { title: 'T5 - Comparador, receptor IR e tierra virtual', goal: 'Detectar latidos locales e pulsos remotos.', details: ['Un LM393LVDR compara la señal PPG com umbral ajustable.', 'Tres fototransistores PT12-21C/TR8 reciben IR desde distintas direcciones.', 'Una tierra virtual de 2,5 V se estabiliza e bufferiza.'] },
+          { title: 'T6 - TIA, remoción DC e detector preciso', goal: 'Extraer una señal PPG átil e mejorar retención de PTT.', details: ['El MCP6009 implementa un TIA compensado.', 'El lazo Deboo resta la componente DC grande.', 'El detector de pico se actualiza a rectificador preciso.'] },
+          { title: 'T7 - Filtrado PPG e promedio HR', goal: 'Acondicionar la forma de onda e estimar frecuencia cardíaca.', details: ['Un pasa-alta cercano a 0,3 Hz remueve deriva.', 'Un pasa-baja alrededor de 20 Hz atenúa ruído.', 'El promedio do tren de pulsos gera el voltaje de HR.'] },
+          { title: 'T8 - Monoestable e BOM', goal: 'Calibrar HR e preparar fabricación.', details: ['El ancho W se eligió para que 1 V represente 100 bpm.', 'Se completó la BOM com valores corregidos.', 'La PCB digitalizada quedó lista para fabricación.'] },
+          { title: 'T9 - Alimentación e validación', goal: 'Fechar el protótipo portátil.', details: ['Dos pilas AA alimentan el elevador a 5 V.', 'Se estimó consumo e duración de batería.', 'Se prepararam medidas de referencia sentado e de pie.'] },
+          { title: 'T10 - Montaje e demostración', goal: 'Fabricar placas funcionales para cada estudiante.', details: ['Os estudantes soldaron sus valores seleccionados.', 'El montagem combinó reflow para SMD e cautín para through-hole.', 'Las placas terminadas fueron demostradas e luego llevadas a casa.'] }
+        ],
+        technicalTitle: 'Restrições técnicas e componentes',
+        technicalHighlights: ['HR se obtiene como promedio de pulsos normalizados; PTT como pico de una rampa temporal.', 'La escala do display usa 10 mV por bpm o 10 mV por ms.', 'El sistema usa SFH7070, VSMB10940 e PT12-21C/TR8.', 'MCP6009 e LM393LVDR implementan amplificación, comparación, filtros e buffers.', 'BC846A/BC857C realizan drivers, latch, espejos de corriente e resets.', 'La fabricación incluyó PCB diseñada en Fusion 360, stencil/reflow SMD e soldadura manual de componentes through-hole.'],
+        componentsTitle: 'De Fusion 360 a placas PPG construidas por estudiantes',
+        componentsIntro: 'El semestre acercó el PPG a un flujo medtech real: esquemático completo, PCB fabricada, timelapse de diseño, valores calculados por grupo, reflow SMD, soldadura manual, demostración funcional e placa final para cada estudiante.',
+        organizationTitle: 'Modelo de ensino e entrega',
+        organization: ['Diez tareas construyeron progresivamente emisión óptica, lógica PTT, temporización, acondicionamiento, HR, energía, BOM e montagem.', 'Cada grupo eligió valores dentro de inventários restritos e os corrigió com retroalimentación.', 'La misma PCB soportó colores e valores de grupo distintos.', 'La validación incluyó HR de referencia e pruebas pareadas de PTT.']
       },
-      "componentEyebrow": "Fusion-to-fabrication workflow",
-      "componentImageAlt": "Top view of the fabricated photoplethysmograph PCB design.",
-      "timelapseLabel": "Watch Fusion 360 PCB timelapse",
-      "timelapseDescription": "Juliano recorded the Autodesk Fusion 360 board-layout process that produced the files sent for fabrication.",
-      "gallery": {
-            "schematic1": "First sheet of the complete photoplethysmograph schematic.",
-            "schematic2": "Second sheet of the complete photoplethysmograph schematic.",
-            "schematic3": "Third sheet of the complete photoplethysmograph schematic.",
-            "schematic4": "Fourth sheet of the complete photoplethysmograph schematic.",
-            "top": "Top view of the designed photoplethysmograph PCB.",
-            "bottom": "Bottom view of the designed photoplethysmograph PCB."
-      },
-      "phaseImages": {
-            "t1": "Green LED current-limiting circuit used for the SFH7070 light source.",
-            "t2": "SR latch circuit used to generate a PTT pulse between local and remote pulse events.",
-            "t3": "Peak detector used to hold the maximum value of the PTT ramp.",
-            "t4": "Current-mirror integrator with reset used to convert PTT duration into voltage.",
-            "t5": "Infrared detection circuit using phototransistors and a comparator.",
-            "t6": "Optical detector plus closed-loop DC-removal filter for the PPG signal.",
-            "t7": "Buffered band-pass amplifier used to filter and amplify the PPG waveform.",
-            "t8": "Monostable multivibrator used to normalize beat-pulse width for HR conversion.",
-            "t9": "Top view of the final PPG PCB prepared for fabrication.",
-            "t10": "Bottom view of the final PPG PCB prepared for fabrication."
-      }
+      componentEyebrow: 'Fluxo do Fusion 360 à fabricação',
+      componentImageAlt: 'Vista superior da PCB do fotopletismógrafo fabricado.',
+      timelapseLabel: 'Ver timelapse do diseño PCB en Fusion 360',
+      timelapseDescription: 'Juliano grabó el proceso de layout en Autodesk Fusion 360 que produjo os archivos enviados a fabricación.',
+      gallery: { schematic1: 'Primera hoja do esquemático completo do PPG.', schematic2: 'Segunda hoja do esquemático completo do PPG.', schematic3: 'Tercera hoja do esquemático completo do PPG.', schematic4: 'Cuarta hoja do esquemático completo do PPG.', top: 'Vista superior da PCB diseñada.', bottom: 'Vista inferior da PCB diseñada.' },
+      phaseImages: { t1: 'Circuito limitador de corriente para LED verde.', t2: 'Latch SR para gerar el pulso PTT.', t3: 'Detector de pico para la rampa PTT.', t4: 'Integrador com espejo de corriente e reset.', t5: 'Receptor infrarrojo com fototransistores e comparador.', t6: 'Detector óptico com remoción DC en lazo cerrado.', t7: 'Amplificador pasa-banda para PPG.', t8: 'Monoestable para normalizar pulsos de HR.', t9: 'Vista superior da PCB final.', t10: 'Vista inferior da PCB final.' }
 },
     stethoscope2025: {
-      "title": "Electronic stethoscope with staged fabrication labs",
-      "summary": "Two-board electronic stethoscope prototype that amplifies and filters body sounds, drives a speaker, detects heartbeats from the acoustic envelope, estimates heart rate, and displays HR as an analog voltage on a panel meter.",
-      "learning": "Students connected acoustic transduction, analog audio gain, active filtering, envelope detection, pulse generation, HR averaging, battery regulation, PCB/stencil assembly, stripboard construction, and functional prototype validation.",
-      "detail": {
-            "overview": "This semester built an electronic stethoscope as a mixed audio, analog signal-processing, and fabrication project. The prototype was split into two physical boards: Board 1 captures body sounds with an electret microphone, conditions the signal, controls volume, and drives a speaker; Board 2 detects heartbeat events from the audio envelope, converts them into fixed-width pulses, averages those pulses into a heart-rate voltage, and shows the result on a voltage display. Unlike semesters where fabrication happened mainly at the end, this project included three explicit lab activities during the semester, so students progressively soldered, corrected, tested, and expanded their own hardware.",
-            "architectureTitle": "System architecture",
-            "architecture": [
-                  "Acoustic front end: a CZN-15E electret microphone converts body sounds into a small current signal, biased through a selected resistor so the microphone operates around its required voltage range.",
-                  "Virtual-ground supply: a 5 V rail is split into +2.5 V and -2.5 V relative to a buffered virtual ground so LM324/MCP6009 analog stages can process AC signals around mid-supply.",
-                  "Audio board: an inverting preamplifier, AC coupling, volume-control amplifier, active low-pass/filter gain stage, and LM386 audio amplifier reproduce the stethoscope sound on an 8 ohm speaker.",
-                  "Noise and bandwidth shaping: Filter 1 targets the useful cardiac-auscultation band, using the 20 Hz to 650 Hz heart-sound range as the design anchor while increasing usable gain after the first lab tests showed low volume and noise.",
-                  "Heartbeat extraction board: an active envelope detector follows the amplitude of the amplified audio, a threshold comparator detects peaks, and a trigger network generates short events when sound amplitude crosses the selected threshold.",
-                  "Pulse/HR conversion: a monostable generates fixed-width 5 V pulses for each detected beat, and a Sallen-Key low-pass filter extracts the pulse-train average so 1.00 V on the display corresponds to 100 beats per minute.",
-                  "User feedback: group-color LEDs indicate power and blink on detected pulse events, with MOSFET switching used so the pulse LED is controlled by the detection pulse rather than staying constantly on.",
-                  "Power system: a 9 V battery feeds an LM7805 fixed 5 V regulator, with students estimating current draw, regulator efficiency, and expected battery life from the selected components.",
-                  "Physical implementation: Board 1 was built on stripboard around the microphone, speaker, LM324, LM386, controls, and filters; Board 2 was a manufactured PCB assembled with stencil, solder paste, SMD reflow, and hand-soldered through-hole parts."
-            ],
-            "phasesTitle": "Design assignments and fabrication labs",
-            "phases": [
-                  {
-                        "title": "T1 - Audio gain chain and speaker driver",
-                        "goal": "Start the stethoscope as an audio instrument: amplify body sounds, provide volume control, and drive an 8 ohm speaker.",
-                        "details": [
-                              "Students specified the prototype functions: measure, amplify, filter, and reproduce body sounds; control volume; estimate heart rate; and flash a pulse indicator when a heartbeat is detected.",
-                              "The first inverting amplifier was designed for approximately 20x voltage gain using available resistor values, while keeping input resistance between 10 kilohm and 100 kilohm.",
-                              "A second inverting stage with a potentiometer implemented volume control, with design limits for minimum gain around 0.2 to 0.6 and maximum gain around 5 to 10.",
-                              "The assignment exposed why an 8 ohm speaker cannot be driven directly from a 1 kilohm-output op-amp stage, motivating the LM386 audio amplifier.",
-                              "Students read the LM386 datasheet to identify supply pins, input/output pins, 5 V operation, 8 ohm speaker compatibility, input resistance, default gain, quiescent current, and speaker output power."
-                        ]
-                  },
-                  {
-                        "title": "T2 - Virtual ground, electret microphone bias, and Board 1 BOM",
-                        "goal": "Make the single-supply audio front end behave like a bipolar analog system and connect the electret microphone without saturating the amplifier.",
-                        "details": [
-                              "A resistor divider generated a weak 2.5 V midpoint with less than 100 microamp divider current; a capacitor stabilized it, and a buffer converted it into the usable virtual ground Vbias.",
-                              "The CZN-15E electret microphone was modeled as a current source with a DC consumption component and a small AC component proportional to sound pressure.",
-                              "Students selected R1 so the microphone would operate around 3 V to 4 V when drawing up to 0.5 mA.",
-                              "They analyzed the problem of amplifying the DC microphone bias together with the sound signal, then inserted an AC-coupling capacitor C1 so the large DC component is blocked before Amplifier 1.",
-                              "The assignment ended with a Board 1 BOM for the circuit to be fabricated in Lab 3, including LM386 typical-application parts and coupling capacitors selected from the available inventory."
-                        ]
-                  },
-                  {
-                        "title": "T3 - Startup transient, heartbeat pulse generator, and HR averaging filter",
-                        "goal": "Introduce the second board and the signal path that turns acoustic pulse events into a heart-rate voltage.",
-                        "details": [
-                              "Students calculated how long the Board 1 audio circuit and virtual-ground network take to settle after power-on before the stethoscope is ready to amplify signals.",
-                              "The prototype was explicitly split into Board 1 for microphone/audio/speaker and Board 2 for heartbeat detection and display.",
-                              "A comparator with adjustable threshold was introduced to switch when the envelope signal crosses a selected level; MCP6009T-E/SL rail-to-rail behavior and 5 V supply current were studied.",
-                              "A passive high-pass trigger network was designed so a 5 V comparator step produces a short pulse that remains above 2 V for roughly 1 ms to 10 ms.",
-                              "For HR display, students studied a fixed-width pulse train whose average equals W H f, then designed a Sallen-Key low-pass filter to attenuate 1 Hz ripple roughly 100x while preserving DC average."
-                        ]
-                  },
-                  {
-                        "title": "Lab 3 - First fabrication activity: Board 1 stripboard audio prototype",
-                        "goal": "Move from paper design into a working soldered audio stethoscope section early in the semester.",
-                        "details": [
-                              "Students soldered the circuit designed through T2 on stripboard using corrected component values, LM324, LM386, speaker, microphone, wires, and bench power.",
-                              "Each group had to fabricate at least one Board 1 and demonstrate operation to the professor before the end of the lab.",
-                              "The lab explicitly asked students to connect the microphone to the stethoscope tube and use the provided stripboard layout only as a reference, not as a rigid PCB.",
-                              "Because every student would receive a board by the end of the course, groups were encouraged to continue fabricating the remaining boards after the first successful demonstration."
-                        ]
-                  },
-                  {
-                        "title": "T4 - Filter 1 and revised audio gain",
-                        "goal": "Respond to real Lab 3 behavior by improving volume and reducing audible noise.",
-                        "details": [
-                              "After testing the Lab 3 prototypes, students observed low reproduced volume and substantial noise.",
-                              "Filter 1 was inserted between the volume control and the LM386 audio amplifier, using an active low-pass/gain topology.",
-                              "The heart-sound design band was anchored around 20 Hz to 650 Hz, so the filter was designed with approximately 650 Hz cutoff and maximum gain of 2.",
-                              "Students derived the filter transfer function, frequency-dependent gain, cutoff expression, and maximum gain frequency using constrained resistor/capacitor values.",
-                              "The microphone-plus-amplifier interaction was revisited with a Thevenin equivalent, showing that R1 reduced the intended gain; R2 and R3 were then corrected so the real gain approached 20x."
-                        ]
-                  },
-                  {
-                        "title": "T5 - LEDs, active envelope detector, voltage display, and Lab 6 BOM",
-                        "goal": "Add user indicators and the analog front end that extracts heartbeat amplitude from the audio signal.",
-                        "details": [
-                              "Group-color 3 mm LEDs were used both as power indicators and as pulse indicators; students found datasheets, forward voltage, current, reverse voltage, and power limits for their LED color.",
-                              "The active envelope detector follows the amplified sound amplitude while providing gain between 2 and 3, then discharges slowly enough to track heart-sound peaks rather than individual high-frequency cycles.",
-                              "The detector design used the 20 Hz to 650 Hz heart-sound band, selecting R11, R12, and C11 so discharge time is around four times the longest sound period.",
-                              "Students analyzed the voltage display module and measured/display-current examples to estimate maximum current when all segments are lit.",
-                              "The assignment prepared separate BOMs for Board 1 and Board 2, using the T5 schematics to determine which components belonged on each physical board."
-                        ]
-                  },
-                  {
-                        "title": "T6 - MOSFET pulse LED driver and trigger stage",
-                        "goal": "Turn detected heartbeats into visible feedback and a reliable trigger for the monostable HR converter.",
-                        "details": [
-                              "The pulse LED circuit from T5 was modified so it turns on only when the detected-pulse signal is at 5 V.",
-                              "Students used the BSS806N MOSFET as a low-side LED driver, checking VGS(th), RDS(on), maximum dissipation, gate resistance, switching time, current, and MOSFET power loss.",
-                              "The pulse-generator circuit was reorganized around an AO3401A PMOS trigger that briefly raises the future monostable node when the comparator output changes state.",
-                              "Students analyzed DC output, gate voltage immediately after a comparator transition, 1N4148 diode conduction, whether the MOSFET turns on, and whether the transition completes in under 1 ms.",
-                              "R14 and R15 were chosen from available values to satisfy trigger-current and gate-drive constraints."
-                        ]
-                  },
-                  {
-                        "title": "Lab 6 - Second fabrication activity: Board 2 PCB partial assembly and Board 1 revision",
-                        "goal": "Assemble the manufactured PCB enough to test envelope detection and pulse generation while updating the stripboard audio board.",
-                        "details": [
-                              "Students received a group-color PCB, stencil, solder paste, BOM components, MCP6009 op-amps/comparators, bench instruments, soldering tools, and stripboard materials.",
-                              "For Board 2, they soldered all components whose values had already been determined and demonstrated the envelope detector plus pulse generator before the end of the lab.",
-                              "The lab explicitly included a surface-mount soldering demonstration and used the provided top and bottom PCB views as assembly references.",
-                              "For Board 1, students built or revised at least one stripboard audio board, adding Filter 1, a power LED, and corrected component values, especially the revised R2 and R3 gain-setting resistors.",
-                              "Groups could reuse Lab 3 boards after removing specified wires and were again encouraged to keep progressing toward one finished prototype per student."
-                        ]
-                  },
-                  {
-                        "title": "T7 and T8 - Battery, 5 V regulation, final corrections, and HR monostable",
-                        "goal": "Close the design with portable power and the final pulse-width calibration for heart-rate display.",
-                        "details": [
-                              "The prototype moved to a 9 V battery source, with students estimating typical capacity in mAh, total current consumption, and expected runtime including quiescent currents from the ICs.",
-                              "An LM7805 fixed 5 V regulator supplied the system; students chose recommended capacitors from inventory and estimated regulator efficiency and its impact on battery life.",
-                              "Before final fabrication, students corrected all previous assignments and generated the final BOM for Board 1 and Board 2.",
-                              "The monostable pulse width W was derived so the average of 5 V pulses equals 1 V at 100 beats per minute.",
-                              "R16, R17, R18, and C13 were selected so the monostable timing matched W while keeping maximum resistor currents below the specified limits, and the previously designed AO3401A trigger was connected to the monostable input."
-                        ]
-                  },
-                  {
-                        "title": "Lab 10 - Third fabrication activity: final prototypes and grading by functionality",
-                        "goal": "Finish complete two-board electronic stethoscopes, demonstrate operation, and let each student keep their built prototype.",
-                        "details": [
-                              "The final lab also counted as Trabajo 9, emphasizing functional hardware rather than another written design report.",
-                              "Each prototype contained Board 1 with microphone and speaker plus Board 2 with the HR display circuitry.",
-                              "The target was one functional prototype per group member; grading scaled with the number of functional boards/prototypes demonstrated, with partial credit allowed for partially functional boards at the professor's discretion.",
-                              "Students used their own component values selected and corrected through the semester, soldering SMD parts by reflow with stencil/paste and hand-soldering through-hole parts with a soldering iron.",
-                              "The final Board 1 stripboard layout and Board 2 PCB top/bottom views were included as fabrication references, and the finished prototypes were taken home by the students."
-                        ]
-                  }
-            ],
-            "technicalTitle": "Technical constraints and component set",
-            "technicalHighlights": [
-                  "Clinical signal path: acoustic body sounds are converted by an electret microphone, AC-coupled to remove the DC bias, amplified, filtered, volume-controlled, and reproduced by an LM386-driven 8 ohm speaker.",
-                  "Heart-sound bandwidth: the audio filter design used the 20 Hz to 650 Hz range as the practical cardiac auscultation band, improving signal level while attenuating higher-frequency noise.",
-                  "Virtual-ground design: 5 V operation was adapted into +2.5 V and -2.5 V analog rails around a buffered midpoint so AC stages and comparator/monostable circuits could be analyzed like bipolar circuits.",
-                  "Heartbeat detection: an active envelope detector tracks amplified sound amplitude, then a threshold comparator and high-pass trigger create short events when the envelope crosses the user-set threshold.",
-                  "HR computation: fixed-width pulses are averaged by a low-pass filter; W is chosen so 5 V pulse average maps 100 bpm to 1.00 V on the display.",
-                  "Components: CZN-15E electret microphone, LM324/LM386 audio stages, MCP6009T-E/SL rail-to-rail op-amps/comparators, BSS806N and AO3401A MOSFETs, 1N4148 diode, group-color LEDs, 9 V battery, LM7805 regulator, display module, speaker, potentiometers, stripboard, and manufactured PCB.",
-                  "Fabrication: Board 1 used point-to-point stripboard construction; Board 2 used a manufactured PCB, stencil, solder paste, SMD reflow, and hand-soldered through-hole components.",
-                  "Pedagogy: fabrication was distributed across Lab 3, Lab 6, and Lab 10, giving students multiple feedback cycles between theory, soldering, debugging, and final demonstration."
-            ],
-            "componentsTitle": "Two-board medical audio prototype with staged assembly",
-            "componentsIntro": "The stethoscope page highlights the physical manufacturing plan as much as the circuit design: early stripboard audio assembly, mid-semester PCB reflow for the detection/display board, final mixed SMD/THT assembly, functional demonstrations, and one student-owned prototype per student.",
-            "organizationTitle": "Teaching and delivery model",
-            "organization": [
-                  "Eight written assignments progressively developed the analog audio chain, microphone biasing, virtual ground, transient response, trigger generation, filtering, envelope detection, display scaling, MOSFET switching, power regulation, and monostable HR conversion.",
-                  "Three lab activities intentionally interrupted the paper-design sequence so students had to solder, test, observe deficiencies, revise values, and continue building rather than waiting until the final week.",
-                  "Lab 3 created the first Board 1 audio prototype on stripboard; Lab 6 assembled the partial Board 2 PCB and revised Board 1; Lab 10 completed the two-board stethoscope prototypes.",
-                  "The design used group-specific LED colors and group-selected component values, so students had a shared system architecture but personally computed BOMs.",
-                  "The final grading model rewarded functional prototypes, making debugging, fabrication quality, and demonstration as important as analytical calculations."
-            ]
+      title: 'Estetoscópio eletrónico com laboratórios de fabricação por etapas',
+      summary: 'Protótipo de estetoscópio electrónico de dos placas que amplifica e filtra sonidos corporales, maneja un altavoz, detecta latidos desde la envoltória acústica, estima frecuencia cardíaca e muestra HR como voltaje.',
+      learning: 'Os estudantes conectaram transducción acústica, ganho de audio, filtrado activo, detector de envoltória, geración de pulsos, promedio de HR, regulación desde batería, PCB com stencil, stripboard e validación funcional.',
+      detail: {
+        overview: 'Este semestre construyó un estetoscopio electrónico como projeto mixto de audio, procesamiento analógico e fabricación. El protótipo se dividió en dos placas: la Placa 1 captura sonidos corporales com un micrófono de electreto, acondiciona la señal, controla volumen e maneja un altavoz; la Placa 2 detecta eventos de latido desde la envoltória de audio, os convierte en pulsos de ancho fijo, promedia esos pulsos para obtener un voltaje de frecuencia cardíaca e lo muestra en un display. La fabricación se distribuyó en tres laboratorios explícitos durante el semestre.',
+        architectureTitle: 'Arquitetura do sistema',
+        architecture: ['Front-end acústico: un micrófono CZN-15E convierte sonidos corporales en una corriente pequeña.', 'Tierra virtual: una referencia bufferizada permite procesar señales AC com una fuente simple de 5 V.', 'Placa 1: preamplificador inversor, acoplamiento AC, control de volumen, filtro activo e LM386 reproducen audio en un altavoz de 8 ohm.', 'Filtrado de audio: el diseño usa la banda cardíaca aproximada de 20 Hz a 650 Hz para mejorar volumen e reducir ruído.', 'Placa 2: detector de envoltória, comparador e gatillo extraen eventos de latido.', 'Conversión HR: un monoestable gera pulsos de ancho fijo e un filtro pasa-baja entrega un promedio proporcional a bpm.', 'Indicadores: LEDs de color de grupo muestran energía e pulsos detectados.', 'Energía: una batería de 9 V e un LM7805 geran 5 V.', 'Implementación física: Placa 1 en stripboard e Placa 2 como PCB com SMD reflow e componentes through-hole soldados manualmente.'],
+        phasesTitle: 'Tarefas de projeto e laboratórios de fabricação',
+        phases: [
+          { title: 'T1 - Cadena de ganho de audio', goal: 'Amplificar sonidos corporales, controlar volumen e manejar un altavoz.', details: ['Se definieron funciones: medir, amplificar, filtrar, reproducir, estimar HR e indicar pulsos.', 'El primer amplificador se diseñó cerca de 20x.', 'El LM386 justificó la interfaz com el altavoz de 8 ohm.'] },
+          { title: 'T2 - Tierra virtual, micrófono e BOM', goal: 'Conectar el micrófono sin saturar la etapa de audio.', details: ['Se generó e bufferizó una referencia de 2,5 V.', 'El electret se modeló como fuente de corriente com componente DC e AC.', 'El capacitor de acoplamiento bloqueó la componente DC antes de amplificar.'] },
+          { title: 'T3 - Transitorio, pulso e promedio HR', goal: 'Introducir la Placa 2 e la medición de frecuencia cardíaca.', details: ['Se calculó el tiempo de estabilización al encender.', 'Un comparador com umbral ajustable detecta eventos.', 'Un filtro pasa-baja extrae el promedio de trenes de pulso.'] },
+          { title: 'Laboratorio 3 - Primera fabricación', goal: 'Construir temprano la Placa 1 de audio en stripboard.', details: ['Os estudantes soldaron el circuito hasta T2 com valores corregidos.', 'Cada grupo demostró al menos una placa funcionando.', 'La experiencia real motivó mejoras posteriores de ganho e ruído.'] },
+          { title: 'T4 - Filtro 1 e corrección de ganho', goal: 'Responder a bajo volumen e ruído observados en laboratorio.', details: ['Se agregó un filtro activo antes do LM386.', 'La frecuencia de corte se ancló cerca de 650 Hz.', 'R2 e R3 se corrigieron considerando la interacción com el micrófono.'] },
+          { title: 'T5 - LEDs, envoltória e display', goal: 'Extraer amplitud acústica e preparar Lab 6.', details: ['Os LEDs de color de grupo indicaron energía e pulso.', 'El detector activo de envoltória siguió amplitudes de sonido cardíaco.', 'El display se calibró para leer frecuencia cardíaca como voltaje.'] },
+          { title: 'T6 - Driver MOSFET e gatillo', goal: 'Conmutar el LED de pulso e gatillar el monoestable.', details: ['El BSS806N controla el LED sólo durante el pulso.', 'El AO3401A gera un gatillo breve para la etapa futura.', 'Se revisaron tiempos, correntes e disipación.'] },
+          { title: 'Laboratorio 6 - Segunda fabricación', goal: 'Montar parcialmente la Placa 2 e revisar la Placa 1.', details: ['La Placa 2 usó PCB de color de grupo, stencil, pasta e SMD.', 'Se demostró detector de envoltória e gerador de pulso.', 'La Placa 1 incorporó filtro, LED de encendido e valores corregidos.'] },
+          { title: 'T7 e T8 - Batería, regulador e monoestable', goal: 'Fechar energía portátil e escala de HR.', details: ['Una batería de 9 V alimenta un LM7805 de 5 V.', 'Se estimó consumo, eficiencia e duración.', 'El ancho W do monoestable se eligió para que 1 V represente 100 bpm.'] },
+          { title: 'Laboratorio 10 - Fabricación final', goal: 'Completar prototipos de dos placas para cada estudiante.', details: ['La nota dependió do número de prototipos funcionales demostrados.', 'Se usaron valores elegidos e corregidos durante el semestre.', 'El montagem combinó reflow SMD, soldadura manual through-hole e entrega final de placas a os estudiantes.'] }
+        ],
+        technicalTitle: 'Restrições técnicas e componentes',
+        technicalHighlights: ['La señal acústica se convierte com micrófono electret, se acopla en AC, se amplifica, filtra e reproduce.', 'El rango de sonidos cardíacos de 20 Hz a 650 Hz guió el filtro de audio.', 'La tierra virtual permite procesar señales alrededor de media alimentación.', 'La envoltória e el comparador transforman sonido en eventos de latido.', 'Pulsos de ancho fijo se promedian para que 1,00 V represente 100 bpm.', 'Componentes clave: CZN-15E, LM324, LM386, MCP6009, BSS806N, AO3401A, 1N4148, LM7805, display, altavoz, LEDs e PCB/stripboard.'],
+        componentsTitle: 'Protótipo médico de audio en dos placas',
+        componentsIntro: 'La página enfatiza tanto la fabricación como el diseño: montagem temprano en stripboard, reflow de PCB a mitad de semestre, ensamblaje mixto final, demostraciones funcionales e un protótipo conservado por cada estudiante.',
+        organizationTitle: 'Modelo de ensino e entrega',
+        organization: ['Ocho tareas desarrollaron audio, micrófono, tierra virtual, filtros, envoltória, display, MOSFETs, alimentación e monoestable.', 'Tres laboratorios interrumpieron la teoría para soldar, probar, corregir e ampliar hardware real.', 'Lab 3 construyó Placa 1, Lab 6 ensambló Placa 2 e revisó Placa 1, Lab 10 completó el sistema.', 'La evaluación final premió prototipos funcionales, depuración e calidad de fabricación.']
       },
-      "componentEyebrow": "Board 2 PCB and mixed assembly",
-      "componentImageAlt": "Top view of the electronic stethoscope heart-rate display PCB.",
-      "gallery": {
-            "board1Schematic": "Final schematic for Board 1, the microphone, filter, volume-control, and speaker board.",
-            "board1Layout": "Suggested stripboard layout for Board 1 assembly.",
-            "board2Schematic": "Final schematic for Board 2, the heartbeat detection and display board.",
-            "top": "Top view of the manufactured Board 2 PCB.",
-            "bottom": "Bottom view of the manufactured Board 2 PCB.",
-            "envelope": "Active envelope detector used to follow the amplitude of the stethoscope audio signal."
-      },
-      "phaseImages": {
-            "t1": "Inverting amplifier used as the first audio gain stage.",
-            "t2": "AC-coupled electret microphone amplifier that blocks the microphone DC bias.",
-            "t3": "Comparator stage used to begin the heartbeat pulse generator.",
-            "lab1": "Board 1 circuit fabricated on stripboard during the first lab activity.",
-            "t4": "Active low-pass/gain filter inserted after Lab 3 to improve stethoscope audio.",
-            "t5": "Active envelope detector used to extract heartbeat amplitude from audio.",
-            "t6": "Modified pulse generator and MOSFET trigger for the monostable stage.",
-            "lab2": "Top view of the Board 2 PCB used during the second fabrication lab.",
-            "t8": "Monostable multivibrator connected to the trigger circuit for HR conversion.",
-            "lab3a": "Suggested final stripboard layout for Board 1.",
-            "lab3b": "Bottom view of the final Board 2 PCB."
-      }
+      componentEyebrow: 'PCB da Placa 2 e montagem mista',
+      componentImageAlt: 'Vista superior da PCB de frecuencia cardíaca do estetoscopio electrónico.',
+      gallery: { board1Schematic: 'Esquemático final da Placa 1, com micrófono, filtro, volumen e altavoz.', board1Layout: 'Layout sugerido en stripboard para la Placa 1.', board2Schematic: 'Esquemático final da Placa 2, com detección de latido e display.', top: 'Vista superior da PCB de Placa 2.', bottom: 'Vista inferior da PCB de Placa 2.', envelope: 'Detector activo de envoltória para la señal de audio.' },
+      phaseImages: { t1: 'Amplificador inversor como primera etapa de audio.', t2: 'Amplificador de micrófono electret com acoplamiento AC.', t3: 'Comparador para gerador de pulsos de latido.', lab1: 'Circuito de Placa 1 fabricado en stripboard.', t4: 'Filtro ativo para mejorar el audio.', t5: 'Detector activo de envoltória.', t6: 'Generador de pulso modificado e gatillo MOSFET.', lab2: 'Vista superior da PCB usada en Lab 6.', t8: 'Monoestable conectado al gatillo de HR.', lab3a: 'Layout final sugerido para Placa 1.', lab3b: 'Vista inferior da PCB final de Placa 2.' }
 },
+
   },
 };
 
