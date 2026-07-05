@@ -759,7 +759,182 @@ export const es = {
             "t10": "Bottom view of the final PPG PCB prepared for fabrication."
       }
 },
-    stethoscope2025: { title: 'Prototipo de estetoscopio digital', summary: 'Proyecto de auscultación centrado en sensado acústico, acondicionamiento de audio analógico, filtrado y transición desde sonidos corporales hacia análisis digital.', learning: 'El proyecto conecta el examen clínico clásico con adquisición moderna de señales, abriendo un puente hacia IA médica, monitoreo remoto y tecnologías bioacústicas.' },
+    stethoscope2025: {
+      "title": "Electronic stethoscope with staged fabrication labs",
+      "summary": "Two-board electronic stethoscope prototype that amplifies and filters body sounds, drives a speaker, detects heartbeats from the acoustic envelope, estimates heart rate, and displays HR as an analog voltage on a panel meter.",
+      "learning": "Students connected acoustic transduction, analog audio gain, active filtering, envelope detection, pulse generation, HR averaging, battery regulation, PCB/stencil assembly, stripboard construction, and functional prototype validation.",
+      "detail": {
+            "overview": "This semester built an electronic stethoscope as a mixed audio, analog signal-processing, and fabrication project. The prototype was split into two physical boards: Board 1 captures body sounds with an electret microphone, conditions the signal, controls volume, and drives a speaker; Board 2 detects heartbeat events from the audio envelope, converts them into fixed-width pulses, averages those pulses into a heart-rate voltage, and shows the result on a voltage display. Unlike semesters where fabrication happened mainly at the end, this project included three explicit lab activities during the semester, so students progressively soldered, corrected, tested, and expanded their own hardware.",
+            "architectureTitle": "System architecture",
+            "architecture": [
+                  "Acoustic front end: a CZN-15E electret microphone converts body sounds into a small current signal, biased through a selected resistor so the microphone operates around its required voltage range.",
+                  "Virtual-ground supply: a 5 V rail is split into +2.5 V and -2.5 V relative to a buffered virtual ground so LM324/MCP6009 analog stages can process AC signals around mid-supply.",
+                  "Audio board: an inverting preamplifier, AC coupling, volume-control amplifier, active low-pass/filter gain stage, and LM386 audio amplifier reproduce the stethoscope sound on an 8 ohm speaker.",
+                  "Noise and bandwidth shaping: Filter 1 targets the useful cardiac-auscultation band, using the 20 Hz to 650 Hz heart-sound range as the design anchor while increasing usable gain after the first lab tests showed low volume and noise.",
+                  "Heartbeat extraction board: an active envelope detector follows the amplitude of the amplified audio, a threshold comparator detects peaks, and a trigger network generates short events when sound amplitude crosses the selected threshold.",
+                  "Pulse/HR conversion: a monostable generates fixed-width 5 V pulses for each detected beat, and a Sallen-Key low-pass filter extracts the pulse-train average so 1.00 V on the display corresponds to 100 beats per minute.",
+                  "User feedback: group-color LEDs indicate power and blink on detected pulse events, with MOSFET switching used so the pulse LED is controlled by the detection pulse rather than staying constantly on.",
+                  "Power system: a 9 V battery feeds an LM7805 fixed 5 V regulator, with students estimating current draw, regulator efficiency, and expected battery life from the selected components.",
+                  "Physical implementation: Board 1 was built on stripboard around the microphone, speaker, LM324, LM386, controls, and filters; Board 2 was a manufactured PCB assembled with stencil, solder paste, SMD reflow, and hand-soldered through-hole parts."
+            ],
+            "phasesTitle": "Design assignments and fabrication labs",
+            "phases": [
+                  {
+                        "title": "T1 - Audio gain chain and speaker driver",
+                        "goal": "Start the stethoscope as an audio instrument: amplify body sounds, provide volume control, and drive an 8 ohm speaker.",
+                        "details": [
+                              "Students specified the prototype functions: measure, amplify, filter, and reproduce body sounds; control volume; estimate heart rate; and flash a pulse indicator when a heartbeat is detected.",
+                              "The first inverting amplifier was designed for approximately 20x voltage gain using available resistor values, while keeping input resistance between 10 kilohm and 100 kilohm.",
+                              "A second inverting stage with a potentiometer implemented volume control, with design limits for minimum gain around 0.2 to 0.6 and maximum gain around 5 to 10.",
+                              "The assignment exposed why an 8 ohm speaker cannot be driven directly from a 1 kilohm-output op-amp stage, motivating the LM386 audio amplifier.",
+                              "Students read the LM386 datasheet to identify supply pins, input/output pins, 5 V operation, 8 ohm speaker compatibility, input resistance, default gain, quiescent current, and speaker output power."
+                        ]
+                  },
+                  {
+                        "title": "T2 - Virtual ground, electret microphone bias, and Board 1 BOM",
+                        "goal": "Make the single-supply audio front end behave like a bipolar analog system and connect the electret microphone without saturating the amplifier.",
+                        "details": [
+                              "A resistor divider generated a weak 2.5 V midpoint with less than 100 microamp divider current; a capacitor stabilized it, and a buffer converted it into the usable virtual ground Vbias.",
+                              "The CZN-15E electret microphone was modeled as a current source with a DC consumption component and a small AC component proportional to sound pressure.",
+                              "Students selected R1 so the microphone would operate around 3 V to 4 V when drawing up to 0.5 mA.",
+                              "They analyzed the problem of amplifying the DC microphone bias together with the sound signal, then inserted an AC-coupling capacitor C1 so the large DC component is blocked before Amplifier 1.",
+                              "The assignment ended with a Board 1 BOM for the circuit to be fabricated in Lab 3, including LM386 typical-application parts and coupling capacitors selected from the available inventory."
+                        ]
+                  },
+                  {
+                        "title": "T3 - Startup transient, heartbeat pulse generator, and HR averaging filter",
+                        "goal": "Introduce the second board and the signal path that turns acoustic pulse events into a heart-rate voltage.",
+                        "details": [
+                              "Students calculated how long the Board 1 audio circuit and virtual-ground network take to settle after power-on before the stethoscope is ready to amplify signals.",
+                              "The prototype was explicitly split into Board 1 for microphone/audio/speaker and Board 2 for heartbeat detection and display.",
+                              "A comparator with adjustable threshold was introduced to switch when the envelope signal crosses a selected level; MCP6009T-E/SL rail-to-rail behavior and 5 V supply current were studied.",
+                              "A passive high-pass trigger network was designed so a 5 V comparator step produces a short pulse that remains above 2 V for roughly 1 ms to 10 ms.",
+                              "For HR display, students studied a fixed-width pulse train whose average equals W H f, then designed a Sallen-Key low-pass filter to attenuate 1 Hz ripple roughly 100x while preserving DC average."
+                        ]
+                  },
+                  {
+                        "title": "Lab 3 - First fabrication activity: Board 1 stripboard audio prototype",
+                        "goal": "Move from paper design into a working soldered audio stethoscope section early in the semester.",
+                        "details": [
+                              "Students soldered the circuit designed through T2 on stripboard using corrected component values, LM324, LM386, speaker, microphone, wires, and bench power.",
+                              "Each group had to fabricate at least one Board 1 and demonstrate operation to the professor before the end of the lab.",
+                              "The lab explicitly asked students to connect the microphone to the stethoscope tube and use the provided stripboard layout only as a reference, not as a rigid PCB.",
+                              "Because every student would receive a board by the end of the course, groups were encouraged to continue fabricating the remaining boards after the first successful demonstration."
+                        ]
+                  },
+                  {
+                        "title": "T4 - Filter 1 and revised audio gain",
+                        "goal": "Respond to real Lab 3 behavior by improving volume and reducing audible noise.",
+                        "details": [
+                              "After testing the Lab 3 prototypes, students observed low reproduced volume and substantial noise.",
+                              "Filter 1 was inserted between the volume control and the LM386 audio amplifier, using an active low-pass/gain topology.",
+                              "The heart-sound design band was anchored around 20 Hz to 650 Hz, so the filter was designed with approximately 650 Hz cutoff and maximum gain of 2.",
+                              "Students derived the filter transfer function, frequency-dependent gain, cutoff expression, and maximum gain frequency using constrained resistor/capacitor values.",
+                              "The microphone-plus-amplifier interaction was revisited with a Thevenin equivalent, showing that R1 reduced the intended gain; R2 and R3 were then corrected so the real gain approached 20x."
+                        ]
+                  },
+                  {
+                        "title": "T5 - LEDs, active envelope detector, voltage display, and Lab 6 BOM",
+                        "goal": "Add user indicators and the analog front end that extracts heartbeat amplitude from the audio signal.",
+                        "details": [
+                              "Group-color 3 mm LEDs were used both as power indicators and as pulse indicators; students found datasheets, forward voltage, current, reverse voltage, and power limits for their LED color.",
+                              "The active envelope detector follows the amplified sound amplitude while providing gain between 2 and 3, then discharges slowly enough to track heart-sound peaks rather than individual high-frequency cycles.",
+                              "The detector design used the 20 Hz to 650 Hz heart-sound band, selecting R11, R12, and C11 so discharge time is around four times the longest sound period.",
+                              "Students analyzed the voltage display module and measured/display-current examples to estimate maximum current when all segments are lit.",
+                              "The assignment prepared separate BOMs for Board 1 and Board 2, using the T5 schematics to determine which components belonged on each physical board."
+                        ]
+                  },
+                  {
+                        "title": "T6 - MOSFET pulse LED driver and trigger stage",
+                        "goal": "Turn detected heartbeats into visible feedback and a reliable trigger for the monostable HR converter.",
+                        "details": [
+                              "The pulse LED circuit from T5 was modified so it turns on only when the detected-pulse signal is at 5 V.",
+                              "Students used the BSS806N MOSFET as a low-side LED driver, checking VGS(th), RDS(on), maximum dissipation, gate resistance, switching time, current, and MOSFET power loss.",
+                              "The pulse-generator circuit was reorganized around an AO3401A PMOS trigger that briefly raises the future monostable node when the comparator output changes state.",
+                              "Students analyzed DC output, gate voltage immediately after a comparator transition, 1N4148 diode conduction, whether the MOSFET turns on, and whether the transition completes in under 1 ms.",
+                              "R14 and R15 were chosen from available values to satisfy trigger-current and gate-drive constraints."
+                        ]
+                  },
+                  {
+                        "title": "Lab 6 - Second fabrication activity: Board 2 PCB partial assembly and Board 1 revision",
+                        "goal": "Assemble the manufactured PCB enough to test envelope detection and pulse generation while updating the stripboard audio board.",
+                        "details": [
+                              "Students received a group-color PCB, stencil, solder paste, BOM components, MCP6009 op-amps/comparators, bench instruments, soldering tools, and stripboard materials.",
+                              "For Board 2, they soldered all components whose values had already been determined and demonstrated the envelope detector plus pulse generator before the end of the lab.",
+                              "The lab explicitly included a surface-mount soldering demonstration and used the provided top and bottom PCB views as assembly references.",
+                              "For Board 1, students built or revised at least one stripboard audio board, adding Filter 1, a power LED, and corrected component values, especially the revised R2 and R3 gain-setting resistors.",
+                              "Groups could reuse Lab 3 boards after removing specified wires and were again encouraged to keep progressing toward one finished prototype per student."
+                        ]
+                  },
+                  {
+                        "title": "T7 and T8 - Battery, 5 V regulation, final corrections, and HR monostable",
+                        "goal": "Close the design with portable power and the final pulse-width calibration for heart-rate display.",
+                        "details": [
+                              "The prototype moved to a 9 V battery source, with students estimating typical capacity in mAh, total current consumption, and expected runtime including quiescent currents from the ICs.",
+                              "An LM7805 fixed 5 V regulator supplied the system; students chose recommended capacitors from inventory and estimated regulator efficiency and its impact on battery life.",
+                              "Before final fabrication, students corrected all previous assignments and generated the final BOM for Board 1 and Board 2.",
+                              "The monostable pulse width W was derived so the average of 5 V pulses equals 1 V at 100 beats per minute.",
+                              "R16, R17, R18, and C13 were selected so the monostable timing matched W while keeping maximum resistor currents below the specified limits, and the previously designed AO3401A trigger was connected to the monostable input."
+                        ]
+                  },
+                  {
+                        "title": "Lab 10 - Third fabrication activity: final prototypes and grading by functionality",
+                        "goal": "Finish complete two-board electronic stethoscopes, demonstrate operation, and let each student keep their built prototype.",
+                        "details": [
+                              "The final lab also counted as Trabajo 9, emphasizing functional hardware rather than another written design report.",
+                              "Each prototype contained Board 1 with microphone and speaker plus Board 2 with the HR display circuitry.",
+                              "The target was one functional prototype per group member; grading scaled with the number of functional boards/prototypes demonstrated, with partial credit allowed for partially functional boards at the professor's discretion.",
+                              "Students used their own component values selected and corrected through the semester, soldering SMD parts by reflow with stencil/paste and hand-soldering through-hole parts with a soldering iron.",
+                              "The final Board 1 stripboard layout and Board 2 PCB top/bottom views were included as fabrication references, and the finished prototypes were taken home by the students."
+                        ]
+                  }
+            ],
+            "technicalTitle": "Technical constraints and component set",
+            "technicalHighlights": [
+                  "Clinical signal path: acoustic body sounds are converted by an electret microphone, AC-coupled to remove the DC bias, amplified, filtered, volume-controlled, and reproduced by an LM386-driven 8 ohm speaker.",
+                  "Heart-sound bandwidth: the audio filter design used the 20 Hz to 650 Hz range as the practical cardiac auscultation band, improving signal level while attenuating higher-frequency noise.",
+                  "Virtual-ground design: 5 V operation was adapted into +2.5 V and -2.5 V analog rails around a buffered midpoint so AC stages and comparator/monostable circuits could be analyzed like bipolar circuits.",
+                  "Heartbeat detection: an active envelope detector tracks amplified sound amplitude, then a threshold comparator and high-pass trigger create short events when the envelope crosses the user-set threshold.",
+                  "HR computation: fixed-width pulses are averaged by a low-pass filter; W is chosen so 5 V pulse average maps 100 bpm to 1.00 V on the display.",
+                  "Components: CZN-15E electret microphone, LM324/LM386 audio stages, MCP6009T-E/SL rail-to-rail op-amps/comparators, BSS806N and AO3401A MOSFETs, 1N4148 diode, group-color LEDs, 9 V battery, LM7805 regulator, display module, speaker, potentiometers, stripboard, and manufactured PCB.",
+                  "Fabrication: Board 1 used point-to-point stripboard construction; Board 2 used a manufactured PCB, stencil, solder paste, SMD reflow, and hand-soldered through-hole components.",
+                  "Pedagogy: fabrication was distributed across Lab 3, Lab 6, and Lab 10, giving students multiple feedback cycles between theory, soldering, debugging, and final demonstration."
+            ],
+            "componentsTitle": "Two-board medical audio prototype with staged assembly",
+            "componentsIntro": "The stethoscope page highlights the physical manufacturing plan as much as the circuit design: early stripboard audio assembly, mid-semester PCB reflow for the detection/display board, final mixed SMD/THT assembly, functional demonstrations, and one student-owned prototype per student.",
+            "organizationTitle": "Teaching and delivery model",
+            "organization": [
+                  "Eight written assignments progressively developed the analog audio chain, microphone biasing, virtual ground, transient response, trigger generation, filtering, envelope detection, display scaling, MOSFET switching, power regulation, and monostable HR conversion.",
+                  "Three lab activities intentionally interrupted the paper-design sequence so students had to solder, test, observe deficiencies, revise values, and continue building rather than waiting until the final week.",
+                  "Lab 3 created the first Board 1 audio prototype on stripboard; Lab 6 assembled the partial Board 2 PCB and revised Board 1; Lab 10 completed the two-board stethoscope prototypes.",
+                  "The design used group-specific LED colors and group-selected component values, so students had a shared system architecture but personally computed BOMs.",
+                  "The final grading model rewarded functional prototypes, making debugging, fabrication quality, and demonstration as important as analytical calculations."
+            ]
+      },
+      "componentEyebrow": "Board 2 PCB and mixed assembly",
+      "componentImageAlt": "Top view of the electronic stethoscope heart-rate display PCB.",
+      "gallery": {
+            "board1Schematic": "Final schematic for Board 1, the microphone, filter, volume-control, and speaker board.",
+            "board1Layout": "Suggested stripboard layout for Board 1 assembly.",
+            "board2Schematic": "Final schematic for Board 2, the heartbeat detection and display board.",
+            "top": "Top view of the manufactured Board 2 PCB.",
+            "bottom": "Bottom view of the manufactured Board 2 PCB.",
+            "envelope": "Active envelope detector used to follow the amplitude of the stethoscope audio signal."
+      },
+      "phaseImages": {
+            "t1": "Inverting amplifier used as the first audio gain stage.",
+            "t2": "AC-coupled electret microphone amplifier that blocks the microphone DC bias.",
+            "t3": "Comparator stage used to begin the heartbeat pulse generator.",
+            "lab1": "Board 1 circuit fabricated on stripboard during the first lab activity.",
+            "t4": "Active low-pass/gain filter inserted after Lab 3 to improve stethoscope audio.",
+            "t5": "Active envelope detector used to extract heartbeat amplitude from audio.",
+            "t6": "Modified pulse generator and MOSFET trigger for the monostable stage.",
+            "lab2": "Top view of the Board 2 PCB used during the second fabrication lab.",
+            "t8": "Monostable multivibrator connected to the trigger circuit for HR conversion.",
+            "lab3a": "Suggested final stripboard layout for Board 1.",
+            "lab3b": "Bottom view of the final Board 2 PCB."
+      }
+},
   },
 };
 

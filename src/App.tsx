@@ -92,6 +92,20 @@ const ppg2025PhaseMedia: ProjectImage[] = [
   { src: '/projects/2025-01-photoplethysmograph-pcb/bottom.jpg', altKey: 'projectCatalog.ppg2025.phaseImages.t10' },
 ];
 
+const stethoscope2025PhaseMedia: ProjectImage[] = [
+  { src: `${diagramBase}/amplifier_inverting.png`, altKey: 'projectCatalog.stethoscope2025.phaseImages.t1' },
+  { src: `${diagramBase}/T2_electret_amplify_second_try.png`, altKey: 'projectCatalog.stethoscope2025.phaseImages.t2' },
+  { src: `${diagramBase}/T3_comp.png`, altKey: 'projectCatalog.stethoscope2025.phaseImages.t3' },
+  { src: `${diagramBase}/T2_stethoscope_so_far.png`, altKey: 'projectCatalog.stethoscope2025.phaseImages.lab1' },
+  { src: `${diagramBase}/sallen_key_low_2_samevalues_with_gain.png`, altKey: 'projectCatalog.stethoscope2025.phaseImages.t4' },
+  { src: `${diagramBase}/T5_active_envelope_detector.png`, altKey: 'projectCatalog.stethoscope2025.phaseImages.t5' },
+  { src: `${diagramBase}/T6_comp2.png`, altKey: 'projectCatalog.stethoscope2025.phaseImages.t6' },
+  { src: '/projects/2025-02-digital-stethoscope/stethoscope_top.png', altKey: 'projectCatalog.stethoscope2025.phaseImages.lab2' },
+  { src: `${diagramBase}/T8_multivibrator_c_plus_trigger.png`, altKey: 'projectCatalog.stethoscope2025.phaseImages.t8' },
+  { src: '/projects/2025-02-digital-stethoscope/T9_board_1_layout.png', altKey: 'projectCatalog.stethoscope2025.phaseImages.lab3a' },
+  { src: '/projects/2025-02-digital-stethoscope/stethoscope_bottom.png', altKey: 'projectCatalog.stethoscope2025.phaseImages.lab3b' },
+];
+
 const projectMedia: Record<string, ProjectMedia> = {
   '2023-01-photoplethysmograph': {
     phaseMedia: ppg2023PhaseMedia,
@@ -164,6 +178,22 @@ const projectMedia: Record<string, ProjectMedia> = {
       labelKey: 'projectCatalog.ppg2025.timelapseLabel',
       descriptionKey: 'projectCatalog.ppg2025.timelapseDescription',
     },
+  },
+  '2025-02-digital-stethoscope': {
+    phaseMedia: stethoscope2025PhaseMedia,
+    showcase: {
+      src: '/projects/2025-02-digital-stethoscope/stethoscope_top.png',
+      altKey: 'projectCatalog.stethoscope2025.componentImageAlt',
+      eyebrowKey: 'projectCatalog.stethoscope2025.componentEyebrow',
+    },
+    summaryGallery: [
+      { src: `${diagramBase}/T9_stethoscope_board_1.png`, altKey: 'projectCatalog.stethoscope2025.gallery.board1Schematic' },
+      { src: '/projects/2025-02-digital-stethoscope/T9_board_1_layout.png', altKey: 'projectCatalog.stethoscope2025.gallery.board1Layout' },
+      { src: `${diagramBase}/T9_stethoscope_board_2.png`, altKey: 'projectCatalog.stethoscope2025.gallery.board2Schematic' },
+      { src: '/projects/2025-02-digital-stethoscope/stethoscope_top.png', altKey: 'projectCatalog.stethoscope2025.gallery.top' },
+      { src: '/projects/2025-02-digital-stethoscope/stethoscope_bottom.png', altKey: 'projectCatalog.stethoscope2025.gallery.bottom' },
+      { src: `${diagramBase}/T5_active_envelope_detector.png`, altKey: 'projectCatalog.stethoscope2025.gallery.envelope' },
+    ],
   },
 };
 
